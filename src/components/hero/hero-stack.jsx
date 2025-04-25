@@ -20,7 +20,6 @@ const HeroStack = () => {
                 <Image
                   src={skill.logo}
                   alt={skill.title}
-                  placeholder="blur"
                   width={24}
                   height={24}
                 />
@@ -39,7 +38,6 @@ const HeroStack = () => {
                   alt={skill.title}
                   width={24}
                   height={24}
-                  placeholder="blur"
                 />
                 <p>{skill.title}</p>
               </div>
@@ -57,7 +55,6 @@ const HeroStack = () => {
                   src={skill.logo}
                   alt={skill.title}
                   width={24}
-                  placeholder="blur"
                   height={24}
                 />
                 <p>{skill.title}</p>
@@ -74,7 +71,6 @@ const HeroStack = () => {
                   src={skill.logo}
                   alt={skill.title}
                   width={24}
-                  placeholder="blur"
                   height={24}
                 />
                 <p>{skill.title}</p>

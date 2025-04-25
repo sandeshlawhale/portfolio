@@ -64,7 +64,6 @@ const Navbar = () => {
               alt="icon"
               width={24}
               height={24}
-              placeholder="blur"
             />
             {pathname !== href && (
               <p className="absolute top-1/2 left-8 -translate-y-1/2 text-primaryText text-sm  group-hover:flex bg-secondary border-border border p-1 py-0 rounded-sm hidden gap-1 items-center">

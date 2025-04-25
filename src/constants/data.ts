@@ -6,6 +6,7 @@ import ChatApp from "../../public/assets/chat-app.png";
 
 const MyData = {
   name: "Sandesh Lawhale",
+  sidename: "Unknown Legend ",
   post: "Full-Stack Developer.",
   email: "sandeshlawhale@gmail.com",
   state: "MH",

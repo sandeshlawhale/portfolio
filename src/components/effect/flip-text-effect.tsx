@@ -3,7 +3,13 @@ import { easeInOut, motion } from "framer-motion";
 const DURATION = 0.25;
 const STAGGER = 0.025;
 
-const FlipEffect = ({ children }: { children: React.ReactNode }) => {
+const FlipEffect = ({
+  children,
+  sidename,
+}: {
+  children: React.ReactNode;
+  sidename: string;
+}) => {
   return (
     <motion.div
       initial="initial"
@@ -33,7 +39,7 @@ const FlipEffect = ({ children }: { children: React.ReactNode }) => {
           ))}
       </div>
       <div className="absolute inset-0">
-        {children
+        {sidename
           ?.toString()
           .split("")
           .map((l, i) => (

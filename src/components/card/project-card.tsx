@@ -22,7 +22,6 @@ const ProjectCard = ({ project }: { project: Project }) => {
         {project.img && (
           <Image
             src={project.img}
-            placeholder="blur"
             alt="product image"
             className="group-hover:scale-103 ease-in-out duration-300 w-full h-full object-cover"
           />

@@ -11,7 +11,7 @@ const amongUsImages = Array.from(
 const directions = ["left", "right", "top", "bottom"] as const;
 type Direction = (typeof directions)[number];
 const randomRotation = Math.floor(Math.random() * (720 - 240 + 1)) + 240;
-const randomDuration = (Math.random() * 12 + 12).toFixed(2);
+const randomDuration = (Math.random() * 6 + 6).toFixed(2);
 
 interface AnimationProps {
   initial: { x: string | number; y: string | number };
@@ -77,6 +77,7 @@ export default function AmongUsEasterEgg() {
           initial={{ ...animationProps?.initial, rotate: 0 }}
           animate={{ ...animationProps?.animate, rotate: randomRotation }}
           transition={{
+            delay: 0,
             duration: parseFloat(randomDuration),
             ease: [1, 0.17, 0.44, 0.87],
           }}

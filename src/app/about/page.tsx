@@ -20,7 +20,6 @@ const About = () => {
               src="/assets/me/me.jpg"
               alt="my photo"
               className="object-cover shadow-indigo-500/30 shadow-2xl "
-              placeholder="blur"
             />
           </div>
         </div>

@@ -67,8 +67,7 @@ const Hero = () => {
               <Image
                 src={imageSrc}
                 alt="my photo"
-                className="scale-125 w-full h-full  object-cover "
-                placeholder="blur"
+                className="scale-125 w-full h-full  object-cover object-center"
               />
             </div>
             <motion.svg
@@ -100,7 +99,7 @@ const Hero = () => {
           </Fadeup>
           <Fadeup delay={0.2}>
             <div className="flex gap-2 items-center justify-center text-primaryText text-2xl tracking-wide font-semibold">
-              <FlipEffect>{MyData.name}</FlipEffect>
+              <FlipEffect sidename={MyData.sidename}>{MyData.name}</FlipEffect>
               <WaveEffect>
                 <span className="cursor-pointer">👋</span>
               </WaveEffect>
@@ -128,7 +127,6 @@ const Hero = () => {
                   src={link.icon}
                   alt={link.title}
                   width={24}
-                  placeholder="blur"
                   height={24}
                   className="brightness-50 hover:brightness-80 ease-in-out duration-200"
                 />

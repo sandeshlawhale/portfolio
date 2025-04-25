@@ -38,7 +38,6 @@ const page = () => {
                   width={24}
                   height={24}
                   className="brightness-50 hover:brightness-80 ease-in-out duration-200"
-                  placeholder="blur"
                 />
                 <p className="absolute -bottom-full left-1/2 -translate-x-1/2 text-primaryText text-sm  group-hover:flex bg-secondary border-border border p-1 py-0 rounded-sm hidden gap-1 items-center z-10">
                   {link.title}

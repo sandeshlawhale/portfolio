@@ -31,7 +31,6 @@ const StackCard = ({
           {item?.image && (
             <Image
               height={48}
-              placeholder="blur"
               width={48}
               src={item.image}
               alt={item.title}
