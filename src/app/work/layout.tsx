@@ -22,7 +22,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </div>
       <div ref={ref} className="hide-scrollbar w-full h-full overflow-y-auto ">
         <div className="w-full sm:w-md lg:w-xl mx-auto py-10 flex flex-col gap-8">
-          <div className=" w-full flex items-center justify-between xl:hidden">
+          <div className=" w-full px-4 flex items-center justify-between xl:hidden">
             <p className="text-xl font-semibold text-indigo-300">Work</p>
             <Menu onClick={() => setOpen(!open)} className="cursor-pointer" />
           </div>

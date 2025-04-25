@@ -36,13 +36,14 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-10 w-full">
+      <div className="flex flex-col gap-10 w-full px-4">
         {currentProject && (
           <>
             <Fadeup>
               <div className="w-full h-72 rounded-lg overflow-hidden">
                 {currentProject?.img ? (
                   <Image
+                    placeholder="blur"
                     src={currentProject.img}
                     alt="img"
                     className="w-full h-full object-cover"
@@ -67,6 +68,7 @@ const Page = () => {
                         target="_blank"
                       >
                         <Image
+                          placeholder="blur"
                           src="/assets/svg/github.svg"
                           alt="github"
                           width={25}
@@ -82,6 +84,7 @@ const Page = () => {
                         target="_blank"
                       >
                         <Image
+                          placeholder="blur"
                           src="/assets/svg/link.svg"
                           alt="Demo"
                           width={25}

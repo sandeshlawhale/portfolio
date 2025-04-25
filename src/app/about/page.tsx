@@ -13,13 +13,14 @@ const About = () => {
       <MainTitle title="About" subTitle="let's learn about me" />
 
       <Fadeup delay={0.2} duration={0.5}>
-        <div className="relative w-full  h-96 flex items-center  justify-center">
+        <div className="relative w-full h-60 sm:h-96 flex items-center  justify-center">
           <div className="absolute w-full lg:w-4xl h-full bg-linear-to-tr to-indigo-300/60">
             <Image
               fill
               src="/assets/me/me.jpg"
               alt="my photo"
               className="object-cover shadow-indigo-500/30 shadow-2xl "
+              placeholder="blur"
             />
           </div>
         </div>

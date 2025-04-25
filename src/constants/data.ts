@@ -39,7 +39,7 @@ const MyData = {
       desc: "I'm Sandesh Lawhale, a detail-oriented Full-Stack Developer with expertise in the MERN stack, based in India.",
     },
     {
-      desc: "With over two years of experience, specializes in building user-friendly, scalable applications that deliver seamless performance. Passionate about problem-solving and continuous learning, successfully developed projects ranging from chat applications to voting systems.",
+      desc: "With great experience, specializes in building user-friendly, scalable applications that deliver seamless performance.",
     },
     {
       desc: "Whether collaborating with teams or leading development efforts, my dedication to excellence and strong analytical skills ensure impactful and efficient solutions.",
@@ -306,7 +306,7 @@ const Stack = {
     },
     {
       title: "React.js",
-      image: "../assets/svg/reactjs.png",
+      image: "/assets/svg/reactjs.png",
       desc: "Library",
       key: "r",
     },
@@ -348,7 +348,7 @@ const Stack = {
     },
     {
       title: "Postman",
-      image: "../assets/svg/postman.png",
+      image: "/assets/svg/postman.png",
       desc: "Testing",
       key: "p",
     },

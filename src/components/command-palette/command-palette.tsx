@@ -57,7 +57,7 @@ export default function CommandPalette() {
   }, [query, setAmongUsCount]);
 
   return isOpen ? (
-    <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex pt-40 justify-center">
+    <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex pt-40 justify-center m-4">
       <div className="bg-primary w-full max-w-lg p-4 rounded-lg shadow-lg h-fit">
         <input
           type="text"
