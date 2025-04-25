@@ -74,6 +74,7 @@ const Hero = () => {
               width="100"
               height="100"
               viewBox="0 0 100 100"
+              onClick={handleMouseEnter}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               className="-rotate-90"

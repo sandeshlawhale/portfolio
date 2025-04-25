@@ -7,6 +7,7 @@ const WaveEffect = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.div
       onHoverStart={() => setStartAnimation(true)}
+      onClick={() => setStartAnimation(true)}
       animate={startAnimation ? { rotate: [0, 25, 0, 25, 0] } : {}}
       transition={{
         duration: 1.3,
