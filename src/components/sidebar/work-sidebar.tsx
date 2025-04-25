@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SidebarCard from "../card/sidebar-card";
 import { Project } from "@/types";
 import { useAppContext } from "@/context/AppContext";
-import { AnimatePresence, MotionValue, easeInOut, motion } from "framer-motion";
+import { MotionValue, easeInOut, motion } from "framer-motion";
 
 const WorkSidebar = ({ scrollYProgress }: { scrollYProgress: MotionValue }) => {
   const { projects, projectGames, searchSlug } = useAppContext();

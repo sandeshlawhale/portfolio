@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Fadeup from "../ui/fadeup";
+import Image from "next/image";
 
 interface Item {
   title: string;
@@ -27,7 +28,7 @@ const StackCard = ({
         } rounded-lg p-4 flex flex-col gap-1 transition-colors duration-300 ease-in-out`}
       >
         <div className="flex items-center justify-center w-full p-4 sm:p-8">
-          <img
+          <Image
             src={item.image}
             alt={item.title}
             className="w-12 h-12 sm:w-18 sm:h-18 object-cover rounded-full"

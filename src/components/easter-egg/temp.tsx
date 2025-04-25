@@ -5,10 +5,10 @@ import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { useAppContext } from "@/context/AppContext";
 
 // Mock context for testing
-const mockAppContext = {
-  amongUsCount: 1,
-  resetAmongUsCount: () => console.log("Reset count"),
-};
+// const mockAppContext = {
+//   amongUsCount: 1,
+//   resetAmongUsCount: () => console.log("Reset count"),
+// };
 
 const amongUsImages = ["/assets/amoungus/AmoungUs1.png"]; // Single image for testing
 const staticRotation = 360; // Static rotation
@@ -20,7 +20,7 @@ interface AnimationProps {
 }
 
 export default function AmongUsEasterEgg() {
-  const { amongUsCount, resetAmongUsCount } = useAppContext();
+  const { amongUsCount } = useAppContext();
   const [showCharacter, setShowCharacter] = useState(true); // Always show for debugging
   const [image, setImage] = useState(amongUsImages[0]);
   const [animationProps, setAnimationProps] = useState<AnimationProps | null>(
@@ -77,9 +77,7 @@ export default function AmongUsEasterEgg() {
   const handleAnimationComplete = () => {
     console.log("Animation completed, isDragging:", isDragging);
     if (!isDragging) {
-      // Don't hide character for debugging
       console.log("Keeping character visible for debugging");
-      // resetAmongUsCount(); // Commented out to keep visible
     }
   };
 

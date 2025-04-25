@@ -29,7 +29,8 @@ const About = () => {
         <div className="">
           <Fadeup delay={0.25} duration={0.5}>
             <h1 className="text-2xl font-bold text-gray-700">
-              Hey, I'm <span className="text-indigo-400">Sandesh Lawhale</span>
+              Hey, I&apos;m
+              <span className="text-indigo-400">Sandesh Lawhale</span>
             </h1>
           </Fadeup>
           <Fadeup delay={0.3} duration={0.5}>
@@ -137,7 +138,7 @@ const About = () => {
               Over time, I&apos;ve built more than just applications—I&apos;ve
               built experiences. One of my most memorable achievements was
               organizing a college-level hackathon with 150+ participants. As
-              the boys' representative and one of the lead coordinators, I
+              the boys&apos; representative and one of the lead coordinators, I
               didn&apos;t just write code—I brought people together, managed
               challenges on the fly, and helped create something truly
               impactful.
@@ -182,8 +183,8 @@ const About = () => {
             <p>
               I&apos;m always up for working on meaningful projects,
               collaborating with passionate teams, and pushing the boundaries of
-              what the web can do. If you're into building exciting things—or
-              just want to chat about code, anime, or cars—
+              what the web can do. If you&apos;re into building exciting
+              things—or just want to chat about code, anime, or cars—
               <span
                 className="hover:text-indigo-300 transition-colors ease-in duration-200 cursor-pointer"
                 onClick={() => router.push("/contact")}

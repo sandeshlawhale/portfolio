@@ -13,11 +13,16 @@ type Direction = (typeof directions)[number];
 const randomRotation = Math.floor(Math.random() * (720 - 240 + 1)) + 240;
 const randomDuration = (Math.random() * 12 + 12).toFixed(2);
 
+interface AnimationProps {
+  initial: { x: string | number; y: string | number };
+  animate: { x: string | number; y: string | number };
+}
+
 export default function AmongUsEasterEgg() {
   const { amongUsCount, resetAmongUsCount } = useAppContext();
   const [showCharacter, setShowCharacter] = useState(false);
   const [image, setImage] = useState("");
-  const [animationProps, setAnimationProps] = useState<any>(null);
+  const [animationProps, setAnimationProps] = useState<AnimationProps>();
 
   useEffect(() => {
     if (amongUsCount === 6) {
@@ -26,9 +31,8 @@ export default function AmongUsEasterEgg() {
         amongUsImages[Math.floor(Math.random() * amongUsImages.length)];
       const randomDirection: Direction =
         directions[Math.floor(Math.random() * directions.length)];
-
-      let initial: any = {};
-      let animate: any = {};
+      let initial: AnimationProps["initial"] = { x: 0, y: 0 };
+      let animate: AnimationProps["animate"] = { x: 0, y: 0 };
 
       const randomStartX = Math.floor(Math.random() * 80) + 10;
       const randomStartY = Math.floor(Math.random() * 50) + 10;
@@ -70,8 +74,8 @@ export default function AmongUsEasterEgg() {
         <motion.img
           src={image}
           alt="Among Us Impostor"
-          initial={{ ...animationProps.initial, rotate: 0 }}
-          animate={{ ...animationProps.animate, rotate: randomRotation }}
+          initial={{ ...animationProps?.initial, rotate: 0 }}
+          animate={{ ...animationProps?.animate, rotate: randomRotation }}
           transition={{
             duration: parseFloat(randomDuration),
             ease: [1, 0.17, 0.44, 0.87],

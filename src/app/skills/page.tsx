@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 const Skills = () => {
   const router = useRouter();
-  const { registerClick, statusMap, currentIndex } = useEasterEggSequence({
+  const { registerClick, statusMap } = useEasterEggSequence({
     sequence: ["d", "r", "a", "f", "t"],
     onUnlock: () => {
       localStorage.setItem("easterEggTriggered", "true");
@@ -52,7 +52,7 @@ const Skills = () => {
         <p className="italic text-lg font-medium">
           &quot;Not everything here is final...
           <br />
-          sometimes, what's left in draft says the most. &quot;
+          sometimes, what&apos;s left in draft says the most. &quot;
         </p>
         {/* <p>
           That&apos;s the kind of developer I aim to be—creative, grounded, and

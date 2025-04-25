@@ -16,7 +16,7 @@ const LiveClock = () => {
     }, delay);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [time]);
 
   return (
     <div className={`${dmMono.className} tracking-wider text-gray-600 `}>

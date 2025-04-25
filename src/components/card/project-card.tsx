@@ -19,11 +19,13 @@ const ProjectCard = ({ project }: { project: Project }) => {
         {project.name}
       </div>
       <div className="w-full h-60 rounded-md overflow-hidden">
-        <Image
-          src={project.img}
-          alt="product image"
-          className="group-hover:scale-103 ease-in-out duration-300 w-full h-full object-cover"
-        />
+        {project.img && (
+          <Image
+            src={project.img}
+            alt="product image"
+            className="group-hover:scale-103 ease-in-out duration-300 w-full h-full object-cover"
+          />
+        )}
       </div>
     </div>
   );

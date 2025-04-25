@@ -1,8 +1,8 @@
 "use client";
 import WorkSidebar from "@/components/sidebar/work-sidebar";
-import { AnimatePresence, useMotionValueEvent, useScroll } from "framer-motion";
+import { AnimatePresence, useScroll } from "framer-motion";
 import { Menu } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef(null);

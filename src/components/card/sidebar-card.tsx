@@ -1,6 +1,6 @@
 import { useAppContext } from "@/context/AppContext";
 import { Project } from "@/types";
-import { MotionValue, motion, useMotionValueEvent } from "framer-motion";
+import { MotionValue, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 const SidebarCard = ({

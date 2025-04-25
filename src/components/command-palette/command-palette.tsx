@@ -54,7 +54,7 @@ export default function CommandPalette() {
       setAmongUsCount(0);
       setResults(fuse.search(query).map((res) => res.item));
     }
-  }, [query]);
+  }, [query, setAmongUsCount]);
 
   return isOpen ? (
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex pt-40 justify-center">

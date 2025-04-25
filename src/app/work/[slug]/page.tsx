@@ -32,7 +32,7 @@ const Page = () => {
         setCurrentProject(null);
       }
     }
-  }, [param.slug, projects, searchSlug, setSearchSlug]);
+  }, [projectGames, param.slug, projects, searchSlug, setSearchSlug]);
 
   return (
     <>
