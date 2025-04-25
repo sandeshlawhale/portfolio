@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/popover";
 import { NavLinks } from "@/constants/data";
 import Image from "next/image";
+import { useAppContext } from "@/context/AppContext";
 
 const BottomNavbar = () => {
   const pathname = usePathname();
+  const { openPalette } = useAppContext();
 
   return (
     <div className="w-full lg:hidden fixed bottom-0 border-t border-border flex items-center justify-center p-5 px-7 bg-primary z-40">
@@ -52,14 +54,20 @@ const BottomNavbar = () => {
             </div>
           </PopoverTrigger>
           <PopoverContent className="bg-primary border-border flex items-center justify-between gap-10 rounded-lg px-7 mb-8 mr-4 lg:hidden">
-            {NavLinks.slice(4).map(({ href, logo }) => {
+            {NavLinks.slice(4).map(({ href, title, logo, key }) => {
               return (
                 <Link
-                  href={href}
+                  href={title === "Search" ? "" : href}
                   key={href}
                   className={`group relative w-5.5 h-5.5 cursor-pointer flex items-center justify-center ${
                     pathname === href ? "text-icon" : "text-icon-muted"
                   }`}
+                  onClick={(e) => {
+                    if (title === "Search") {
+                      e.preventDefault();
+                      openPalette();
+                    }
+                  }}
                 >
                   <Image
                     src={logo}
