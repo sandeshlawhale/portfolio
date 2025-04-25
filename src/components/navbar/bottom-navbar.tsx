@@ -54,7 +54,7 @@ const BottomNavbar = () => {
             </div>
           </PopoverTrigger>
           <PopoverContent className="bg-primary border-border flex items-center justify-between gap-10 rounded-lg px-7 mb-8 mr-4 lg:hidden">
-            {NavLinks.slice(4).map(({ href, title, logo, key }) => {
+            {NavLinks.slice(4).map(({ href, title, logo }) => {
               return (
                 <Link
                   href={title === "Search" ? "" : href}
