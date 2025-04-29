@@ -17,6 +17,7 @@ import FlipEffect from "../effect/flip-text-effect";
 import WaveEffect from "../effect/wave-effect";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
+import LinkIcon from "../../../public/assets/svg/link2.svg";
 
 const dmMono = DM_Mono({ subsets: ["latin"], weight: "400" });
 
@@ -115,7 +116,7 @@ const Hero = () => {
       </div>
 
       <Fadeup delay={0.4}>
-        <div className="flex gap-6">
+        <div className="flex gap-6 items-center">
           {MyData.socials?.map((link) => {
             return (
               <Link
@@ -137,11 +138,22 @@ const Hero = () => {
               </Link>
             );
           })}
+          <Link
+            href={MyData.retro}
+            target="_blank"
+            className="group relative flex items-center justify-center gap-2 bg-primary p-1 px-2 rounded-full brightness-70 hover:brightness-150 ease-in-out duration-200"
+          >
+            <Image src={LinkIcon} alt="retro link" width={20} height={20} />
+            <p className="">Go Retro</p>
+            {/* <p className="absolute -bottom-full left-1/2 -translate-x-1/2 text-primaryText text-sm  group-hover:flex bg-secondary border-border border p-1 py-0 rounded-sm hidden gap-1 items-center z-10">
+              Go Retro Side
+            </p> */}
+          </Link>
         </div>
       </Fadeup>
 
       <Fadeup delay={0.6} duration={0.6}>
-        <div className="flex justify-center gap-2 am:gap-4 items-center w-full">
+        <div className="flex justify-center gap-2 md:gap-4 items-center w-full">
           <Button
             className="flex-1 flex items-center justify-center text-base border border-border bg-primaryText text-primary hover:bg-primaryText/90 ease-in-out transition-colors duration-300 cursor-pointer w-full sm:w-48"
             onClick={() => router.push("/contact")}

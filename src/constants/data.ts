@@ -7,6 +7,7 @@ import ChatApp from "../../public/assets/chat-app.png";
 const MyData = {
   name: "Sandesh Lawhale",
   sidename: "Unknown Legend ",
+  retro: "https://sandeshlawhaleterminal.vercel.app",
   post: "Full-Stack Developer.",
   email: "sandeshlawhale@gmail.com",
   state: "MH",
