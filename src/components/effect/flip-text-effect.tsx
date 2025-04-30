@@ -16,6 +16,13 @@ const FlipEffect = ({
       whileTap="hovered"
       className="relative overflow-hidden w-fit cursor-pointer whitespace-nowrap"
       onContextMenu={(e) => e.preventDefault()}
+      style={{
+        userSelect: "none",
+        WebkitUserSelect: "none",
+        msUserSelect: "none",
+        MozUserSelect: "none",
+        touchAction: "none",
+      }}
     >
       <div>
         {children
