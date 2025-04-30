@@ -8,7 +8,9 @@ const Work = () => {
     router.push("/work/trueno_wheels");
   }, [router]);
   return (
-    <div className="mt-30 flex items-center justify-center"> Loading...</div>
+    <div className="w-full h-full flex items-center justify-center">
+      Loading...
+    </div>
   );
 };
 
