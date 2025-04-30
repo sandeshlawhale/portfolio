@@ -12,7 +12,7 @@ import Link from "next/link";
 import React from "react";
 
 const page = () => {
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
