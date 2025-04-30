@@ -303,7 +303,7 @@ const Stack = {
     {
       title: "Next.js",
       image: "../assets/svg/nextjs.svg",
-      desc: "Framework",
+      desc: "FW",
       key: "n",
     },
     {
@@ -313,7 +313,7 @@ const Stack = {
       key: "r",
     },
     {
-      title: "Tailwind CSS",
+      title: "Tailwind",
       image: "../assets/svg/tailwindcss.svg",
       desc: "Styling",
       key: "t",

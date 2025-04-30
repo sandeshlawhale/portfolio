@@ -1,3 +1,4 @@
+"use client";
 import CopyMail from "@/components/copy-mail/copy-mail";
 import TextEffect from "@/components/effect/text-effect";
 import Footer from "@/components/footer/footer";
@@ -11,6 +12,10 @@ import Link from "next/link";
 import React from "react";
 
 const page = () => {
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-1 flex flex-col w-full sm:w-md lg:w-xl  mx-auto px-4 py-10 gap-8 text-[15px]">
@@ -55,7 +60,7 @@ const page = () => {
           <hr className="h-1 w-full text-border" />
         </div>
 
-        <form className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Fadeup delay={0.3}>
             <div className="flex gap-4">
               <input
@@ -77,7 +82,10 @@ const page = () => {
             />
           </Fadeup>
           <Fadeup delay={0.5}>
-            <Button className="w-full p-6 bg-secondaryText text-primary hover:bg-secondaryText/90 cursor-pointer text-lg font-semibold">
+            <Button
+              type="submit"
+              className="w-full p-6 bg-secondaryText text-primary hover:bg-secondaryText/90 cursor-pointer text-lg font-semibold"
+            >
               Send
             </Button>
             <div className="text-sm text-mutedText w-full flex gap-1 mt-2 items-center justify-center">

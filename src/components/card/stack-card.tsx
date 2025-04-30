@@ -34,18 +34,23 @@ const StackCard = ({
               width={48}
               src={item.image}
               alt={item.title}
-              className="w-12 h-12 sm:w-18 sm:h-18 object-cover rounded-full"
+              className="xs:w-12 xs:h-12 sm:w-18 sm:h-18 object-cover rounded-full"
             />
           )}
         </div>
         <p
           className={`${
             isMatched ? "" : "border-border/70 text-gray-600"
-          }text-sm  border  w-fit px-2 rounded-sm`}
+          } text-xs sm:text-sm  border  w-fit px-2 rounded-sm`}
         >
           {item.desc}
         </p>
-        <p className="text-lg tracking-wide font-medium">{item.title}</p>
+        {/* <p className="text-lg tracking-wide font-medium sm:hidden">
+          {item.title.length > 6 ? item.title.slice(0, 6) + ".." : item.title}
+        </p> */}
+        <p className="text-base sm:text-lg tracking-wide font-medium ">
+          {item.title}
+        </p>
       </div>
     </Fadeup>
   );

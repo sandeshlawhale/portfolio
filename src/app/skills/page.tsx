@@ -38,7 +38,7 @@ const Skills = () => {
               <div
                 key={index}
                 onClick={() => registerClick(item?.key, index)}
-                className="cursor-pointer"
+                className="cursor-pointer min-h-full "
               >
                 <StackCard item={item} index={index} isMatched={isMatched} />
               </div>

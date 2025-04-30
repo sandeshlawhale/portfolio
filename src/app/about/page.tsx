@@ -29,7 +29,7 @@ const About = () => {
         <div className="">
           <Fadeup delay={0.25} duration={0.5}>
             <h1 className="text-2xl font-bold text-gray-700">
-              Hey, I&apos;m
+              Hey, I&apos;m&nbsp;
               <span className="text-indigo-400">Sandesh Lawhale</span>
             </h1>
           </Fadeup>

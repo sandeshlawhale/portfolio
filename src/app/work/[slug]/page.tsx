@@ -48,7 +48,11 @@ const Page = () => {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-linear-to-tr to-indigo-500/30" />
+                  <div className="w-full h-full bg-linear-to-tr to-indigo-500/30 flex items-center justify-center">
+                    <p className="text-base text-mutedText">
+                      No Preview Available
+                    </p>
+                  </div>
                 )}
               </div>
             </Fadeup>

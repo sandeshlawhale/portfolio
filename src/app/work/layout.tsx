@@ -23,7 +23,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </div>
       <div ref={ref} className="hide-scrollbar w-full h-full overflow-y-auto ">
         <div className="w-full h-full sm:w-md lg:w-xl mx-auto ">
-          <div className=" w-full px-4 py-4 fixed bg-black/90 backdrop-blur-xl flex items-center justify-start gap-2 xl:hidden ">
+          <div className=" w-full px-4 py-4 fixed bg-black/90 backdrop-blur-xl flex items-center justify-start gap-2 xl:hidden z-30">
             <Menu onClick={openSidebar} className="cursor-pointer" />
             <p className="text-xl font-semibold text-indigo-300">Works</p>
           </div>
