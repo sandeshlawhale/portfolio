@@ -1,5 +1,4 @@
 import { useAppContext } from "@/context/AppContext";
-import { useSidebar } from "@/hooks/sidebar";
 import { Project } from "@/types";
 import { MotionValue, motion } from "framer-motion";
 import { useRouter } from "next/navigation";

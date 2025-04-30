@@ -1,6 +1,5 @@
 "use client";
 import { useRef } from "react";
-import { useSidebar } from "@/hooks/sidebar";
 import { AnimatePresence, useScroll } from "framer-motion";
 import { Menu } from "lucide-react";
 import WorkSidebar from "@/components/sidebar/work-sidebar";

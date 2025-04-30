@@ -5,7 +5,6 @@ import { Project } from "@/types";
 import { useAppContext } from "@/context/AppContext";
 import { MotionValue, easeInOut, motion } from "framer-motion";
 import { Menu } from "lucide-react";
-import { useSidebar } from "@/hooks/sidebar";
 
 const WorkSidebar = ({ scrollYProgress }: { scrollYProgress: MotionValue }) => {
   const {
