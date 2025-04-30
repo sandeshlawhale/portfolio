@@ -87,10 +87,6 @@ const WorkSidebar = ({ scrollYProgress }: { scrollYProgress: MotionValue }) => {
               restProjectGames?.map((project, index) => (
                 <SidebarCard project={project} key={`project_game_${index}`} />
               ))}
-            {restProjectGames &&
-              restProjectGames?.map((project, index) => (
-                <SidebarCard project={project} key={`project_game_${index}`} />
-              ))}
           </div>
         </div>
       </div>
