@@ -153,7 +153,7 @@ const Hero = () => {
       </Fadeup>
 
       <Fadeup delay={0.6} duration={0.6}>
-        <div className="flex justify-center gap-2 md:gap-4 items-center w-full">
+        <div className="flex justify-center gap-2 md:gap-4 items-center w-full ">
           <Button
             className="flex-1 flex items-center justify-center text-base border border-border bg-primaryText text-primary hover:bg-primaryText/90 ease-in-out transition-colors duration-300 cursor-pointer w-full sm:w-48"
             onClick={() => router.push("/contact")}

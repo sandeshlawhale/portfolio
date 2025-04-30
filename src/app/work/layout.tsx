@@ -1,16 +1,18 @@
 "use client";
-import WorkSidebar from "@/components/sidebar/work-sidebar";
+import { useRef } from "react";
+import { useSidebar } from "@/hooks/sidebar";
 import { AnimatePresence, useScroll } from "framer-motion";
 import { Menu } from "lucide-react";
-import { useRef, useState } from "react";
+import WorkSidebar from "@/components/sidebar/work-sidebar";
+import { useAppContext } from "@/context/AppContext";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     container: ref,
   });
-
-  const [open, setOpen] = useState(false);
+  const { isWorkSidebarOpen: open, openWorkSidebar: openSidebar } =
+    useAppContext();
 
   return (
     <div className="w-full flex h-screen">
@@ -21,10 +23,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <WorkSidebar scrollYProgress={scrollYProgress} />
       </div>
       <div ref={ref} className="hide-scrollbar w-full h-full overflow-y-auto ">
-        <div className="w-full sm:w-md lg:w-xl mx-auto py-10 flex flex-col gap-8">
-          <div className=" w-full px-4 flex items-center justify-between xl:hidden">
-            <p className="text-xl font-semibold text-indigo-300">Work</p>
-            <Menu onClick={() => setOpen(!open)} className="cursor-pointer" />
+        <div className="w-full h-full sm:w-md lg:w-xl mx-auto ">
+          <div className=" w-full px-4 py-4 fixed bg-black/90 backdrop-blur-xl flex items-center justify-start gap-2 xl:hidden ">
+            <Menu onClick={openSidebar} className="cursor-pointer" />
+            <p className="text-xl font-semibold text-indigo-300">Works</p>
           </div>
           {children}
         </div>

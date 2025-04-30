@@ -36,7 +36,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-10 w-full px-4">
+      <div className="pt-16 sm:pt-0 flex flex-col gap-10 w-full px-4">
         {currentProject && (
           <>
             <Fadeup>

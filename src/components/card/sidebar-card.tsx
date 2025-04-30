@@ -1,4 +1,5 @@
 import { useAppContext } from "@/context/AppContext";
+import { useSidebar } from "@/hooks/sidebar";
 import { Project } from "@/types";
 import { MotionValue, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -12,13 +13,18 @@ const SidebarCard = ({
   scrollYProgress?: MotionValue;
   currentProject?: Project[];
 }) => {
-  const { setSearchSlug, searchSlug } = useAppContext();
+  const {
+    setSearchSlug,
+    searchSlug,
+    closeWorkSidebar: closeSidebar,
+  } = useAppContext();
   const router = useRouter();
   const scaleX = scrollYProgress;
 
   const handleClick = () => {
     setSearchSlug(project?.slug);
     router.push(`/work/${project?.slug}`);
+    closeSidebar();
   };
 
   return (

@@ -16,7 +16,9 @@ const ProjectCard = ({ project }: { project: Project }) => {
     >
       <div className="flex gap-3 h-6 w-full font-semibold capitalize tracking-wide">
         <Mail className="w-6 h-6 text-icon-muted" />
-        {project.name}
+        {project.name.length > 30
+          ? project.name.slice(0, 30) + "..."
+          : project.name}
       </div>
       <div className="w-full h-60 rounded-md overflow-hidden">
         {project.img && (

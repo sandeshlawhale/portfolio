@@ -16,6 +16,9 @@ interface AppContextType {
   isOpen: boolean;
   openPalette: () => void;
   closePalette: () => void;
+  isWorkSidebarOpen: boolean;
+  openWorkSidebar: () => void;
+  closeWorkSidebar: () => void;
   resetAmongUsCount: () => void;
   amongUsCount: number;
   setAmongUsCount: Dispatch<SetStateAction<number>>;
@@ -30,6 +33,9 @@ const defaultContext: AppContextType = {
   isOpen: false,
   openPalette: () => true,
   closePalette: () => false,
+  isWorkSidebarOpen: false,
+  openWorkSidebar: () => true,
+  closeWorkSidebar: () => false,
   resetAmongUsCount: () => {},
   amongUsCount: 0,
   setAmongUsCount: () => {},
@@ -48,7 +54,15 @@ export const AppContextProvider = ({
   const [searchSlug, setSearchSlug] = useState<string | null>(
     MyProjects[0].slug
   );
+
+  // states for command pallatte
   const [isOpen, setIsOpen] = useState(false);
+
+  const [isWorkSidebarOpen, setIsWorkSidebarOpen] = useState(false);
+
+  // work sidebar options
+  const openWorkSidebar = () => setIsWorkSidebarOpen(true);
+  const closeWorkSidebar = () => setIsWorkSidebarOpen(false);
 
   // function to set amoung us
   const [amongUsCount, setAmongUsCount] = useState(0);
@@ -62,7 +76,7 @@ export const AppContextProvider = ({
     setAmongUsCount(0);
   };
 
-  // sidebar in work page
+  // to open the command line in page
   const openPalette = () => setIsOpen(true);
   const closePalette = () => setIsOpen(false);
 
@@ -74,6 +88,9 @@ export const AppContextProvider = ({
     isOpen,
     openPalette,
     closePalette,
+    isWorkSidebarOpen,
+    openWorkSidebar,
+    closeWorkSidebar,
     amongUsCount,
     setAmongUsCount,
     increaseAmongUsCount,

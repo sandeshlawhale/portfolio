@@ -46,7 +46,7 @@ const HeroStack = () => {
         </div>
         <div className="md:hidden block">
           <div className="flex gap-5 justify-center">
-            {TechStack.frontend.slice(0, 4).map((skill, i) => (
+            {TechStack.frontend.slice(1, 4).map((skill, i) => (
               <div
                 key={`frontend_${i}`}
                 className="flex gap-2 items-center w-fit "

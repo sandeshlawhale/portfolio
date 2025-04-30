@@ -7,7 +7,9 @@ const Work = () => {
   useEffect(() => {
     router.push("/work/trueno_wheels");
   }, [router]);
-  return <div className=""></div>;
+  return (
+    <div className="mt-30 flex items-center justify-center"> Loading...</div>
+  );
 };
 
 export default Work;
