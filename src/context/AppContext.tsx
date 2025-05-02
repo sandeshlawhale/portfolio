@@ -58,7 +58,7 @@ export const AppContextProvider = ({
   // states for command pallatte
   const [isOpen, setIsOpen] = useState(false);
 
-  const [isWorkSidebarOpen, setIsWorkSidebarOpen] = useState(false);
+  const [isWorkSidebarOpen, setIsWorkSidebarOpen] = useState(true);
 
   // work sidebar options
   const openWorkSidebar = () => setIsWorkSidebarOpen(true);

@@ -36,7 +36,7 @@ const SidebarCard = ({
       {currentProject && (
         <motion.div
           style={{ scaleX }}
-          className="absolute inset-0 h-full w-full bg-primary z-0 origin-left"
+          className="absolute inset-0 h-full w-full hidden md:block bg-primary z-0 origin-left"
         />
       )}
       <p className="font-semibold tracking-wide z-10">{project?.name}</p>
