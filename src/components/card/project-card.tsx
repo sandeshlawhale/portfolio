@@ -6,30 +6,37 @@ import { Project } from "@/types";
 
 const ProjectCard = ({ project }: { project: Project }) => {
   const router = useRouter();
+
   const handleClick = () => {
-    router.push(`/work/${project.slug}`);
+    router.push(`/work/${project._id}`);
   };
+
   return (
-    <div
-      className="group flex flex-col gap-3 p-2 pt-3 bg-secondary hover:bg-secondary-light ease-in-out duration-150 border border-border cursor-pointer rounded-lg"
+    <article
+      className="group flex flex-col gap-3 p-3 bg-secondary hover:bg-secondary-light transition duration-150 border border-border cursor-pointer rounded-lg"
       onClick={handleClick}
     >
-      <div className="flex gap-3 h-6 w-full font-semibold capitalize tracking-wide">
-        <Mail className="w-6 h-6 text-icon-muted" />
-        {project.name.length > 30
-          ? project.name.slice(0, 30) + "..."
-          : project.name}
-      </div>
+      <header className="flex items-center gap-3 h-6 font-semibold capitalize tracking-wide w-full">
+        <Mail className="w-5 h-5 text-icon-muted" />
+        <h3 className="flex-1 truncate text-sm">
+          {project.name || "Untitled Project"}
+        </h3>
+      </header>
+
       <div className="w-full h-60 rounded-md overflow-hidden">
-        {project.img && (
+        {project.image ? (
           <Image
-            src={project.img}
-            alt="product image"
-            className="group-hover:scale-103 ease-in-out duration-300 w-full h-full object-cover"
+            src={project.image}
+            alt={project.name || "Project image"}
+            width={1000}
+            height={700}
+            className="group-hover:scale-105 transition-transform duration-300 w-full h-full object-cover"
           />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-tr from-gray-300 to-indigo-300/60" />
         )}
       </div>
-    </div>
+    </article>
   );
 };
 

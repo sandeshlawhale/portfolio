@@ -1,25 +1,28 @@
 "use client";
+
 import { MyData } from "@/constants/data";
 import SideTitle from "../title/side-title";
 import Fadeup from "../ui/fadeup";
 
 const HeroAbout = () => {
+  const aboutList = MyData?.about ?? [];
+
   return (
-    <Fadeup delay={0.6} duration={0.6}>
-      <div className="relative " id="home-about">
+    <Fadeup delay={0.5} duration={0.6}>
+      <section id="home-about" className="relative px-4">
         <SideTitle title="about" />
 
         <div className="flex flex-col gap-4">
-          {MyData.about.map((data, i) => (
+          {aboutList.map(({ desc }, i) => (
             <p
-              key={`desc_${i}`}
+              key={`about-desc-${i}`}
               className="text-sm text-secondaryText font-medium tracking-wide"
             >
-              {data.desc}
+              {desc}
             </p>
           ))}
         </div>
-      </div>
+      </section>
     </Fadeup>
   );
 };

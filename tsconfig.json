@@ -28,6 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/constants/data.ts"
-, "src/app/work/[slug]"  ],
+, "src/app/work/[id]"  ],
   "exclude": ["node_modules"]
 }

@@ -8,7 +8,7 @@ import Fadeup from "../ui/fadeup";
 const HeroStack = () => {
   return (
     <Fadeup delay={0.6} duration={0.6}>
-      <div className="relative" id="home-stack">
+      <div className="relative px-4" id="home-stack">
         <SideTitle title="stack" />
         <div className="hidden md:block">
           <div className="flex gap-5">

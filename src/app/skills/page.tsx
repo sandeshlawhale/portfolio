@@ -54,10 +54,6 @@ const Skills = () => {
           <br />
           sometimes, what&apos;s left in draft says the most. &quot;
         </p>
-        {/* <p>
-          That&apos;s the kind of developer I aim to be—creative, grounded, and
-          always moving forward.
-        </p> */}
       </blockquote>
 
       <div className="relative w-full" id="setup">

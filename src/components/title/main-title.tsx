@@ -1,6 +1,12 @@
 import Fadeup from "../ui/fadeup";
 
-const MainTitle = ({ title, subTitle }) => {
+const MainTitle = ({
+  title,
+  subTitle,
+}: {
+  title: string;
+  subTitle: string;
+}) => {
   return (
     <div className="">
       <Fadeup delay={0.1} duration={0.5}>

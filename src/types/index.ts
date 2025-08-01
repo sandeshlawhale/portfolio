@@ -1,20 +1,18 @@
 import { StaticImageData } from "next/image";
 
-interface ProjectDetail {
-  desc: string;
-}
-
 export interface Project {
+  _id: string;
   name: string;
   slug: string;
-  git?: string;
-  demo?: string;
-  img?: string | StaticImageData;
+  gitlink?: string;
+  demoLink?: string;
+  image?: string | StaticImageData;
   shortDescription: string;
   timeline: string;
   role: string;
   outcome: string;
-  detail: ProjectDetail[];
+  description: string[];
+  techstack: string[];
 }
 
 export interface SidebarProps {

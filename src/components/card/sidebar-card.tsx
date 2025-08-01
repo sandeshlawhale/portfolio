@@ -1,7 +1,7 @@
 import { useAppContext } from "@/context/AppContext";
 import { Project } from "@/types";
 import { MotionValue, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const SidebarCard = ({
   project,
@@ -12,24 +12,20 @@ const SidebarCard = ({
   scrollYProgress?: MotionValue;
   currentProject?: Project[];
 }) => {
-  const {
-    setSearchSlug,
-    searchSlug,
-    closeWorkSidebar: closeSidebar,
-  } = useAppContext();
+  const { closeWorkSidebar: closeSidebar } = useAppContext();
   const router = useRouter();
+  const params = useParams();
   const scaleX = scrollYProgress;
 
   const handleClick = () => {
-    setSearchSlug(project?.slug);
-    router.push(`/work/${project?.slug}`);
+    router.push(`/work/${project?._id}`);
     closeSidebar();
   };
 
   return (
     <div
       className={`relative ${
-        searchSlug === project?.slug && "bg-secondary-light"
+        params.id === project?._id && "bg-secondary-light"
       } p-3 flex flex-col gap-1 hover:bg-secondary-light rounded-lg cursor-pointer overflow-hidden`}
       onClick={() => handleClick()}
     >
@@ -40,9 +36,11 @@ const SidebarCard = ({
         />
       )}
       <p className="font-semibold tracking-wide z-10">{project?.name}</p>
-      <p className="font-semibold tracking-wide text-sm text-mutedText z-10">
-        {project?.shortDescription.slice(0, 70)}...
-      </p>
+      {project?.shortDescription && (
+        <p className="font-semibold tracking-wide text-sm text-mutedText z-10 truncate">
+          {project?.shortDescription}
+        </p>
+      )}
     </div>
   );
 };

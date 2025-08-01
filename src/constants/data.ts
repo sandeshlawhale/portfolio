@@ -1,8 +1,4 @@
-import TraverseLandingPage from "../../public/assets/TraverseLandingPage.png";
-import TruenoWheels from "../../public/assets/TruenoWheels.png";
-import FoodieLandingPage from "../../public/assets/FoodieLandingPage.jpeg";
 import WordleClone from "../../public/assets/wordle-clone.png";
-import ChatApp from "../../public/assets/chat-app.png";
 
 const MyData = {
   name: "Sandesh Lawhale",
@@ -144,127 +140,6 @@ const TechStack = {
   ],
 };
 
-const MyProjects = [
-  {
-    name: "Trueno Wheels (Hot Wheels E-commerce Site)",
-    slug: "trueno_wheels",
-    img: TruenoWheels,
-    git: "https://github.com/sandeshlawhale/trueno-wheels",
-    demo: "https://trueno-wheels.vercel.app/",
-    shortDescription:
-      "A dynamic e-commerce platform built with the MERN stack, focusing on selling collectible Hot Wheels cars with animations and blog integration.",
-    timeline: "Ongoing",
-    role: "Full-Stack Developer",
-    outcome:
-      "Created an engaging e-commerce experience with interactive UI elements, category-based filtering, and a blog section for car enthusiasts.",
-    detail: [
-      {
-        desc: "Trueno Wheels is an e-commerce platform dedicated to Hot Wheels collectors, developed using the MERN stack. The project aims to provide an immersive shopping experience by featuring interactive animations, smooth navigation, and high-quality images of collectible models. The site includes a catalog where users can browse through various car models, filter them by category, and check details like scale, year, and availability.",
-      },
-      {
-        desc: "One of the standout features of Trueno Wheels is its dynamic animations. When users navigate the site, a car animation appears on screen, enhancing the browsing experience. Additionally, the site includes a 'Car of the Day' section, highlighting rare and trending Hot Wheels models, which updates regularly.",
-      },
-      {
-        desc: "Beyond just an e-commerce platform, Trueno Wheels incorporates a blog section where enthusiasts can read about the history of different car models, comparisons between Hot Wheels and their real-life counterparts, and collector tips. The website is still a work in progress, with planned features like merchandise sales and user authentication for personalized shopping experiences.",
-      },
-    ],
-  },
-  {
-    name: "Traverse Landing Page",
-    slug: "traverse_landing_page",
-    img: TraverseLandingPage,
-    git: "https://github.com/sandeshlawhale/traverse-landing-page",
-    demo: "https://traverselandingpage.netlify.app/",
-    shortDescription:
-      "A sleek and modern travel landing page designed to inspire and engage travelers with immersive visuals and intuitive UI.",
-    timeline: "Completed",
-    role: "Frontend Developer",
-    outcome:
-      "Developed a visually appealing and fully responsive landing page that enhances user engagement and encourages travel exploration.",
-    detail: [
-      {
-        desc: "The Traverse Landing Page is a modern and engaging website designed to attract travel enthusiasts. It features **stunning visuals, well-structured content, and intuitive navigation**, creating an immersive browsing experience. The design focuses on showcasing travel destinations while keeping the layout clean and interactive.",
-      },
-      {
-        desc: "A key aspect of this project was ensuring **responsiveness and smooth animations**. The landing page adapts seamlessly across different screen sizes, providing a great experience on desktops, tablets, and mobile devices. The use of hover effects, transitions, and subtle animations enhances the overall user interaction.",
-      },
-      {
-        desc: "The landing page includes sections such as a **hero banner with an inspiring travel message, featured destinations, testimonials, and a call-to-action section** to encourage bookings. The thoughtful placement of elements and engaging imagery creates an appealing platform for travelers looking for their next adventure.",
-      },
-    ],
-  },
-  {
-    name: "Chat Application",
-    slug: "chat_application",
-    img: ChatApp,
-    git: "https://github.com/sandeshlawhale/Chat-App",
-    demo: "https://chatapp-ed6f0.web.app/",
-    shortDescription:
-      "A real-time chat application built using ReactJS and Firebase, featuring instant messaging, emoji support, and image sharing.",
-    timeline: "Ongoing",
-    role: "Full-Stack Developer",
-    outcome:
-      "Successfully built a functional and responsive chat application with real-time messaging, improving user communication.",
-    detail: [
-      {
-        desc: "Chat Application 2.0 is a real-time messaging platform developed using ReactJS for the frontend and Firebase for backend services. The app supports instant messaging, where users can send text messages, emojis, and images in real time. Firebase Authentication is integrated to allow users to log in securely, ensuring a seamless experience across multiple devices.",
-      },
-      {
-        desc: "One of the main challenges during development was handling real-time updates and ensuring messages appeared instantly without delay. This was achieved using Firebase Firestore, which enables real-time data synchronization. Additionally, I implemented Firebase Storage to allow users to upload and send images in chats, enhancing the interaction experience.",
-      },
-      {
-        desc: "The UI is designed with responsiveness in mind, ensuring a smooth experience on desktops. Although mobile responsiveness is not yet implemented, the app is structured in a way that allows easy future enhancements. The chat interface includes features like message timestamps, a message input field with emoji support, and smooth UI animations to enhance usability.",
-      },
-    ],
-  },
-  {
-    name: "Voting System",
-    slug: "voting_system",
-    git: "https://github.com/sandeshlawhale/MERN-vote-pp/tree/master",
-    shortDescription:
-      "A MERN-based voting system that allows users to create polls, vote in real time, and view graphical results using Chart.js.",
-    timeline: "Completed",
-    role: "Full-Stack Developer",
-    outcome:
-      "Developed a fully functional, secure, and scalable voting system, enhancing user engagement in decision-making processes.",
-    detail: [
-      {
-        desc: "The Voting System is a full-stack web application built using MongoDB, Express.js, React.js, and Node.js (MERN stack). The goal was to create a secure platform where users can participate in polls, cast their votes, and view live results dynamically. The application uses JWT-based authentication to ensure that only registered users can vote, preventing multiple entries.",
-      },
-      {
-        desc: "To provide real-time updates, I integrated WebSockets via Socket.IO, enabling instant updates when a user votes. This ensures that all users viewing a poll see live changes in the results without needing to refresh the page. The voting results are displayed using Chart.js, offering a visually appealing and clear representation of the data.",
-      },
-      {
-        desc: "One of the key challenges in this project was preventing duplicate voting while maintaining a smooth user experience. This was solved by implementing unique user IDs and storing vote status in MongoDB. Additionally, the UI is designed to be clean and intuitive, allowing users to navigate easily between polls and results.",
-      },
-    ],
-  },
-  {
-    name: "Foodie Landing Page",
-    slug: "foodie_landing_page",
-    img: FoodieLandingPage,
-    git: "https://github.com/sandeshlawhale/Foodie-Landing-Page",
-    demo: "https://foodielandingpage.netlify.app/",
-    shortDescription:
-      "A visually appealing and modern landing page for food lovers, designed with a clean UI and engaging elements.",
-    timeline: "Completed",
-    role: "Frontend Developer",
-    outcome:
-      "Successfully developed a responsive and interactive food landing page that enhances user engagement and brand presence.",
-    detail: [
-      {
-        desc: "The Foodie Landing Page is a visually appealing website designed to attract food lovers and restaurant customers. Built with modern frontend technologies, the page features a **minimalistic and clean UI**, with vibrant food imagery, well-placed call-to-action buttons, and an easy-to-navigate layout.",
-      },
-      {
-        desc: "One of the main focuses of this project was **responsiveness and smooth user experience**. The design adapts well across different screen sizes, ensuring a seamless browsing experience on desktops, tablets, and mobile devices. Various animations and transitions are used to enhance the user interaction, making the landing page visually engaging.",
-      },
-      {
-        desc: "The landing page includes sections such as a **hero banner with an eye-catching tagline, featured dishes, customer reviews, and a contact form**. Each section is strategically placed to provide maximum user engagement and conversion. The use of high-quality images and well-thought-out typography adds to the overall appeal of the site.",
-      },
-    ],
-  },
-];
-
 const MyGames = [
   {
     name: "Wordle Clone",
@@ -375,4 +250,4 @@ const Stack = {
   ],
 };
 
-export { MyData, NavLinks, TechStack, MyProjects, MyGames, Stack };
+export { MyData, NavLinks, TechStack, MyGames, Stack };

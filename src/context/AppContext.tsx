@@ -1,5 +1,4 @@
 "use client";
-import { MyGames, MyProjects } from "@/constants/data";
 import {
   createContext,
   Dispatch,
@@ -9,10 +8,6 @@ import {
 } from "react";
 
 interface AppContextType {
-  searchSlug: string | null;
-  setSearchSlug: Dispatch<SetStateAction<string | null>>;
-  projects: typeof MyProjects;
-  projectGames: typeof MyProjects;
   isOpen: boolean;
   openPalette: () => void;
   closePalette: () => void;
@@ -26,10 +21,6 @@ interface AppContextType {
 }
 
 const defaultContext: AppContextType = {
-  searchSlug: null,
-  setSearchSlug: () => {},
-  projects: MyProjects,
-  projectGames: MyProjects,
   isOpen: false,
   openPalette: () => true,
   closePalette: () => false,
@@ -49,12 +40,6 @@ export const AppContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const projects = MyProjects;
-  const projectGames = MyGames;
-  const [searchSlug, setSearchSlug] = useState<string | null>(
-    MyProjects[0].slug
-  );
-
   // states for command pallatte
   const [isOpen, setIsOpen] = useState(false);
 
@@ -81,10 +66,6 @@ export const AppContextProvider = ({
   const closePalette = () => setIsOpen(false);
 
   const value: AppContextType = {
-    searchSlug,
-    setSearchSlug,
-    projects,
-    projectGames,
     isOpen,
     openPalette,
     closePalette,
