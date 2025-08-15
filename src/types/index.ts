@@ -13,6 +13,13 @@ export interface Project {
   outcome: string;
   description: string[];
   techstack: string[];
+  otherLink: [
+    { title: string; link: string; downloadable: boolean; _id: string }
+  ];
+  quote: {
+    title: string;
+    description: string;
+  };
 }
 
 export interface SidebarProps {

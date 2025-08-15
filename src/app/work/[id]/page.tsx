@@ -8,6 +8,7 @@ import Footer from "@/components/footer/footer";
 import { Project } from "@/types";
 import { getProjectById } from "@/utils/api/projets";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FiDownload, FiExternalLink } from "react-icons/fi";
 
 const Page = () => {
   const params = useParams();
@@ -78,8 +79,8 @@ const Page = () => {
 
   return (
     <>
-      <div className="pt-16 sm:pt-0 flex flex-col gap-10 w-full px-4">
-        <div className="mt-16 w-full h-72 rounded-lg overflow-hidden">
+      <div className="pt-16 sm:pt-0 flex flex-col gap-10 w-full ">
+        <div className="mt-16 w-full h-72 rounded-lg overflow-hidden px-4">
           {currentProject.image ? (
             <Image
               src={currentProject.image}
@@ -98,7 +99,7 @@ const Page = () => {
         </div>
 
         <section className="flex flex-col gap-4">
-          <div className="w-full flex items-start justify-between">
+          <div className="w-full flex items-start justify-between px-4">
             <h1 className="text-xl font-semibold text-primaryText">
               {currentProject.name}
             </h1>
@@ -136,7 +137,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1.5 px-4">
             {currentProject.role && (
               <InfoRow label="Role" value={currentProject.role} />
             )}
@@ -154,14 +155,69 @@ const Page = () => {
             )}
           </div>
 
+          <div className="w-full space-y-2">
+            {currentProject.otherLink.map(
+              ({ _id, title, link, downloadable }) => (
+                <div key={_id}>
+                  <Link href={link} target="_blank">
+                    <div className="flex items-center justify-between gap-4 hover:bg-primary transition duration-200 ease-in px-4 py-2 rounded-lg">
+                      <div>
+                        <p className="text-lg font-bold tracking-wide text-secondaryText">
+                          {title === "app_download"
+                            ? "WallList_Pre_Alpha_03"
+                            : "WallList Feedback Form"}
+                        </p>
+                        <p className="text-sm text-gray-400">{title}</p>
+                      </div>
+                      <div>
+                        {downloadable ? (
+                          <Image
+                            src="/assets/svg/download.svg"
+                            alt="Demo"
+                            width={24}
+                            height={24}
+                            className="w-6 h-6 brightness-75 group-hover:brightness-200 duration-150"
+                          />
+                        ) : (
+                          <Image
+                            src="/assets/svg/link3.svg"
+                            alt="Demo"
+                            width={20}
+                            height={20}
+                            className="w-5 h-5 brightness-75 group-hover:brightness-200 duration-150"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              )
+            )}
+          </div>
+
           {currentProject.description?.map((detail, index) => (
             <p
               key={`detail_${index}`}
-              className="text-base font-normal tracking-wide text-gray-200"
+              className="text-base font-normal tracking-wide text-gray-200 px-4"
             >
               {detail}
             </p>
           ))}
+
+          {currentProject.quote && (
+            <div className="px-4">
+              <blockquote
+                className="relative text-indigo-300 pl-3"
+                id="about-vision"
+              >
+                <div className="absolute left-0 top-0 h-full w-6 bg-indigo-400/30" />
+                <p className="italic text-lg font-medium">
+                  &quot;{currentProject.quote?.title}&quot;
+                </p>
+                <p>{currentProject.quote.description}</p>
+              </blockquote>
+            </div>
+          )}
         </section>
       </div>
       <Footer />
