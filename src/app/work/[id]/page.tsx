@@ -8,7 +8,6 @@ import Footer from "@/components/footer/footer";
 import { Project } from "@/types";
 import { getProjectById } from "@/utils/api/projets";
 import { Skeleton } from "@/components/ui/skeleton";
-import { FiDownload, FiExternalLink } from "react-icons/fi";
 
 const Page = () => {
   const params = useParams();
