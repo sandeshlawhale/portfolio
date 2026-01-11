@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail } from "lucide-react";
@@ -89,7 +89,8 @@ const Hero = () => {
                 animate={controls}
                 onAnimationComplete={(definition) => {
                   // When the pathLength: 1 animation completes
-                  if (definition.pathLength === 1) {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  if ((definition as any).pathLength === 1) {
                     setIsAnimationComplete(true);
                   }
                 }}

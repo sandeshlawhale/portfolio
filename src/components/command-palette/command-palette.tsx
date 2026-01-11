@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Fuse from "fuse.js";
 import { searchIndex } from "@/constants/searchIndex";
 import { SearchItem } from "@/types";
@@ -11,10 +11,12 @@ export default function CommandPalette() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchItem[]>([]);
 
-  const fuse = new Fuse<SearchItem>(searchIndex, {
-    keys: ["title", "content"],
-    threshold: 0.3,
-  });
+  const fuse = useMemo(() => {
+    return new Fuse<SearchItem>(searchIndex, {
+      keys: ["title", "content"],
+      threshold: 0.3,
+    });
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -36,7 +38,7 @@ export default function CommandPalette() {
   useEffect(() => {
     if (query.trim() === "") return setResults([]);
     setResults(fuse.search(query).map((res) => res.item));
-  }, [query]);
+  }, [query, fuse]);
 
   useEffect(() => {
     if (query.trim() === "") {
@@ -54,7 +56,7 @@ export default function CommandPalette() {
       setAmongUsCount(0);
       setResults(fuse.search(query).map((res) => res.item));
     }
-  }, [query, setAmongUsCount]);
+  }, [query, setAmongUsCount, fuse]);
 
   return isOpen ? (
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex pt-40 justify-center m-4">

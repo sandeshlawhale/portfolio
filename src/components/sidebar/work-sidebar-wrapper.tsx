@@ -1,10 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { useScroll, AnimatePresence } from "framer-motion";
+import { useScroll } from "framer-motion";
 import WorkSidebar from "./work-sidebar";
 import { Project } from "@/types";
-import { useAppContext } from "@/context/AppContext";
 
 const WorkSidebarWrapper = ({
     projects,
@@ -15,7 +14,7 @@ const WorkSidebarWrapper = ({
 }) => {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({ container: ref });
-    const { isWorkSidebarOpen } = useAppContext();
+    // const { isWorkSidebarOpen } = useAppContext();
 
     // In the original layout, scroll container ref was on the main content div.
     // Ideally, the scroll progress should be linked to the content scrolling.
