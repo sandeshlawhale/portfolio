@@ -20,9 +20,9 @@ const HeroProject = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
-      const data = await getAllProject();
+      const data = await getAllProject({ limit: 3 });
       if (Array.isArray(data)) {
-        setProjects(data.slice(0, 3));
+        setProjects(data);
       }
       setLoading(false);
     };

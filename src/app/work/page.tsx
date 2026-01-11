@@ -1,34 +1,17 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { redirect } from "next/navigation";
 import { getAllProject } from "@/utils/api/projets";
 import { Project } from "@/types";
 
-const Work = () => {
-  const router = useRouter();
-  const hasRedirected = useRef(false);
+const Work = async () => {
+  const projects: Project[] = await getAllProject();
 
-  useEffect(() => {
-    const fetchAndRedirect = async () => {
-      try {
-        const projects: Project[] = await getAllProject();
-
-        if (projects.length && !hasRedirected.current) {
-          hasRedirected.current = true;
-          router.push(`/work/${projects[0]._id}`);
-        }
-      } catch (error) {
-        console.error("Failed to fetch projects:", error);
-      }
-    };
-
-    fetchAndRedirect();
-  }, [router]);
+  if (projects.length > 0) {
+    redirect(`/work/${projects[0]._id}`);
+  }
 
   return (
     <div className="w-full h-full flex items-center justify-center text-secondaryText text-sm">
-      Redirecting to your first project...
+      No projects found.
     </div>
   );
 };
