@@ -26,29 +26,23 @@ const dmMono = DM_Mono({ subsets: ["latin"], weight: "400" });
 
 const Hero = () => {
   const { increaseAmongUsCount } = useAppContext();
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const controls = useAnimation();
-  const circleLength = 2 * Math.PI * 43; // Radius = 43
-  const [hovered, setHovered] = useState(false);
-  const [imageSrc, setImageSrc] = useState(Me);
-  const timeoutRef = useRef<NodeJS.Timeout>(null);
   const router = useRouter();
 
-  const handleMouseEnter = async () => {
-    if (timeoutRef.current) return;
-
-    timeoutRef.current = setTimeout(async () => {
-      await controls.start({ strokeDashoffset: hovered ? circleLength : 0 });
-      setImageSrc(hovered ? Me : MeWithGlasses);
-      setHovered(!hovered);
-      timeoutRef.current = null;
-    }, 200);
+  const handleMouseEnter = () => {
+    controls.start({
+      pathLength: 1,
+      transition: { duration: 1, ease: "easeInOut" },
+    });
   };
 
   const handleMouseLeave = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
+    controls.start({
+      pathLength: 0,
+      transition: { duration: 0.5, ease: "easeInOut" },
+    });
+    setIsAnimationComplete(false);
   };
 
   return (
@@ -64,36 +58,41 @@ const Hero = () => {
       <div className="flex gap-3 items-center">
         <Fadeup>
           <div
-            className="relative w-22 h-22 flex items-center justify-center cursor-pointer"
+            className="relative w-24 h-24 flex items-center justify-center cursor-pointer"
             onClick={increaseAmongUsCount}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             <div className="absolute w-16 h-16 rounded-full overflow-hidden">
               <Image
-                src={imageSrc}
+                src={isAnimationComplete ? MeWithGlasses : Me}
                 alt="Sandesh Lawhale"
-                className="scale-125 w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-center scale-110"
               />
             </div>
+
+            {/* Circle Outline SVG */}
             <motion.svg
               width="100"
               height="100"
               viewBox="0 0 100 100"
-              onClick={handleMouseEnter}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              className="-rotate-90"
+              className="absolute pointer-events-none -rotate-135"
             >
               <motion.circle
-                className="stroke-indigo-400"
                 cx="50"
                 cy="50"
-                r="43"
-                strokeWidth="4"
+                r="36.5"
                 fill="transparent"
-                strokeDasharray={circleLength}
-                strokeDashoffset={circleLength}
+                stroke="#818cf8" // indigo-400
+                strokeWidth="2"
+                initial={{ pathLength: 0 }}
                 animate={controls}
-                transition={{ duration: 1 }}
+                onAnimationComplete={(definition) => {
+                  // When the pathLength: 1 animation completes
+                  if (definition.pathLength === 1) {
+                    setIsAnimationComplete(true);
+                  }
+                }}
               />
             </motion.svg>
           </div>
