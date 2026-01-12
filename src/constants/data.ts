@@ -4,33 +4,33 @@ const MyData = {
   name: "Sandesh Lawhale",
   sidename: "Unknown Legend ",
   retro: "https://sandeshlawhaleterminal.vercel.app",
-  post: "Full-Stack Developer.",
+  post: "A Full-Stack Web Developer.",
   email: "sandeshlawhale@gmail.com",
   state: "MH",
   country: "India",
   cords: "21.1466° N, 79.0889° E",
   socials: [
     {
-      title: "x.com",
-      href: "/",
+      title: "X",
+      href: "https://x.com/lawhale_sandesh",
       icon: "../assets/svg/x.svg",
     },
     {
-      title: "linkedIn",
-      href: "/",
+      title: "LinkedIn",
+      href: "https://linkedin.com/in/lawhalesandesh",
       icon: "../assets/svg/linkedin2.svg",
     },
     {
-      title: "github",
+      title: "Github",
       href: "https://github.com/sandeshlawhale",
       icon: "../assets/svg/github.svg",
     },
     {
-      title: "instagram",
-      href: "https://www.instagram.com/_exotic.sandesh/",
+      title: "Instagram",
+      href: "https://www.instagram.com/_exotic.sandesh",
       icon: "../assets/svg/instagram.svg",
     },
-    { title: "youtube", href: "/", icon: "../assets/svg/youtube.svg" },
+    // { title: "youtube", href: "/", icon: "../assets/svg/youtube.svg" },
   ],
   about: [
     {
