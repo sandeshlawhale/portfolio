@@ -250,4 +250,43 @@ const Stack = {
   ],
 };
 
-export { MyData, NavLinks, TechStack, MyGames, Stack };
+const Experience = [
+  {
+    id: "exp-1",
+    company: {
+      name: "TruScholar",
+      logo: "/assets/company/truscholar.png",
+      website: "https://truscholar.com"
+    },
+    role: "Full Stack Dev Intern",
+    status: "Completed",
+    location: {
+      type: "On-site",
+      city: "Amravati, MH."
+    },
+    duration: {
+      start: "Feb 25",
+      end: "Nov 25"
+    },
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Razorpay",
+      "DigiLocker API",
+      "LangChain",
+    ],
+    responsibilities: [
+      "Built frontend interfaces and REST APIs for a municipal certificate issuance, reissuance, and verification system, reducing manual processing overhead.",
+      "Developed responsive dashboards and reusable UI components for a Supply Chain Management System to ensure transparent product tracking.",
+      "Integrated DigiLocker after legacy verification deprecation, restoring seamless digital certificate access.",
+      "Improved a wallet mobile application by fixing UI issues and integrating Razorpay for subscription-based payments."
+    ]
+  }
+];
+
+
+export { MyData, NavLinks, TechStack, MyGames, Stack, Experience };

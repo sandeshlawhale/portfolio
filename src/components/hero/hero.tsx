@@ -1,31 +1,34 @@
 "use client";
 
-import Image from "next/image";
-import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+import { motion, useAnimation } from "framer-motion";
 import { ScanText, Send } from "lucide-react";
 
 import Me from "../../../public/assets/me.jpg";
 import MeWithGlasses from "../../../public/assets/me-with-glasses.jpg";
 
-import { MyData } from "@/constants/data";
-import { Button } from "../ui/button";
 import LiveClock from "../live-clock/live-clock";
 import Fadeup from "../ui/fadeup";
 import FlipEffect from "../effect/flip-text-effect";
 import WaveEffect from "../effect/wave-effect";
+import { Button } from "../ui/button";
+
+import { MyData } from "@/constants/data";
 import { useAppContext } from "@/context/AppContext";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import StackBadge from "../ui/stack-badge";
 
 const Hero = () => {
   return (
-    <div id="home" className="px-4 flex flex-col gap-6 w-full">
+    <div id="home" className="px-4 w-full">
       <div className="flex items-center justify-between">
         <Fadeup>
           <LiveClock />
@@ -36,43 +39,41 @@ const Hero = () => {
       </div>
 
       <Fadeup delay={0.05}>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-center pt-8">
           <ProfileAvatar />
           <HeroIntroduction />
         </div>
       </Fadeup>
 
       <Fadeup delay={0.1}>
-        <div className="">
-          <p className="text-mutedText text-lg tracking-wider leading-[3rem]">
-            I build interactive web apps using{" "}
-            <StackBadge
-              icon="/assets/stack/ts-logo-colored.webp"
-              name="TypeScript"
-            />{" "}
-            ,{" "}
-            <StackBadge
-              icon="/assets/stack/react-logo-colored.webp"
-              name="React"
-            />{" "}
-            ,{" "}
-            <StackBadge
-              icon="/assets/stack/nextjs-logo-colored.webp"
-              name="Next.js"
-            />{" "}
-            , and{" "}
-            <StackBadge
-              icon="/assets/stack/mongodb-logo-colored.webp"
-              name="MongoDb"
-              width={9}
-              height={9}
-            />{" "}
-            . With a focus on clean <span className="text-primaryText">UI</span>.
-            Exploring <span className="text-primaryText">n8n</span> automation
-            and <span className="text-primaryText">LangChain</span>, driven by
-            curiosity.
-          </p>
-        </div>
+        <p className="text-mutedText text-lg tracking-wider leading-loose pt-4">
+          I build interactive web apps using{" "}
+          <StackBadge
+            icon="/assets/stack/ts-logo-colored.webp"
+            name="TypeScript"
+          />{" "}
+          ,{" "}
+          <StackBadge
+            icon="/assets/stack/react-logo-colored.webp"
+            name="React"
+          />{" "}
+          ,{" "}
+          <StackBadge
+            icon="/assets/stack/nextjs-logo-colored.webp"
+            name="Next.js"
+          />{" "}
+          , and{" "}
+          <StackBadge
+            icon="/assets/stack/mongodb-logo-colored.webp"
+            name="MongoDb"
+            width={9}
+            height={9}
+          />{" "}
+          . With a focus on clean <span className="text-primaryText">UI</span>.
+          Exploring <span className="text-primaryText">n8n</span> automation
+          and <span className="text-primaryText">LangChain</span>, driven by
+          curiosity.
+        </p>
       </Fadeup>
 
       <Fadeup delay={0.15}>
@@ -195,7 +196,7 @@ const HeroIntroduction = () => {
 const HeroActions = () => {
   const router = useRouter();
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center pt-4">
       <Button
         variant="default"
         className="font-normal tracking-wider flex align-middle"
@@ -212,25 +213,6 @@ const HeroActions = () => {
         <Send /> Let&apos;s Talk
       </Button>
     </div>
-  );
-};
-
-const StackBadge = ({
-  icon,
-  name,
-  width = 16,
-  height = 16,
-}: {
-  icon: string;
-  name: string;
-  width?: number;
-  height?: number;
-}) => {
-  return (
-    <span className="text-base inline-flex gap-2 items-center justify-center my-1 p-2 py-0.5 rounded-lg bg-secondary border-2 border-border border-dashed w-fit text-primaryText align-middle">
-      <Image src={icon} alt={name} width={width} height={height} />
-      {name}
-    </span>
   );
 };
 
