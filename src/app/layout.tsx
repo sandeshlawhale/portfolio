@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="antialiased bg-black text-primaryText">
+      <body className="relative antialiased bg-black text-primaryText">
         <AppContextProvider>
           <div className="w-screen h-screen flex overflow-x-hidden">
             <SparkleBackground />
@@ -45,6 +45,14 @@ export default function RootLayout({
             <Toaster />
           </div>
         </AppContextProvider>
+        <div
+          className="absolute bottom-0 left-0 right-0 h-20
+             bg-black/40 backdrop-blur-xl"
+          style={{
+            maskImage: "linear-gradient(to bottom, transparent, black)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent, black)",
+          }}
+        />
       </body>
     </html>
   );
