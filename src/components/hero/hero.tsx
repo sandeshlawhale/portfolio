@@ -13,7 +13,7 @@ import MeWithGlasses from "../../../public/assets/me-with-glasses.jpg";
 
 import LiveClock from "../live-clock/live-clock";
 import Fadeup from "../ui/fadeup";
-import FlipEffect from "../effect/flip-text-effect";
+
 import WaveEffect from "../effect/wave-effect";
 import { Button } from "../ui/button";
 
@@ -202,12 +202,14 @@ const HeroIntroduction = () => {
 
 const HeroActions = () => {
   const router = useRouter();
+  const resumeLink = "https://drive.google.com/file/d/1CnpceQT8q0KG0IQExRhEW62Qv6yNbSex/view?usp=sharing";
+
   return (
     <div className="flex gap-2 items-center pt-4">
       <Button
         variant="default"
         className="font-normal tracking-wider flex align-middle"
-        onClick={() => router.push("/contact")}
+        onClick={() => window.open(resumeLink, "_blank")}
       >
         <ScanText /> Resume / CV
       </Button>

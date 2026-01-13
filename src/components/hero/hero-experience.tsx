@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Experience, Stack, TechStack } from "@/constants/data";
+import { Experience } from "@/constants/data";
 import StackBadge from "../ui/stack-badge";
 import Fadeup from "../ui/fadeup";
 import {
@@ -18,6 +18,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { getTechIcon } from "@/utils/tech-icon";
 
 const HeroExperience = () => {
     const [selectedValues, setSelectedValues] = useState<string[]>(Experience[0]?.id ? [Experience[0].id] : []);
@@ -154,41 +155,6 @@ const HeroExperience = () => {
             </Accordion>
         </section>
     );
-};
-
-const getTechIcon = (name: string): string | undefined => {
-    const normalizedName = name.toLowerCase();
-
-    // Custom aliases
-    const aliases: { [key: string]: string } = {
-        react: "react.js",
-        "tailwind css": "tailwind",
-        typescript: "typescript",
-        // Add more if needed
-    };
-
-    const searchName = aliases[normalizedName] || normalizedName;
-
-    // Helper to search in an array
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const findIcon = (arr: any[]) => {
-        return arr.find(
-            (s) =>
-                s.title.toLowerCase() === searchName ||
-                s.title.toLowerCase() === normalizedName
-        );
-    };
-
-    const stackMatch = findIcon(Stack.software);
-    if (stackMatch?.image) return stackMatch.image;
-
-    const frontendMatch = findIcon(TechStack.frontend);
-    if (frontendMatch?.logo) return frontendMatch.logo;
-
-    const backendMatch = findIcon(TechStack.backend);
-    if (backendMatch?.logo) return backendMatch.logo;
-
-    return undefined;
 };
 
 export default HeroExperience;

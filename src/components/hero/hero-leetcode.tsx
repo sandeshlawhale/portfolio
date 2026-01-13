@@ -14,15 +14,16 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+const username = "sandeshlawhale";
+const CACHE_KEY = "leetcode_data";
+const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
+
 const HeroLeetCode = () => {
     const [submission, setSubmission] = useState<LeetCodeSubmission | null>(null);
     const [problem, setProblem] = useState<LeetCodeProblem | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    const username = "sandeshlawhale";
-    const CACHE_KEY = "leetcode_data";
-    const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
 
     useEffect(() => {
         const fetchData = async () => {
