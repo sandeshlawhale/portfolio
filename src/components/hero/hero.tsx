@@ -187,7 +187,8 @@ const HeroIntroduction = () => {
     <div className="w-full h-full">
       <p className="text-mutedText text-sm">Hi, I&apos;m</p>
       <div className="flex gap-2 items-center text-primaryText text-2xl tracking-wide font-semibold">
-        <FlipEffect sidename={MyData.sidename}>{MyData.name}</FlipEffect>
+        {/* <FlipEffect sidename={MyData.sidename}>{MyData.name}</FlipEffect> */}
+        {MyData.name}
         <WaveEffect>
           <span className="cursor-pointer">👋</span>
         </WaveEffect>
