@@ -1,6 +1,6 @@
 import Hero from "@/components/hero/hero";
-import HeroAbout from "@/components/hero/hero-about";
-import HeroStack from "@/components/hero/hero-stack";
+// import HeroAbout from "@/components/hero/hero-about";
+// import HeroStack from "@/components/hero/hero-stack";
 import HeroProject from "@/components/hero/hero-project";
 import HeroContact from "@/components/hero/hero-contact";
 import HeroExperience from "@/components/hero/hero-experience";

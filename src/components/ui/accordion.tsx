@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
-import { ChevronDown } from "lucide-react"
-import { motion } from "framer-motion"
+
+
 
 import { cn } from "@/lib/utils"
 

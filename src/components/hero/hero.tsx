@@ -25,6 +25,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import StackBadge from "../ui/stack-badge";
+import HeroLeetCode from "./hero-leetcode";
+
 
 const Hero = () => {
   return (
@@ -76,14 +78,18 @@ const Hero = () => {
         </p>
       </Fadeup>
 
+
       <Fadeup delay={0.15}>
         <HeroActions />
       </Fadeup>
+
+      <HeroLeetCode />
     </div>
   );
 };
 
 const SocialLinks = () => {
+
   return (
     <div className="flex gap-2 items-center">
       {MyData.socials?.map((link) => (

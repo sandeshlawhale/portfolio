@@ -170,6 +170,7 @@ const getTechIcon = (name: string): string | undefined => {
     const searchName = aliases[normalizedName] || normalizedName;
 
     // Helper to search in an array
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const findIcon = (arr: any[]) => {
         return arr.find(
             (s) =>
