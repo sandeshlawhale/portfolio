@@ -6,6 +6,7 @@ import HeroContact from "@/components/hero/hero-contact";
 import HeroExperience from "@/components/hero/hero-experience";
 import Footer from "@/components/footer/footer";
 import Fadeup from "@/components/ui/fadeup";
+import HeroQuote from "@/components/hero/hero-quote";
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
         <HeroProject />
         <HeroAbout />
         <HeroContact />
+        {/* <HeroQuote /> */}
         <Fadeup delay={0.2} duration={0.6}>
           <Footer />
         </Fadeup>

@@ -8,7 +8,7 @@ const Footer = () => {
         Inspired by Ultra & ramxcodes
       </p>
       <p className="text-sm text-mutedText tracking-wider">
-        Developed by <span className="font-bold">sandeshlawhale</span>
+        Developed by <span className="font-bold text-primaryText">sandeshlawhale</span>
       </p>
       <p className="text-xs text-mutedText/60 tracking-wider">
         &copy; {new Date().getFullYear()}. All rights reserved.
