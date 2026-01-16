@@ -1,5 +1,5 @@
 import Hero from "@/components/hero/hero";
-// import HeroAbout from "@/components/hero/hero-about";
+import HeroAbout from "@/components/hero/hero-about";
 // import HeroStack from "@/components/hero/hero-stack";
 import HeroProject from "@/components/hero/hero-project";
 import HeroContact from "@/components/hero/hero-contact";
@@ -16,7 +16,7 @@ const Home = () => {
         {/* <HeroAbout /> */}
         {/* <HeroStack /> */}
         <HeroProject />
-        {/* <HeroBlogs /> */}
+        <HeroAbout />
         <HeroContact />
         <Fadeup delay={0.2} duration={0.6}>
           <Footer />
