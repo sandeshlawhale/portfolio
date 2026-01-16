@@ -53,10 +53,10 @@ const HeroAbout = () => {
             <div className="tracking-wider text-mutedText text-base flex flex-col leading-relaxed max-w-2xl">
               <p>
                 I&apos;m a full-stack developer who enjoys building clean, thoughtful products.
-                I care deeply about UX, performance, and small details that most people ignore.
+                I care deeply about UX, performance, and small details.
               </p>
               <p>
-                Currently exploring Next.js, animations, and system design.
+                Currently exploring web animations, DSA and system design.
               </p>
             </div>
 
