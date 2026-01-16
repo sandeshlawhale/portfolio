@@ -8,9 +8,14 @@ export const getAllProject = async ({ limit }: { limit?: number } = {}) => {
       next: { revalidate: 3600 }, // Cache for 1 hour
     });
 
-    const data = await response.json();
+    if (!response.ok) {
+      console.error(`Failed to fetch projects: ${response.status} ${response.statusText}`);
+      return [];
+    }
 
-    if (data.success && data.result) {
+    const data = await response.json().catch(() => null);
+
+    if (data?.success && data?.result) {
       return data.result;
     }
     return [];
@@ -27,9 +32,14 @@ export const getProjectById = async ({ id }: { id: string }) => {
       { next: { revalidate: 3600 } }
     );
 
-    const data = await response.json();
+    if (!response.ok) {
+      console.error(`Failed to fetch project ${id}: ${response.status} ${response.statusText}`);
+      return undefined;
+    }
 
-    if (data.success && data.result) {
+    const data = await response.json().catch(() => null);
+
+    if (data?.success && data?.result) {
       return data.result;
     }
   } catch (error) {

@@ -114,7 +114,7 @@ const HeroExperience = () => {
                                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                                                 className="overflow-hidden"
                                             >
-                                                <div className="pb-2 px-1">
+                                                <div className="pb-0 px-1">
                                                     {/* Technologies */}
                                                     <div className="my-4">
                                                         <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">

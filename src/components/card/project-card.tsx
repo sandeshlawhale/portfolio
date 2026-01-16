@@ -19,7 +19,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
 
   return (
     <article
-      className="group flex flex-col rounded-2xl bg-secondary border border-border shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 h-full"
+      className="group flex flex-col rounded-2xl bg-primary border border-primary shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 h-full"
       onClick={handleClick}
     >
       {/* Image Section */}
@@ -38,7 +38,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-col flex-1 p-2 gap-1 bg-secondary">
+      <div className="flex flex-col flex-1 p-2 gap-1 bg-primary">
         <header className="flex items-center justify-between w-full">
           <h3 className={`text-base font-normal text-primaryText tracking-wider truncate ${!project.name && "blur-sm"}`}>
             {project.name || "Untitled Project"}
