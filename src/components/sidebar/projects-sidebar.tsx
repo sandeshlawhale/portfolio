@@ -9,7 +9,7 @@ import { X } from "lucide-react";
 import { useParams } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
 
-const WorkSidebar = ({
+const ProjectsSidebar = ({
   scrollYProgress,
   projects = [],
   loading,
@@ -37,7 +37,7 @@ const WorkSidebar = ({
     >
       <div className="w-full px-4 mt-4 flex items-center justify-start gap-2 xl:hidden">
         <X className="cursor-pointer" onClick={closeSidebar} />
-        <p className="text-xl font-semibold text-indigo-300">Works</p>
+        <p className="text-xl font-semibold text-indigo-300">Projects</p>
       </div>
 
       <div className="flex flex-col h-[calc(100vh-64px)]">
@@ -81,4 +81,4 @@ const WorkSidebar = ({
   );
 };
 
-export default WorkSidebar;
+export default ProjectsSidebar;

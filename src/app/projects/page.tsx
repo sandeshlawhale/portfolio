@@ -6,7 +6,7 @@ const Work = async () => {
   const projects: Project[] = await getAllProject();
 
   if (projects.length > 0) {
-    redirect(`/work/${projects[0]._id}`);
+    redirect(`/projects/${projects[0]._id}`);
   }
 
   return (

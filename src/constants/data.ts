@@ -56,8 +56,8 @@ const NavLinks = [
   {
     id: 2,
     key: "2",
-    title: "Work",
-    href: "/work",
+    title: "Projects",
+    href: "/projects",
     logo: "/assets/svg/command.svg",
   },
   // {

@@ -33,11 +33,11 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="relative antialiased bg-black text-primaryText">
         <AppContextProvider>
-          <div className="w-screen h-screen flex overflow-x-hidden">
+          <div className="w-screen h-screen flex">
             <SparkleBackground />
             <AmongUsEasterEgg />
             <Navbar />
-            <main className="w-screen flex-1 flex flex-col items-center h-screen overflow-y-auto scrollbar">
+            <main className="w-full flex flex-col items-center h-screen overflow-y-auto scrollbar">
               {children}
             </main>
             <BottomNavbar />
