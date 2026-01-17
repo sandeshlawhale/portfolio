@@ -55,31 +55,19 @@ export default function AdminSidebar() {
             <SidebarContent className="p-0">
                 <div className="mx-2 my-2 flex-1 bg-card rounded-xl border-2 border-border shadow-sm overflow-hidden flex flex-col gap-1 p-2">
                     {adminNavItems.map((item) => (
-                        <Accordion key={item.id} type="single" collapsible className="w-full">
-                            <AccordionItem value={item.id} className="border-b-0">
-                                <AccordionTrigger className="px-3 hover:no-underline rounded-lg hover:bg-accent/50 [&[data-state=open]]:bg-accent/50 py-2 cursor-pointer">
-                                    <div className="flex items-center gap-2">
-                                        <item.icon className="w-4 h-4" />
-                                        <span>{item.title}</span>
-                                    </div>
-                                </AccordionTrigger>
-                                <AccordionContent className="pt-1 pb-1 px-2">
-                                    <div className="flex flex-col gap-1 pl-4 border-l ml-2 border-border">
-                                        {item.subItems.map((subItem) => (
-                                            <Button
-                                                key={subItem.href}
-                                                variant="ghost"
-                                                size="sm"
-                                                className="w-full justify-start h-8 text-muted-foreground hover:text-foreground"
-                                                onClick={() => router.push(subItem.href)}
-                                            >
-                                                {subItem.title}
-                                            </Button>
-                                        ))}
-                                    </div>
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
+                        <div key={item.id} className="w-full">
+                            <Button
+                                variant="ghost"
+                                className={`w-full justify-start h-10 px-3 hover:bg-accent/50 ${typeof window !== 'undefined' && window.location.pathname.startsWith(item.href)
+                                        ? "bg-accent/50 text-primary"
+                                        : "text-muted-foreground"
+                                    }`}
+                                onClick={() => router.push(item.href)}
+                            >
+                                <item.icon className="w-4 h-4 mr-2" />
+                                <span>{item.title}</span>
+                            </Button>
+                        </div>
                     ))}
                 </div>
             </SidebarContent>

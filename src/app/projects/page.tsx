@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
-import { getAllProject } from "@/utils/api/projects";
+import { getAllProjects } from "@/utils/api/projects";
 import { Project } from "@/types";
 
 const Work = async () => {
-  const projects: Project[] = await getAllProject();
+  const projects: Project[] = (await getAllProjects()).result;
 
   if (projects.length > 0) {
     redirect(`/projects/${projects[0]._id}`);

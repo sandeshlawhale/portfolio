@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Footer from "@/components/footer/footer";
-import { getProjectById, getAllProject } from "@/utils/api/projects";
+import { getProjectById, getAllProjects } from "@/utils/api/projects";
 import InfoRow from "@/components/projects/info-row";
 import { Metadata } from "next";
 
@@ -12,7 +12,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const project = await getProjectById({ id });
+  const project = await getProjectById(id);
 
   if (!project) {
     return {
@@ -27,15 +27,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  const projects = await getAllProject();
-  return projects.map((project: { _id: string }) => ({
+  const projects = await getAllProjects();
+  return projects.result.map((project: { _id: string }) => ({
     id: project._id,
   }));
 }
 
 const Page = async ({ params }: PageProps) => {
   const { id } = await params;
-  const currentProject = await getProjectById({ id });
+  const currentProject = await getProjectById(id);
 
   if (!currentProject) {
     notFound();

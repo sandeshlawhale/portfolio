@@ -1,48 +1,74 @@
-export const getAllProject = async ({ limit }: { limit?: number } = {}) => {
-  try {
-    const url = limit
-      ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects?limit=${limit}`
-      : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects`;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5051";
 
-    const response = await fetch(url, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-
-    if (!response.ok) {
-      console.error(`Failed to fetch projects: ${response.status} ${response.statusText}`);
-      return [];
+export const getAllProjects = async () => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/api/projects`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
     }
-
-    const data = await response.json().catch(() => null);
-
-    if (data?.success && data?.result) {
-      return data.result;
-    }
-    return [];
-  } catch (error) {
-    console.log("error fetching the projects", error);
-    return [];
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch projects");
   }
+  return res.json();
 };
 
-export const getProjectById = async ({ id }: { id: string }) => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/projects/${id}`,
-      { next: { revalidate: 3600 } }
-    );
-
-    if (!response.ok) {
-      console.error(`Failed to fetch project ${id}: ${response.status} ${response.statusText}`);
-      return undefined;
+export const getProjectById = async (id: string) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/api/projects/${id}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
     }
-
-    const data = await response.json().catch(() => null);
-
-    if (data?.success && data?.result) {
-      return data.result;
-    }
-  } catch (error) {
-    console.log("error fetching the project", error);
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch project");
   }
+  return res.json();
+};
+
+export const createProject = async (formData: FormData) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/api/projects`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+    body: formData,
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to create project");
+  }
+  return res.json();
+};
+
+export const updateProject = async (id: string, formData: FormData) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/api/projects/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+    body: formData,
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to update project");
+  }
+  return res.json();
+};
+
+export const deleteProject = async (id: string) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/api/projects/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to delete project");
+  }
+  return res.json();
 };

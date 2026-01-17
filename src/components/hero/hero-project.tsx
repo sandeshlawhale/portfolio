@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 import ProjectCard from "../card/project-card";
 import Fadeup from "../ui/fadeup";
 import { Button } from "../ui/button";
-import { getAllProject } from "@/utils/api/projects";
+import { getAllProjects } from "@/utils/api/projects";
 import { Project } from "@/types";
 import { Skeleton } from "../ui/skeleton";
 
@@ -20,7 +20,7 @@ const HeroProject = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
-      const data = await getAllProject({ limit: 4 });
+      const data = await getAllProjects();
       if (Array.isArray(data)) {
         setProjects(data);
       }
