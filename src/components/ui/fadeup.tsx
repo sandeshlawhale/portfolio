@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const Fadeup = ({
   children,
   delay = 0,
-  duration = 0.4,
+  duration = 0.5,
 }: {
   children: React.ReactNode;
   delay?: number;

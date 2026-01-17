@@ -83,7 +83,9 @@ const Hero = () => {
         <HeroActions />
       </Fadeup>
 
-      <HeroLeetCode />
+      <Fadeup delay={0.2}>
+        <HeroLeetCode />
+      </Fadeup>
     </div>
   );
 };

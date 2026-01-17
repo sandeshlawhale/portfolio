@@ -55,12 +55,14 @@ const HeroProject = () => {
             ))}
           </div>
 
-          <Button
-            onClick={() => router.push("/projects")}
-            className="w-xs mx-auto"
-          >
-            View all <ArrowRight className="w-5 h-5 text-icon-muted" />
-          </Button>
+          <Fadeup delay={0.2}>
+            <Button
+              onClick={() => router.push("/projects")}
+              className="w-xs mx-auto"
+            >
+              View all <ArrowRight className="w-5 h-5 text-icon-muted" />
+            </Button>
+          </Fadeup>
         </div>
       )}
     </section>
