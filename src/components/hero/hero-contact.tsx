@@ -7,7 +7,7 @@ import Fadeup from "../ui/fadeup";
 const HeroContact = () => {
   return (
     <Fadeup delay={0.2} duration={0.6}>
-      <div className="mx-4 p-12 w-full border-2 border-border rounded-xl" id="home-contact">
+      <div className="mx-4 py-12 border-2 border-border rounded-xl" id="home-contact">
         <div className="flex flex-col text-center items-center justify-center">
           <h2 className="text-xl font-semibold text-primaryText tracking-wider">
             Let&apos;s build something thoughtful.
