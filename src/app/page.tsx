@@ -6,7 +6,7 @@ import HeroContact from "@/components/hero/hero-contact";
 import HeroExperience from "@/components/hero/hero-experience";
 import Footer from "@/components/footer/footer";
 import Fadeup from "@/components/ui/fadeup";
-import HeroQuote from "@/components/hero/hero-quote";
+// import HeroQuote from "@/components/hero/hero-quote";
 
 const Home = () => {
   return (

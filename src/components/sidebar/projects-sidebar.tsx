@@ -33,9 +33,9 @@ const ProjectsSidebar = ({
       animate={{ x: "0" }}
       exit={{ x: "-100%" }}
       transition={{ duration: 0.4, ease: easeInOut }}
-      className="w-full md:w-96 mb-20 h-screen border-r border-border fixed xl:block bg-black/50 z-30 backdrop-blur-sm flex flex-col"
+      className="w-full md:w-96 mb-20 h-screen border-r border-border fixed bg-black/50 z-30 backdrop-blur-sm flex flex-col"
     >
-      <div className="w-full px-4 mt-4 flex items-center justify-start gap-2 xl:hidden">
+      <div className="w-full px-4 mt-4 flex items-center justify-start gap-2">
         <X className="cursor-pointer" onClick={closeSidebar} />
         <p className="text-xl font-semibold text-indigo-300">Projects</p>
       </div>

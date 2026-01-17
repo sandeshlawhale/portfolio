@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getAllProject } from "@/utils/api/projets";
+import { getAllProject } from "@/utils/api/projects";
 import { Project } from "@/types";
 
 const Work = async () => {

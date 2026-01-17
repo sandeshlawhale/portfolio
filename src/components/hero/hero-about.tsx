@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import SideTitle from "../title/side-title";
+
 import Fadeup from "../ui/fadeup";
 import { MyData } from "@/constants/data";
 import Me from "../../../public/assets/me.jpg";

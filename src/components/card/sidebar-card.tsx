@@ -18,15 +18,14 @@ const SidebarCard = ({
   const scaleX = scrollYProgress;
 
   const handleClick = () => {
-    router.push(`/work/${project?._id}`);
+    router.push(`/projects/${project?._id}`);
     closeSidebar();
   };
 
   return (
     <div
-      className={`relative ${
-        params.id === project?._id && "bg-secondary-light"
-      } p-3 flex flex-col gap-1 hover:bg-secondary-light rounded-lg cursor-pointer overflow-hidden`}
+      className={`relative ${params.id === project?._id && "bg-secondary-light"
+        } p-3 flex flex-col gap-1 hover:bg-secondary-light rounded-lg cursor-pointer overflow-hidden`}
       onClick={() => handleClick()}
     >
       {currentProject && (

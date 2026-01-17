@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 import ProjectCard from "../card/project-card";
 import Fadeup from "../ui/fadeup";
 import { Button } from "../ui/button";
-import { getAllProject } from "@/utils/api/projets";
+import { getAllProject } from "@/utils/api/projects";
 import { Project } from "@/types";
 import { Skeleton } from "../ui/skeleton";
 
@@ -56,7 +56,7 @@ const HeroProject = () => {
           </div>
 
           <Button
-            onClick={() => router.push("/work")}
+            onClick={() => router.push("/projects")}
             className="w-xs mx-auto"
           >
             View all <ArrowRight className="w-5 h-5 text-icon-muted" />

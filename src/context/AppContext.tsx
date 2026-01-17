@@ -27,10 +27,10 @@ const defaultContext: AppContextType = {
   isWorkSidebarOpen: false,
   openWorkSidebar: () => true,
   closeWorkSidebar: () => false,
-  resetAmongUsCount: () => {},
+  resetAmongUsCount: () => { },
   amongUsCount: 0,
-  setAmongUsCount: () => {},
-  increaseAmongUsCount: () => {},
+  setAmongUsCount: () => { },
+  increaseAmongUsCount: () => { },
 };
 
 const AppContext = createContext<AppContextType>(defaultContext);
@@ -46,7 +46,7 @@ export const AppContextProvider = ({
   const [isWorkSidebarOpen, setIsWorkSidebarOpen] = useState(true);
 
   // work sidebar options
-  const openWorkSidebar = () => setIsWorkSidebarOpen(true);
+  const openWorkSidebar = () => setIsWorkSidebarOpen(!isWorkSidebarOpen);
   const closeWorkSidebar = () => setIsWorkSidebarOpen(false);
 
   // function to set amoung us

@@ -14,7 +14,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/work/${project._id}`);
+    router.push(`/projects/${project._id}`);
   };
 
   return (

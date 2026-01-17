@@ -1,4 +1,4 @@
-import { getAllProject } from "@/utils/api/projets";
+import { getAllProject } from "@/utils/api/projects";
 import { Project } from "@/types";
 import ProjectsLayoutClient from "@/components/layout/projects-layout-client";
 
