@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import {
     Sidebar,
@@ -31,6 +31,7 @@ import { adminNavItems } from "@/constants/admin-nav";
 
 export default function AdminSidebar() {
     const router = useRouter();
+    const pathname = usePathname();
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -58,9 +59,9 @@ export default function AdminSidebar() {
                         <div key={item.id} className="w-full">
                             <Button
                                 variant="ghost"
-                                className={`w-full justify-start h-10 px-3 hover:bg-accent/50 ${typeof window !== 'undefined' && window.location.pathname.startsWith(item.href)
-                                        ? "bg-accent/50 text-primary"
-                                        : "text-muted-foreground"
+                                className={`w-full justify-start h-10 px-3 hover:bg-accent/50 ${pathname.startsWith(item.href)
+                                    ? "bg-accent/50 text-primaryText"
+                                    : "text-mutedText"
                                     }`}
                                 onClick={() => router.push(item.href)}
                             >
