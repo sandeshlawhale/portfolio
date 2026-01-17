@@ -1,12 +1,7 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5051";
 
-export const getAllProjects = async () => {
-  const token = localStorage.getItem("token");
-  const res = await fetch(`${API_URL}/api/projects`, {
-    headers: {
-      "Authorization": `Bearer ${token}`
-    }
-  });
+export const getAllProjects = async (limit?: number) => {
+  const res = await fetch(`${API_URL}/api/projects?limit=${limit}`, { cache: "no-store" });
   if (!res.ok) {
     throw new Error("Failed to fetch projects");
   }
@@ -14,12 +9,7 @@ export const getAllProjects = async () => {
 };
 
 export const getProjectById = async (id: string) => {
-  const token = localStorage.getItem("token");
-  const res = await fetch(`${API_URL}/api/projects/${id}`, {
-    headers: {
-      "Authorization": `Bearer ${token}`
-    }
-  });
+  const res = await fetch(`${API_URL}/api/projects/${id}`, { cache: "no-store" });
   if (!res.ok) {
     throw new Error("Failed to fetch project");
   }

@@ -2,6 +2,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5051";
 
 export const getAllWorks = async () => {
     const res = await fetch(`${API_URL}/api/works`, { cache: "no-store" });
+    console.log("work res ===>>> ", res);
     if (!res.ok) {
         throw new Error("Failed to fetch works");
     }

@@ -20,9 +20,9 @@ const HeroProject = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
-      const data = await getAllProjects();
-      if (Array.isArray(data)) {
-        setProjects(data);
+      const data = await getAllProjects(4);
+      if (Array.isArray(data.result)) {
+        setProjects(data.result);
       }
       setLoading(false);
     };
@@ -55,14 +55,12 @@ const HeroProject = () => {
             ))}
           </div>
 
-          <Fadeup delay={0.2}>
-            <Button
-              onClick={() => router.push("/projects")}
-              className="w-xs mx-auto"
-            >
-              View all <ArrowRight className="w-5 h-5 text-icon-muted" />
-            </Button>
-          </Fadeup>
+          <Button
+            onClick={() => router.push("/projects")}
+            className="w-xs mx-auto"
+          >
+            View all <ArrowRight className="w-5 h-5 text-icon-muted" />
+          </Button>
         </div>
       )}
     </section>

@@ -9,6 +9,7 @@ import SparkleBackground from "@/components/ui/sparkle-background";
 import CommandPalette from "@/components/command-palette/command-palette";
 import AmongUsEasterEgg from "@/components/easter-egg/amoung-us";
 import { Toaster } from "@/components/ui/sonner";
+import FooterOverlay from "@/components/ui/footer-overlay";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,14 +46,7 @@ export default function RootLayout({
             <Toaster />
           </div>
         </AppContextProvider>
-        <div
-          className="absolute bottom-0 left-0 right-0 h-20
-             bg-black/40 backdrop-blur-xl"
-          style={{
-            maskImage: "linear-gradient(to bottom, transparent, black)",
-            WebkitMaskImage: "linear-gradient(to bottom, transparent, black)",
-          }}
-        />
+        <FooterOverlay />
       </body>
     </html>
   );
