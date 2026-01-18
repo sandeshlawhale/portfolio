@@ -13,7 +13,8 @@ export const getProjectById = async (id: string) => {
   if (!res.ok) {
     throw new Error("Failed to fetch project");
   }
-  return res.json();
+  const data = await res.json();
+  return data.result;
 };
 
 export const createProject = async (formData: FormData) => {

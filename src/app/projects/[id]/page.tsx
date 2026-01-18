@@ -121,7 +121,7 @@ const Page = async ({ params }: PageProps) => {
           </div>
 
           <div className="w-full space-y-2">
-            {currentProject.otherLink.map(
+            {currentProject.otherLink?.map(
               ({ _id, title, link, downloadable }: { _id: string; title: string; link: string; downloadable: boolean }) => (
                 <div key={_id}>
                   <Link href={link} target="_blank">
