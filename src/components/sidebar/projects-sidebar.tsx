@@ -46,7 +46,7 @@ const ProjectsSidebar = ({
 
       <div className="flex flex-col h-full overflow-hidden">
         <div className="flex flex-col gap-1 shrink-0 p-3">
-          <p className="px-3 font-semibold text-sm text-gray-600 tracking-wide">
+          <p className="px-0 font-semibold text-sm text-gray-600 tracking-wide">
             Now Viewing
           </p>
           {loading ? (
