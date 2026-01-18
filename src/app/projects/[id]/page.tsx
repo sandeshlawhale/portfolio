@@ -43,7 +43,7 @@ const Page = async ({ params }: PageProps) => {
 
   return (
     <>
-      <div className="pt-16 sm:pt-0 flex flex-col gap-10 w-full ">
+      <div className="flex flex-col gap-10 w-full ">
         <div className="mt-0 w-full aspect-[2/1] rounded-lg overflow-hidden px-4">
           {currentProject.image ? (
             <Image

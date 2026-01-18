@@ -73,7 +73,7 @@ const ProjectsSidebar = ({
               <Skeleton className="w-full h-20 bg-[#121212]" />
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col">
               {restProjects.map((project, index) => (
                 <SidebarCard project={project} key={`project_${index}`} />
               ))}

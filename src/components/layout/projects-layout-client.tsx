@@ -47,7 +47,7 @@ const ProjectsLayoutClient = ({ children, projects }: ProjectsLayoutClientProps)
                         />
                         <h1 className="text-xl font-semibold text-indigo-300">Projects</h1>
                     </header>
-                    <div className="px-4 pb-10 py-10 sm:w-md lg:w-xl mx-auto">
+                    <div className="px-4 py-4 lg:py-10 sm:w-md lg:w-xl mx-auto">
                         {children}
                     </div>
                 </main>
