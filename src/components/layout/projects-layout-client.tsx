@@ -19,32 +19,40 @@ const ProjectsLayoutClient = ({ children, projects }: ProjectsLayoutClientProps)
     const loading = false;
 
     return (
-        <>
+        <div className="flex h-screen w-full bg-background overflow-hidden relative">
+            <ProjectsSidebar
+                scrollYProgress={scrollYProgress}
+                projects={projects}
+                loading={loading}
+                isMobile={false}
+            />
+
             <AnimatePresence>
                 {isWorkSidebarOpen && (
                     <ProjectsSidebar
                         scrollYProgress={scrollYProgress}
                         projects={projects}
                         loading={loading}
+                        isMobile={true}
                     />
                 )}
             </AnimatePresence>
 
-            <div ref={ref} className="hide-scrollbar w-full h-full overflow-y-auto">
-                <main className="w-full h-full sm:w-md lg:w-xl mx-auto relative">
-                    <header className="sticky top-0 z-20 w-full px-4 py-4 bg-black/90 backdrop-blur-xl flex items-center gap-2">
+            <div ref={ref} className="hide-scrollbar flex-1 w-full h-full overflow-y-auto relative">
+                <main className="w-full h-full relative">
+                    <header className="sticky top-0 z-20 w-full px-4 py-4 bg-black/90 backdrop-blur-xl flex items-center gap-2 md:hidden">
                         <Menu
                             onClick={openWorkSidebar}
                             className="cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
                         />
                         <h1 className="text-xl font-semibold text-indigo-300">Projects</h1>
                     </header>
-                    <div className="px-4 pb-10">
+                    <div className="px-4 pb-10 py-10 sm:w-md lg:w-xl mx-auto">
                         {children}
                     </div>
                 </main>
             </div>
-        </>
+        </div>
     );
 };
 
