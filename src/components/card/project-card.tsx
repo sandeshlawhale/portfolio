@@ -4,6 +4,7 @@ import { Github, ExternalLink, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Project } from "@/types";
 import { getTechIcon } from "@/utils/tech-icon";
+import { trackEvent, getDeviceType } from "@/utils/api/analytics";
 import {
   Tooltip,
   TooltipContent,
@@ -14,6 +15,13 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const router = useRouter();
 
   const handleClick = () => {
+    trackEvent({
+      type: "interaction",
+      category: "project",
+      subCategory: project._id,
+      event: "project_view_clicked",
+      metadata: { device: getDeviceType() }
+    });
     router.push(`/projects/${project._id}`);
   };
 
@@ -48,6 +56,13 @@ const ProjectCard = ({ project }: { project: Project }) => {
               <div
                 onClick={(e) => {
                   e.stopPropagation();
+                  trackEvent({
+                    type: "interaction",
+                    category: "project",
+                    subCategory: project._id,
+                    event: "git_link_clicked",
+                    metadata: { device: getDeviceType() }
+                  });
                   window.open(project.gitlink, '_blank');
                 }}
                 className="p-1 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors text-icon-muted hover:text-primaryText cursor-pointer z-10"
@@ -59,6 +74,13 @@ const ProjectCard = ({ project }: { project: Project }) => {
               <div
                 onClick={(e) => {
                   e.stopPropagation();
+                  trackEvent({
+                    type: "interaction",
+                    category: "project",
+                    subCategory: project._id,
+                    event: "demo_link_clicked",
+                    metadata: { device: getDeviceType() }
+                  });
                   window.open(project.demoLink, '_blank');
                 }}
                 className="p-1 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors text-icon-muted hover:text-primaryText cursor-pointer z-10"

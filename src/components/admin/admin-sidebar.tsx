@@ -45,7 +45,10 @@ export default function AdminSidebar() {
             style={{ position: 'relative' }}
         >
             <SidebarHeader className="p-0">
-                <div className="mx-2 mt-2 p-4 bg-card rounded-xl border-border border-2 shadow-sm hover:bg-accent/50 transition-colors">
+                <div
+                    onClick={() => router.push("/admin")}
+                    className="mx-2 mt-2 p-4 bg-card rounded-xl border-border border-2 shadow-sm hover:bg-accent/50 transition-colors cursor-pointer"
+                >
                     <div className="flex items-center gap-2 font-bold text-lg text-primaryText">
                         <LayoutDashboard className="w-5 h-5 flex-shrink-0" />
                         <span className="truncate group-data-[collapsible=icon]:hidden">Admin Dashboard</span>

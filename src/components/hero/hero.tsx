@@ -27,6 +27,7 @@ import {
 import StackBadge from "../ui/stack-badge";
 import HeroLeetCode from "./hero-leetcode";
 import { getActiveResume } from "@/utils/api/resume";
+import { trackEvent, getDeviceType } from "@/utils/api/analytics";
 
 
 const Hero = () => {
@@ -92,6 +93,14 @@ const Hero = () => {
 };
 
 const SocialLinks = () => {
+  const handleSocialClick = (title: string) => {
+    trackEvent({
+      type: "interaction",
+      category: "social",
+      event: `${title.toLowerCase()}_clicked`,
+      metadata: { device: getDeviceType() }
+    });
+  };
 
   return (
     <div className="flex gap-2 items-center">
@@ -101,6 +110,7 @@ const SocialLinks = () => {
           key={link.title}
           target="_blank"
           className="group relative"
+          onClick={() => handleSocialClick(link.title)}
         >
           <Tooltip>
             <TooltipTrigger asChild>
@@ -227,6 +237,12 @@ const HeroActions = () => {
         variant="default"
         className="font-normal tracking-wider flex align-middle"
         onClick={() => {
+          trackEvent({
+            type: "interaction",
+            category: "hero",
+            event: "resume_clicked",
+            metadata: { device: getDeviceType() }
+          });
           if (resumeUrl) {
             window.open(resumeUrl, "_blank");
           }
@@ -238,7 +254,15 @@ const HeroActions = () => {
       <Button
         variant="secondary"
         className="font-normal tracking-wider flex align-middle"
-        onClick={() => router.push("/contact")}
+        onClick={() => {
+          trackEvent({
+            type: "interaction",
+            category: "hero",
+            event: "lets_talk_clicked",
+            metadata: { device: getDeviceType() }
+          });
+          router.push("/contact");
+        }}
       >
         <Send /> Let&apos;s Talk
       </Button>

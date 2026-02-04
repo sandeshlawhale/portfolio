@@ -10,6 +10,7 @@ import CommandPalette from "@/components/command-palette/command-palette";
 import AmongUsEasterEgg from "@/components/easter-egg/amoung-us";
 import { Toaster } from "@/components/ui/sonner";
 import FooterOverlay from "@/components/ui/footer-overlay";
+import AnalyticsTracker from "@/components/analytics/AnalyticsTracker";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
       <body className="relative antialiased bg-black text-primaryText">
         <AppContextProvider>
           <div className="w-screen h-screen flex">
+            <AnalyticsTracker />
             <SparkleBackground />
             <AmongUsEasterEgg />
             <Navbar />
