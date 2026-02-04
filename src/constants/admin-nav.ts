@@ -1,4 +1,4 @@
-import { Briefcase, FolderGit2, Code2 } from "lucide-react";
+import { Briefcase, FolderGit2, Code2, FileText } from "lucide-react";
 
 export const adminNavItems = [
     {
@@ -18,5 +18,11 @@ export const adminNavItems = [
         title: "Skills",
         icon: Code2,
         href: "/admin/skills"
+    },
+    {
+        id: "resume",
+        title: "Resume",
+        icon: FileText,
+        href: "/admin/resume"
     },
 ];
