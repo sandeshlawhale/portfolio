@@ -3,7 +3,7 @@ import { Project } from "@/types";
 import ProjectsLayoutClient from "@/components/layout/projects-layout-client";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const projects: Project[] = (await getAllProjects()).result;
+  const projects: Project[] = (await getAllProjects({ draft: false, limit: 10 })).result;
 
   return (
     <div className="flex h-screen w-full">

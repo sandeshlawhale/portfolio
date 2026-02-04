@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  const projects = await getAllProjects();
+  const projects = await getAllProjects({ draft: false });
   return projects.result.map((project: { _id: string }) => ({
     id: project._id,
   }));

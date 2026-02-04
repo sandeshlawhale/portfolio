@@ -17,8 +17,8 @@ export default function EditProjectPage() {
             try {
                 if (typeof params.id === 'string') {
                     const data = await getProjectById(params.id);
-                    if (data.success) {
-                        setProject(data.result);
+                    if (data) {
+                        setProject(data);
                     } else {
                         toast.error("Project not found");
                     }

@@ -3,7 +3,7 @@ import { getAllProjects } from "@/utils/api/projects";
 import { Project } from "@/types";
 
 const Work = async () => {
-  const projects: Project[] = (await getAllProjects()).result;
+  const projects: Project[] = (await getAllProjects({ draft: false })).result;
 
   if (projects.length > 0) {
     redirect(`/projects/${projects[0]._id}`);

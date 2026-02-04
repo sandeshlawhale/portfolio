@@ -38,7 +38,7 @@ export default function AdminProjectsPage() {
     const fetchProjects = async () => {
         setLoading(true);
         try {
-            const data = await getAllProjects();
+            const data = await getAllProjects({});
             if (data.success) {
                 setProjects(data.result);
             }

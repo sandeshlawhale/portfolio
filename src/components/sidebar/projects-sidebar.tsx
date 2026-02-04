@@ -65,7 +65,7 @@ const ProjectsSidebar = ({
         <p className="px-3 pt-3 font-semibold text-sm text-gray-600 tracking-wide">
           Up Next
         </p>
-        <div className="scrollbar flex-1 overflow-y-auto p-3 mb-10 md:mb-0">
+        <div className="scrollbar flex-1 overflow-y-auto p-3 mb-10 md:mb-0 pb-20">
           {loading ? (
             <div className="flex flex-col gap-3">
               <Skeleton className="w-full h-20 bg-[#121212]" />

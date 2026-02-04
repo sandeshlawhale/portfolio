@@ -1,7 +1,12 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5051";
 
-export const getAllProjects = async (limit?: number) => {
-  const res = await fetch(`${API_URL}/api/projects?limit=${limit}`, { cache: "no-store" });
+export const getAllProjects = async (options: { limit?: number; draft?: boolean } = {}) => {
+  const { limit, draft } = options;
+  const params = new URLSearchParams();
+  if (limit !== undefined) params.append("limit", limit.toString());
+  if (draft !== undefined) params.append("draft", draft.toString());
+
+  const res = await fetch(`${API_URL}/api/projects?${params.toString()}`, { cache: "no-store" });
   if (!res.ok) {
     throw new Error("Failed to fetch projects");
   }
