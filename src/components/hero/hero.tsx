@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/tooltip";
 import StackBadge from "../ui/stack-badge";
 import HeroLeetCode from "./hero-leetcode";
+import { getActiveResume } from "@/utils/api/resume";
 
 
 const Hero = () => {
@@ -204,14 +205,32 @@ const HeroIntroduction = () => {
 
 const HeroActions = () => {
   const router = useRouter();
-  const resumeLink = "https://drive.google.com/file/d/1CnpceQT8q0KG0IQExRhEW62Qv6yNbSex/view?usp=sharing";
+  const [resumeUrl, setResumeUrl] = useState("");
+
+  useEffect(() => {
+    const fetchActiveResume = async () => {
+      try {
+        const data = await getActiveResume();
+        if (data.success && data.result?.url) {
+          setResumeUrl(data.result.url);
+        }
+      } catch (error) {
+        console.error("Failed to fetch active resume", error);
+      }
+    };
+    fetchActiveResume();
+  }, []);
 
   return (
     <div className="flex gap-2 items-center pt-4">
       <Button
         variant="default"
         className="font-normal tracking-wider flex align-middle"
-        onClick={() => window.open(resumeLink, "_blank")}
+        onClick={() => {
+          if (resumeUrl) {
+            window.open(resumeUrl, "_blank");
+          }
+        }}
       >
         <ScanText /> Resume / CV
       </Button>
