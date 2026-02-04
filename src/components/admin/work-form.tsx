@@ -136,7 +136,7 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
 
                     <div className="space-y-2">
                         <Label>Company Website</Label>
-                        <Input required placeholder="https://google.com" value={companyWebsite} onChange={(e) => setCompanyWebsite(e.target.value)} />
+                        <Input placeholder="https://google.com" value={companyWebsite} onChange={(e) => setCompanyWebsite(e.target.value)} />
                     </div>
 
                     <div className="space-y-2">
@@ -170,7 +170,7 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
                         </div>
                         <div className="space-y-2">
                             <Label>End Date</Label>
-                            <Input required placeholder="Present" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                            <Input placeholder="Present" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
                         </div>
                     </div>
 

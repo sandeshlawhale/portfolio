@@ -64,7 +64,8 @@ export default function AdminProjectsPage() {
     }, []);
 
     const handleDelete = async (id: string, name: string, confirmation: string) => {
-        if (confirmation !== `sudo delete ${name}`) {
+        const truncatedName = name.split("(")[0].trim();
+        if (confirmation !== `sudo delete ${truncatedName}`) {
             toast.error("Incorrect confirmation command");
             return;
         }
@@ -178,12 +179,14 @@ export default function AdminProjectsPage() {
                                                                 <Trash2 className="w-4 h-4 text-destructive" />
                                                             </Button>
                                                         </PopoverTrigger>
-                                                        <PopoverContent className="w-80" align="end">
+                                                        <PopoverContent className="w-80 bg-primary" align="end">
                                                             <div className="space-y-4">
                                                                 <div className="space-y-2">
                                                                     <h4 className="font-medium leading-none text-destructive">Delete Project?</h4>
                                                                     <p className="text-sm text-muted-foreground">
-                                                                        Type <span className="font-mono bg-muted px-1 rounded">sudo delete {project.name}</span> to confirm.
+                                                                        Type <span className="font-mono bg-muted px-1 rounded">
+                                                                            <Badge variant="secondary" className="text-sm py-0">sudo delete {project.name.split("(")[0].trim()}</Badge>
+                                                                        </span> to confirm.
                                                                     </p>
                                                                 </div>
                                                                 <DeleteConfirmation project={project} onDelete={handleDelete} />
@@ -206,11 +209,12 @@ export default function AdminProjectsPage() {
 
 function DeleteConfirmation({ project, onDelete }: { project: Project, onDelete: (id: string, name: string, confirm: string) => void }) {
     const [confirmText, setConfirmText] = useState("");
+    const truncatedName = project.name.split("(")[0].trim();
 
     return (
         <div className="space-y-4">
             <Input
-                placeholder={`sudo delete ${project.name}`}
+                placeholder={`sudo delete ${truncatedName}`}
                 value={confirmText}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmText(e.target.value)}
                 className="text-sm"
@@ -219,8 +223,8 @@ function DeleteConfirmation({ project, onDelete }: { project: Project, onDelete:
                 variant="destructive"
                 size="sm"
                 className="w-full"
-                disabled={confirmText !== `sudo delete ${project.name}`}
-                onClick={() => onDelete(project._id, project.name, confirmText)}
+                disabled={confirmText !== `sudo delete ${truncatedName}`}
+                onClick={() => onDelete(project._id, truncatedName, confirmText)}
             >
                 Confirm Delete
             </Button>
