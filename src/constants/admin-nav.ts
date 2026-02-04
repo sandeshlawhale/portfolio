@@ -1,9 +1,15 @@
-import { Briefcase, FolderGit2, Code2, FileText } from "lucide-react";
+import { LayoutDashboard, Briefcase, FileText, Settings, FolderGit2 } from "lucide-react";
 
 export const adminNavItems = [
     {
+        id: "dashboard",
+        title: "Overview",
+        icon: LayoutDashboard,
+        href: "/admin"
+    },
+    {
         id: "work",
-        title: "Work",
+        title: "Work Experience",
         icon: Briefcase,
         href: "/admin/work"
     },
@@ -14,15 +20,15 @@ export const adminNavItems = [
         href: "/admin/projects"
     },
     {
-        id: "skills",
-        title: "Skills",
-        icon: Code2,
-        href: "/admin/skills"
-    },
-    {
         id: "resume",
         title: "Resume",
         icon: FileText,
         href: "/admin/resume"
+    },
+    {
+        id: "system",
+        title: "System Control",
+        icon: Settings,
+        href: "/admin/system"
     },
 ];
