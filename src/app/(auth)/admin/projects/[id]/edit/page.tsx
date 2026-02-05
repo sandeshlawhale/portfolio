@@ -6,10 +6,11 @@ import { getProjectById } from "@/utils/api/projects";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
+import { Project } from "../../page";
 
 export default function EditProjectPage() {
     const params = useParams();
-    const [project, setProject] = useState<any>(null);
+    const [project, setProject] = useState<Project | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -25,6 +26,7 @@ export default function EditProjectPage() {
                 }
             } catch (error) {
                 toast.error("Failed to fetch project details");
+                console.log("Failed to fetch project details: ", error)
             } finally {
                 setLoading(false);
             }

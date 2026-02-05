@@ -29,14 +29,14 @@ import {
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 
-interface Project {
+export interface Project {
     _id: string;
     name: string;
     image: string;
     role: string;
     timeline: string;
     techstack: string[];
-    description: any[];
+    description: string[];
     draft: boolean;
 }
 
@@ -54,6 +54,7 @@ export default function AdminProjectsPage() {
             }
         } catch (error) {
             toast.error("Failed to fetch projects");
+            console.log("Failed to fetch projects: ", error)
         } finally {
             setLoading(false);
         }
@@ -74,8 +75,9 @@ export default function AdminProjectsPage() {
             await deleteProject(id);
             toast.success("Project deleted successfully");
             fetchProjects();
-        } catch (error: any) {
-            toast.error(error.message || "Failed to delete project");
+        } catch (error) {
+            toast.error("Failed to delete project");
+            console.log("Failed to delete project: ", error)
         }
     };
 
