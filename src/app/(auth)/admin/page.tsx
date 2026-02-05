@@ -1,28 +1,84 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAnalyticsStats } from "@/utils/api/analytics";
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    PieChart, Pie, Cell, BarChart, Bar, Legend, AreaChart, Area
+    XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+    BarChart, Bar, AreaChart, Area
 } from "recharts";
 import {
     Users, MousePointer2, Clock, Smartphone, Monitor, Tablet,
-    ArrowUpRight, ArrowDownRight, Filter, Loader2, Link as LinkIcon,
-    Mail, MessageSquare, Linkedin, Download
+    ArrowUpRight, Loader2, Link as LinkIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const COLORS = ["#818cf8", "#c084fc", "#fb7185", "#38bdf8", "#4ade80"];
 
+type AvgTimeItem = {
+    _id: string;
+    avgDuration: number;
+};
+
+type CountById = {
+    _id: string;
+    count: number;
+};
+
+type TimeSeriesItem = {
+    _id: {
+        date: string;
+        category: string;
+    };
+    count: number;
+};
+
+type AnalyticsResponse = {
+    categoryViews: CountById[];
+    interactions: CountById[];
+    devices: CountById[];
+    timeSeries: TimeSeriesItem[];
+    avgTime: AvgTimeItem[];
+};
+
+type TrendRow = {
+    date: string;
+    total: number;
+    [category: string]: string | number; // dynamic category keys
+};
+
+type StatCardColor = "primary" | "indigo" | "rose" | "sky";
+
+type StatCardProps = {
+    title: string;
+    value: string | number;
+    icon: React.ElementType;
+    description?: string;
+    color?: StatCardColor;
+};
+
 export default function AdminPage() {
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const [days, setDays] = useState(7);
-    const [stats, setStats] = useState<any>(null);
+    const [stats, setStats] = useState<AnalyticsResponse | null>(null);
+
+    const fetchStats = useCallback(async () => {
+        setLoading(true);
+        try {
+            const data = await getAnalyticsStats(days);
+            if (data.success) {
+                console.log("data result ===>>>", data.result)
+                setStats(data.result);
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }, [days]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -32,35 +88,21 @@ export default function AdminPage() {
             setIsAuthenticated(true);
             fetchStats();
         }
-    }, [router, days]);
-
-    const fetchStats = async () => {
-        setLoading(true);
-        try {
-            const data = await getAnalyticsStats(days);
-            if (data.success) {
-                setStats(data.result);
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [router, days, fetchStats]);
 
     if (!isAuthenticated) return null;
 
-    const totalViews = stats?.categoryViews?.reduce((acc: number, curr: any) => acc + curr.count, 0) || 0;
-    const totalInteractions = stats?.interactions?.reduce((acc: number, curr: any) => acc + curr.count, 0) || 0;
+    const totalViews = stats?.categoryViews?.reduce((acc, curr) => acc + curr.count, 0) || 0;
+    const totalInteractions = stats?.interactions?.reduce((acc, curr) => acc + curr.count, 0) || 0;
 
     // Format interaction data for the chart
-    const interactionData = stats?.interactions?.map((item: any) => ({
+    const interactionData = stats?.interactions?.map((item) => ({
         name: item._id.replace(/_/g, ' '),
         count: item.count
     })) || [];
 
     // Format time series for trend
-    const trendData = stats?.timeSeries?.reduce((acc: any[], curr: any) => {
+    const trendData = stats?.timeSeries?.reduce<TrendRow[]>((acc, curr) => {
         const existing = acc.find(a => a.date === curr._id.date);
         if (existing) {
             existing[curr._id.category] = curr.count;
@@ -75,7 +117,7 @@ export default function AdminPage() {
         return acc;
     }, []) || [];
 
-    const deviceData = stats?.devices?.map((item: any) => ({
+    const deviceData = stats?.devices?.map((item) => ({
         name: item._id,
         value: item.count
     })) || [];
@@ -193,7 +235,7 @@ export default function AdminPage() {
                         <div className="md:col-span-3 p-6 rounded-2xl border border-border bg-card shadow-sm">
                             <h3 className="text-lg font-semibold mb-6">Page Distribution</h3>
                             <div className="space-y-4">
-                                {stats?.categoryViews?.map((item: any, i: number) => (
+                                {stats?.categoryViews?.map((item, i: number) => (
                                     <div key={item._id} className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
@@ -221,7 +263,7 @@ export default function AdminPage() {
                                 </h4>
                                 <div className="grid grid-cols-3 gap-4">
                                     {['mobile', 'tablet', 'desktop'].map((type) => {
-                                        const device = deviceData.find((d: any) => d.name === type) || { name: type, value: 0 };
+                                        const device = deviceData.find((d) => d.name === type) || { name: type, value: 0 };
                                         const Icon = type === 'mobile' ? Smartphone : type === 'tablet' ? Tablet : Monitor;
                                         return (
                                             <div key={type} className="p-3 rounded-xl bg-accent/5 border border-border/50 flex flex-col items-center gap-1">
@@ -266,7 +308,7 @@ export default function AdminPage() {
                         <div className="p-6 rounded-2xl border border-border bg-card shadow-sm">
                             <h3 className="text-lg font-semibold mb-6">Popular Pages</h3>
                             <div className="space-y-4">
-                                {stats?.avgTime?.sort((a: any, b: any) => b.avgDuration - a.avgDuration).slice(0, 5).map((page: any) => (
+                                {stats?.avgTime?.sort((a, b) => b.avgDuration - a.avgDuration).slice(0, 5).map((page) => (
                                     <div key={page._id} className="flex items-center justify-between p-3 rounded-xl bg-accent/5 border border-border/30">
                                         <div className="flex items-center gap-3">
                                             <div className="p-2 rounded-lg bg-primary/10">
@@ -292,8 +334,8 @@ export default function AdminPage() {
     );
 }
 
-function StatCard({ title, value, icon: Icon, description, color = "primary" }: any) {
-    const colorVariants: any = {
+function StatCard({ title, value, icon: Icon, description, color = "primary" }: StatCardProps) {
+    const colorVariants: Record<StatCardColor, string> = {
         primary: "text-primary bg-primary/10",
         indigo: "text-indigo-500 bg-indigo-500/10",
         rose: "text-rose-500 bg-rose-500/10",
