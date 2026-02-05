@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { getResumeById } from "@/utils/api/resume";
+import { Resume } from "../../page";
 
 export default function EditResumePage() {
     const router = useRouter();
     const { id } = useParams();
-    const [resume, setResume] = useState<any>(null);
+    const [resume, setResume] = useState<Resume | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

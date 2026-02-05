@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 
-interface Resume {
+export interface Resume {
     _id: string;
     name: string;
     url: string;
@@ -45,6 +45,7 @@ export default function AdminResumePage() {
             }
         } catch (error) {
             toast.error("Failed to fetch resumes");
+            console.log("Failed to fetch resumes: ", error)
         } finally {
             setLoading(false);
         }
@@ -64,8 +65,9 @@ export default function AdminResumePage() {
             await deleteResume(id);
             toast.success("Resume deleted successfully");
             fetchResumes();
-        } catch (error: any) {
-            toast.error(error.message || "Failed to delete resume");
+        } catch (error) {
+            toast.error("Failed to delete resume");
+            console.log("Failed to delete resume: ", error)
         }
     };
 
@@ -76,8 +78,9 @@ export default function AdminResumePage() {
             await updateResume(id, formData);
             toast.success("Active resume updated");
             fetchResumes();
-        } catch (error: any) {
-            toast.error(error.message || "Failed to set active resume");
+        } catch (error) {
+            toast.error("Failed to set active resume");
+            console.log("Failed to set active resume: ", error)
         }
     };
 
