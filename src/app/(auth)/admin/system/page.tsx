@@ -6,17 +6,25 @@ import {
     RefreshCcw,
     Server,
     Database,
-    Clock,
     Info,
     Terminal,
     CheckCircle2,
     XCircle,
-    AlertCircle
 } from "lucide-react";
 import { getHealth, getSystemInfo, refreshCache, getAdminLogs, reportVersion, HealthStatus, SystemInfo, AdminLog } from "@/utils/api/system";
 import { format } from "date-fns";
 
-const FRONTEND_VERSION = "1.0.1"; // This would ideally come from package.json or env
+const FRONTEND_VERSION = "1.0.1";
+
+type StatusType = "success" | "danger" | "neutral";
+
+type StatusCardProps = {
+    title: string;
+    value: string | number;
+    subValue?: string | number;
+    icon: React.ElementType;
+    status: StatusType;
+};
 
 const SystemPage = () => {
     const [health, setHealth] = useState<HealthStatus | null>(null);
@@ -207,7 +215,7 @@ const SystemPage = () => {
     );
 };
 
-const StatusCard = ({ title, value, subValue, icon: Icon, status }: any) => {
+const StatusCard = ({ title, value, subValue, icon: Icon, status }: StatusCardProps) => {
     const statusConfig = {
         success: { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/20', icon: CheckCircle2 },
         danger: { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/20', icon: XCircle },

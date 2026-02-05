@@ -21,8 +21,40 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 
+type Company = {
+    name: string;
+    logo: string;     // URL
+    website: string;  // URL
+};
+
+type Location = {
+    type: "On-site" | "Remote" | "Hybrid" | string; // keep string if backend can add more
+    city: string;
+};
+
+type Duration = {
+    start: string; // e.g. "Feb 25"
+    end: string;   // e.g. "Nov 25" or "Present"
+};
+
+type ExperienceStatus = "Completed" | "Ongoing" | "Working" | string;
+
+export type Experience = {
+    _id: string;
+    company: Company;
+    location: Location;
+    duration: Duration;
+    role: string;
+    status: ExperienceStatus;
+    technologies: string[];
+    responsibilities: string[];
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+    __v: number;
+};
+
 export default function AdminWorkPage() {
-    const [works, setWorks] = useState<any[]>([]);
+    const [works, setWorks] = useState<Experience[]>([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
@@ -35,6 +67,7 @@ export default function AdminWorkPage() {
             }
         } catch (error) {
             toast.error("Failed to fetch works");
+            console.log("Failed to fetch works: ", error);
         } finally {
             setLoading(false);
         }
@@ -54,8 +87,9 @@ export default function AdminWorkPage() {
             await deleteWork(id);
             toast.success("Work deleted successfully");
             fetchWorks();
-        } catch (error: any) {
-            toast.error(error.message || "Failed to delete work");
+        } catch (error) {
+            toast.error("Failed to delete work");
+            console.log("Failed to delete work: ", error);
         }
     };
 
