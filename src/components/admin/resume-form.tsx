@@ -10,8 +10,15 @@ import { Loader2, Upload, X, Link as LinkIcon, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createResume, updateResume } from "@/utils/api/resume";
 
+type Resume = {
+    isActive: boolean;
+    name: string;
+    type: "link" | "file";
+    url: string;
+    _id: string;
+}
 interface ResumeFormProps {
-    initialData?: any;
+    initialData?: Resume;
     isEdit?: boolean;
 }
 
@@ -70,9 +77,9 @@ export default function ResumeForm({ initialData, isEdit = false }: ResumeFormPr
             router.push("/admin/resume");
             router.refresh();
 
-        } catch (error: any) {
-            console.error(error);
-            toast.error(error.message || "Something went wrong");
+        } catch (error) {
+            console.error("Something went wrong while adding/updating the resume: ", error);
+            toast.error("Something went wrong while adding/updating the resume");
         } finally {
             setLoading(false);
         }
@@ -99,8 +106,8 @@ export default function ResumeForm({ initialData, isEdit = false }: ResumeFormPr
                             type="button"
                             onClick={() => setType("link")}
                             className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${type === "link"
-                                    ? "border-primary bg-primary/5 text-primary"
-                                    : "border-border bg-accent/5 text-muted-foreground hover:bg-accent/10"
+                                ? "border-primary bg-primary/5 text-primary"
+                                : "border-border bg-accent/5 text-muted-foreground hover:bg-accent/10"
                                 }`}
                         >
                             <LinkIcon className="w-4 h-4" />
@@ -110,8 +117,8 @@ export default function ResumeForm({ initialData, isEdit = false }: ResumeFormPr
                             type="button"
                             onClick={() => setType("file")}
                             className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${type === "file"
-                                    ? "border-primary bg-primary/5 text-primary"
-                                    : "border-border bg-accent/5 text-muted-foreground hover:bg-accent/10"
+                                ? "border-primary bg-primary/5 text-primary"
+                                : "border-border bg-accent/5 text-muted-foreground hover:bg-accent/10"
                                 }`}
                         >
                             <FileText className="w-4 h-4" />

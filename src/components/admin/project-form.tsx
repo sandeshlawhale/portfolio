@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,8 +12,23 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createProject, updateProject } from "@/utils/api/projects";
 
+type Project = {
+    _id: string;
+    name: string;
+    shortDescription: string;
+    description: string[]; // array of paragraphs / points
+    role: string;
+    outcome: string;
+    timeline: string;
+    techstack: string[];
+    image: string;    // URL
+    demoLink: string; // URL
+    gitlink: string;  // URL
+    otherLink: string[]; // array of URLs
+    draft: boolean;
+};
 interface ProjectFormProps {
-    initialData?: any; // Using any for flexibility with the mixed description type, but ideally strictly typed
+    initialData?: Project;
     isEdit?: boolean;
 }
 
@@ -93,9 +108,9 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
             router.push("/admin/projects");
             router.refresh();
 
-        } catch (error: any) {
-            console.error(error);
-            toast.error(error.message || "Something went wrong");
+        } catch (error) {
+            console.error("An error occurred while creating/updating project: ", error);
+            toast.error("An error occurred while creating/updating project, please try again");
         } finally {
             setLoading(false);
         }

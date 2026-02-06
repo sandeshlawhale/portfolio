@@ -9,11 +9,9 @@ import { MyData } from "@/constants/data";
 import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { trackEvent, getDeviceType } from "@/utils/api/analytics";
 
 const page = () => {
-  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -7,19 +7,7 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
-    SidebarProvider, // Keep it internal if needed, but here we just need the sidebar itself
-    SidebarGroup,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuItem,
-    SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion";
 import {
     Popover,
     PopoverContent,

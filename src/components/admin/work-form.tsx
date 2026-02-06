@@ -5,21 +5,57 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch"; // Assuming we want a draft status or similar, though data.ts has explicit "status" string
 import { toast } from "sonner";
 import { Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createWork, updateWork } from "@/utils/api/work";
 
+type Company = {
+    name: string;
+    logo: string;     // URL
+    website: string;  // URL
+};
+
+type Location = {
+    type: "On-site" | "Remote" | "Hybrid" | string;
+    city: string;
+};
+
+type Duration = {
+    start: string; // e.g. "Feb 25"
+    end: string;   // e.g. "Nov 25" or "Present"
+};
+
+type ExperienceStatus = "Completed" | "Ongoing" | "Working" | string;
+
+type Experience = {
+    _id: string;
+    company: Company;
+    location: Location;
+    duration: Duration;
+
+    role: string;
+    status: ExperienceStatus;
+
+    technologies: string[];
+    responsibilities: string[];
+
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+
+    __v: number;
+};
 interface WorkFormProps {
-    initialData?: any;
+    initialData?: Experience;
     isEdit?: boolean;
 }
 
 export default function WorkForm({ initialData, isEdit = false }: WorkFormProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+
+    console.log("initialData ===>>>", initialData)
 
     // Form States - Flat for inputs, constructed to object on submit
     const [companyName, setCompanyName] = useState(initialData?.company?.name || "");
@@ -93,9 +129,9 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
             router.push("/admin/work");
             router.refresh();
 
-        } catch (error: any) {
-            console.error(error);
-            toast.error(error.message || "Something went wrong");
+        } catch (error) {
+            console.error("Something went wrong while adding/updating the work experience: ", error);
+            toast.error("Something went wrong while adding/updating the work experience");
         } finally {
             setLoading(false);
         }

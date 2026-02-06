@@ -23,9 +23,9 @@ export default function LoginPage() {
             localStorage.setItem("token", data.token);
             toast.success("Login successful");
             router.push("/admin");
-        } catch (error: any) {
-            console.error(error);
-            toast.error(error.message || "An error occurred");
+        } catch (error) {
+            console.error("An error occurred while logging: ", error);
+            toast.error("An error occurred while logging, please try again");
         } finally {
             setLoading(false);
         }
