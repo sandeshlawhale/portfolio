@@ -4,33 +4,33 @@ const MyData = {
   name: "Sandesh Lawhale",
   sidename: "Unknown Legend ",
   retro: "https://sandeshlawhaleterminal.vercel.app",
-  post: "Full-Stack Developer.",
+  post: "A Full-Stack Web Developer.",
   email: "sandeshlawhale@gmail.com",
   state: "MH",
   country: "India",
   cords: "21.1466° N, 79.0889° E",
   socials: [
     {
-      title: "x.com",
-      href: "/",
+      title: "X",
+      href: "https://x.com/lawhale_sandesh",
       icon: "../assets/svg/x.svg",
     },
     {
-      title: "linkedIn",
-      href: "/",
+      title: "LinkedIn",
+      href: "https://linkedin.com/in/lawhalesandesh",
       icon: "../assets/svg/linkedin2.svg",
     },
     {
-      title: "github",
+      title: "Github",
       href: "https://github.com/sandeshlawhale",
       icon: "../assets/svg/github.svg",
     },
     {
-      title: "instagram",
-      href: "https://www.instagram.com/_exotic.sandesh/",
+      title: "Instagram",
+      href: "https://www.instagram.com/_exotic.sandesh",
       icon: "../assets/svg/instagram.svg",
     },
-    { title: "youtube", href: "/", icon: "../assets/svg/youtube.svg" },
+    // { title: "youtube", href: "/", icon: "../assets/svg/youtube.svg" },
   ],
   about: [
     {
@@ -56,8 +56,8 @@ const NavLinks = [
   {
     id: 2,
     key: "2",
-    title: "Work",
-    href: "/work",
+    title: "Projects",
+    href: "/projects",
     logo: "/assets/svg/command.svg",
   },
   // {
@@ -250,4 +250,43 @@ const Stack = {
   ],
 };
 
-export { MyData, NavLinks, TechStack, MyGames, Stack };
+const Experience = [
+  {
+    id: "exp-1",
+    company: {
+      name: "TruScholar",
+      logo: "/assets/company/truscholar.png",
+      website: "https://truscholar.com"
+    },
+    role: "Full Stack Dev Intern",
+    status: "Completed",
+    location: {
+      type: "On-site",
+      city: "Amravati, MH."
+    },
+    duration: {
+      start: "Feb 25",
+      end: "Nov 25"
+    },
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Razorpay",
+      "DigiLocker API",
+      "LangChain",
+    ],
+    responsibilities: [
+      "Built frontend interfaces and REST APIs for a municipal certificate issuance, reissuance, and verification system, reducing manual processing overhead.",
+      "Developed responsive dashboards and reusable UI components for a Supply Chain Management System to ensure transparent product tracking.",
+      "Integrated DigiLocker after legacy verification deprecation, restoring seamless digital certificate access.",
+      "Improved a wallet mobile application by fixing UI issues and integrating Razorpay for subscription-based payments."
+    ]
+  }
+];
+
+
+export { MyData, NavLinks, TechStack, MyGames, Stack, Experience };

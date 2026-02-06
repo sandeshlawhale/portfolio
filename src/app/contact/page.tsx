@@ -9,11 +9,27 @@ import { MyData } from "@/constants/data";
 import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { trackEvent, getDeviceType } from "@/utils/api/analytics";
 
 const page = () => {
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    trackEvent({
+      type: "interaction",
+      category: "contact",
+      event: "contact_form_submitted",
+      metadata: { device: getDeviceType() }
+    });
+  };
+
+  const handleSocialClick = (title: string) => {
+    trackEvent({
+      type: "interaction",
+      category: "social",
+      event: `${title.toLowerCase()}_clicked`,
+      metadata: { device: getDeviceType() }
+    });
   };
 
   return (
@@ -36,6 +52,7 @@ const page = () => {
                 key={link.title}
                 target="_blank"
                 className="group relative"
+                onClick={() => handleSocialClick(link.title)}
               >
                 <Image
                   src={link.icon}

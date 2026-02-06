@@ -2,10 +2,10 @@
 
 import { useRef } from "react";
 import { useScroll } from "framer-motion";
-import WorkSidebar from "./work-sidebar";
+import ProjectsSidebar from "./projects-sidebar";
 import { Project } from "@/types";
 
-const WorkSidebarWrapper = ({
+const ProjectsSidebarWrapper = ({
     projects,
     loading,
 }: {
@@ -27,7 +27,7 @@ const WorkSidebarWrapper = ({
     // So we will make a "WorkLayoutClient" that accepts children and projects.
 
     return (
-        <WorkSidebar
+        <ProjectsSidebar
             scrollYProgress={scrollYProgress} // This won't work correctly if ref isn't attached to scroller
             projects={projects}
             loading={loading}
@@ -35,4 +35,4 @@ const WorkSidebarWrapper = ({
     );
 };
 
-export default WorkSidebarWrapper;
+export default ProjectsSidebarWrapper;

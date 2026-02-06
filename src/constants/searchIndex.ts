@@ -34,29 +34,29 @@ export const searchIndex: SearchItem[] = [
     title: "Trueno wheels - E-commerce hotwheels website",
     content:
       "E-commerce website for hotwheels using Next.js with mongoDb as backend.",
-    href: "/works/trueno_wheels",
+    href: "/projects/trueno_wheels",
   },
   {
     title: "Traverse Landing Page",
     content:
       "A sleek and modern travel landing page designed to inspire and engage travelers with immersive visuals and intuitive UI.",
-    href: "/work/traverse_landing_page",
+    href: "/projects/traverse_landing_page",
   },
   {
     title: "Foodie Landing Page",
     content:
       "A visually appealing and modern landing page for food lovers, designed with a clean UI and engaging elements.",
-    href: "/work/foodie_landing_page",
+    href: "/projects/foodie_landing_page",
   },
   {
     title: "Chat Application",
     content: "Real-time chat app with Firebase and React.",
-    href: "/work/chat_application",
+    href: "/projects/chat_application",
   },
   {
     title: "Voting App",
     content: "Poll creation and live voting system using MERN.",
-    href: "/work/voting_system",
+    href: "/projects/voting_system",
   },
   {
     title: "Portfolio Website",

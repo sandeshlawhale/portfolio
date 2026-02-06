@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 
-import SideTitle from "../title/side-title";
+
 import ProjectCard from "../card/project-card";
 import Fadeup from "../ui/fadeup";
 import { Button } from "../ui/button";
-import { getAllProject } from "@/utils/api/projets";
+import { getAllProjects } from "@/utils/api/projects";
 import { Project } from "@/types";
 import { Skeleton } from "../ui/skeleton";
 
@@ -20,9 +20,9 @@ const HeroProject = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
-      const data = await getAllProject({ limit: 3 });
-      if (Array.isArray(data)) {
-        setProjects(data);
+      const data = await getAllProjects({ limit: 4, draft: false });
+      if (Array.isArray(data.result)) {
+        setProjects(data.result);
       }
       setLoading(false);
     };
@@ -31,31 +31,39 @@ const HeroProject = () => {
   }, []);
 
   return (
-    <Fadeup delay={0.7} duration={0.6}>
-      <section className="relative px-4" id="home-project">
-        <SideTitle title="work" />
-        {loading ? (
-          <div className="flex flex-col gap-5">
-            <Skeleton className="w-full h-72 bg-[#121212]" />
-            <Skeleton className="w-full h-72 bg-[#121212]" />
-            <Skeleton className="w-full h-72 bg-[#121212]" />
-          </div>
-        ) : (
-          <div className="flex flex-col gap-5">
-            {projects.map((project) => (
-              <ProjectCard key={project._id} project={project} />
-            ))}
+    <section className="relative px-4 w-full flex flex-col" id="home-project">
+      <Fadeup>
+        <h2 className="text-2xl pb-4 font-semibold tracking-wider leading-relaxed text-primaryText">
+          Projects
+        </h2>
+      </Fadeup>
 
-            <Button
-              onClick={() => router.push("/work")}
-              className="flex gap-3 items-center justify-center text-base border border-border bg-secondary hover:bg-secondary-light transition-colors duration-300 w-full"
-            >
-              View all <ArrowRight className="w-5 h-5 text-icon-muted" />
-            </Button>
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <Skeleton className="w-full h-64 rounded-xl bg-[#121212]" />
+          <Skeleton className="w-full h-64 rounded-xl bg-[#121212]" />
+          <Skeleton className="w-full h-64 rounded-xl bg-[#121212]" />
+          <Skeleton className="w-full h-64 rounded-xl bg-[#121212]" />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {projects.map((project, index) => (
+              <Fadeup key={project._id} delay={index * 0.1}>
+                <ProjectCard project={project} />
+              </Fadeup>
+            ))}
           </div>
-        )}
-      </section>
-    </Fadeup>
+
+          <Button
+            onClick={() => router.push("/projects")}
+            className="w-xs mx-auto"
+          >
+            View all <ArrowRight className="w-5 h-5 text-icon-muted" />
+          </Button>
+        </div>
+      )}
+    </section>
   );
 };
 

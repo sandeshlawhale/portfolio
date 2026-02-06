@@ -11,8 +11,24 @@ const Navbar = () => {
   const { openPalette } = useAppContext();
 
   const router = useRouter();
+  const pathname = usePathname();
+
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
+      // Ignore if user is typing in an input field
+      const target = event.target as HTMLElement;
+      if (
+        ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName) ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
+      // Ignore if on login or admin pages
+      if (pathname.startsWith("/login") || pathname.startsWith("/admin")) {
+        return;
+      }
+
       if (event.ctrlKey && event.key.toLowerCase() === "k") {
         event.preventDefault();
         return;
@@ -31,9 +47,8 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [router]);
+  }, [router, pathname]);
 
-  const pathname = usePathname();
   return (
     <nav className="w-fit bg-black border-r border-border h-screen hidden lg:block z-40">
       <div className="h-full flex gap-5 p-6 flex-col items-center justify-center">
@@ -52,15 +67,14 @@ const Navbar = () => {
           >
             <Image
               src={logo}
-              className={`group-hover:brightness-200 duration-150 ease-in-out transition-colors ${
-                href === "/"
-                  ? pathname === href
-                    ? "brightness-200"
-                    : "brightness-40 "
-                  : pathname.startsWith(href)
+              className={`group-hover:brightness-200 duration-150 ease-in-out transition-colors ${href === "/"
+                ? pathname === href
                   ? "brightness-200"
                   : "brightness-40 "
-              }`}
+                : pathname.startsWith(href)
+                  ? "brightness-200"
+                  : "brightness-40 "
+                }`}
               alt="icon"
               width={24}
               height={24}
