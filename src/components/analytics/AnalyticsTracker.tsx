@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { trackEvent, getDeviceType } from "@/utils/api/analytics";
 
@@ -9,7 +9,7 @@ export default function AnalyticsTracker() {
     const startTimeRef = useRef<number>(Date.now());
     const prevPathnameRef = useRef<string>(pathname);
 
-    const sendDuration = (path: string) => {
+    const sendDuration = useCallback((path: string) => {
         const duration = Math.round((Date.now() - startTimeRef.current) / 1000);
         if (duration > 0) {
             const category = getCategoryFromPath(path);
@@ -39,7 +39,7 @@ export default function AnalyticsTracker() {
                 });
             }
         }
-    };
+    }, [pathname]);
 
     useEffect(() => {
         // Track the initial page view or route change

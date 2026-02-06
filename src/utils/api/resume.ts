@@ -22,11 +22,11 @@ export const getResumeById = async (id: string) => {
         },
         cache: "no-store",
     });
-    // Note: getResumeById isn't standard in the controller, 
-    // but we can use getAllResumes and filter or update the controller if needed.
-    // For now, let's assume we fetch all and find the one.
-    const data = await getAllResumes();
-    return data.result.find((r: any) => r._id === id);
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to fetch resume");
+    }
+    return res.json();
 };
 
 export const createResume = async (formData: FormData) => {

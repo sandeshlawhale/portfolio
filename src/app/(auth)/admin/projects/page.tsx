@@ -29,16 +29,21 @@ import {
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 
-export interface Project {
+export type Project = {
     _id: string;
     name: string;
-    image: string;
+    shortDescription: string;
+    description: string[]; // array of paragraphs / points
     role: string;
+    outcome: string;
     timeline: string;
     techstack: string[];
-    description: string[];
+    image: string;    // URL
+    demoLink: string; // URL
+    gitlink: string;  // URL
+    otherLink: string[]; // array of URLs
     draft: boolean;
-}
+};
 
 export default function AdminProjectsPage() {
     const [projects, setProjects] = useState<Project[]>([]);
