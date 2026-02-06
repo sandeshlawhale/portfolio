@@ -39,7 +39,7 @@ export default function AnalyticsTracker() {
                 });
             }
         }
-    }, [pathname]);
+    }, []);
 
     useEffect(() => {
         // Track the initial page view or route change
