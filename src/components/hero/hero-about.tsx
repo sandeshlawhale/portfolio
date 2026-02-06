@@ -30,7 +30,7 @@ const HeroAbout = () => {
       <div className="flex flex-col gap-4">
         {/* Image - Sized to match Project Card (using grid to align exact width) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Fadeup delay={0.2} duration={0.6}>
+          <Fadeup delay={0.1} duration={0.6}>
             <div className="w-full aspect-square relative rounded-xl overflow-hidden border border-border/50 group">
               <Image
                 src={Me}
@@ -44,7 +44,7 @@ const HeroAbout = () => {
         </div>
 
         {/* Content - Full Width */}
-        <Fadeup delay={0.4} duration={0.6}>
+        <Fadeup delay={0.2} duration={0.6}>
           <div className="flex flex-col gap-2">
             <h3 className="text-3xl font-bold text-primaryText tracking-wider">
               {MyData.name}

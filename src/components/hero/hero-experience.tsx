@@ -68,7 +68,7 @@ const HeroExperience = () => {
 
     return (
         <section id="experience" className="px-4 w-full flex flex-col">
-            <Fadeup>
+            <Fadeup delay={0.5}>
                 <h2 className="text-2xl pb-4 font-semibold tracking-wider leading-relaxed text-primaryText">
                     Experience
                 </h2>
@@ -91,7 +91,7 @@ const HeroExperience = () => {
                         const isOpen = selectedValues.includes(exp._id);
 
                         return (
-                            <Fadeup key={exp._id} delay={index * 0.1}>
+                            <Fadeup key={exp._id} delay={0.5 + (index * 0.1)}>
                                 <AccordionItem
                                     value={exp._id}
                                     className=""

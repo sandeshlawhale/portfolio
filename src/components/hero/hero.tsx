@@ -34,22 +34,22 @@ const Hero = () => {
   return (
     <div id="home" className="px-4 w-full">
       <div className="flex items-center justify-between">
-        <Fadeup>
+        <Fadeup delay={0.05}>
           <LiveClock />
         </Fadeup>
-        <Fadeup>
+        <Fadeup delay={0.1}>
           <SocialLinks />
         </Fadeup>
       </div>
 
-      <Fadeup delay={0.05}>
+      <Fadeup delay={0.15}>
         <div className="flex gap-3 items-center pt-8">
           <ProfileAvatar />
           <HeroIntroduction />
         </div>
       </Fadeup>
 
-      <Fadeup delay={0.1}>
+      <Fadeup delay={0.25}>
         <p className="text-mutedText text-lg tracking-wider leading-loose pt-4">
           I build interactive web apps using{" "}
           <StackBadge
@@ -81,11 +81,11 @@ const Hero = () => {
       </Fadeup>
 
 
-      <Fadeup delay={0.15}>
+      <Fadeup delay={0.35}>
         <HeroActions />
       </Fadeup>
 
-      <Fadeup delay={0.2}>
+      <Fadeup delay={0.4}>
         <HeroLeetCode />
       </Fadeup>
     </div>
