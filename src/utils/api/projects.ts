@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5051";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getAllProjects = async (options: { limit?: number; draft?: boolean } = {}) => {
   const { limit, draft } = options;
