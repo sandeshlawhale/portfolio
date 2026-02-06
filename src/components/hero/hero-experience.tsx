@@ -19,7 +19,6 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { getTechIcon } from "@/utils/tech-icon";
 import { getAllWorks } from "@/utils/api/work";
-import { Skeleton } from "../ui/skeleton";
 
 interface Work {
     _id: string;

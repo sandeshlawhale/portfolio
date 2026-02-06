@@ -3,6 +3,7 @@
 import { useAppContext } from "@/context/AppContext";
 import { Project } from "@/types";
 import { MotionValue, motion } from "framer-motion";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -74,11 +75,13 @@ const SidebarCard = ({
       {/* Project Image */}
       <div className="relative w-12 h-12 shrink-0 rounded-md overflow-hidden bg-gray-800 border border-white/10 mt-1">
         {project?.image ? (
-          <img
-            src={project.image as string}
+          <Image
+            src={project.image}
             alt={project.name}
-            className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+            fill
+            className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
           />
+
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-900 text-xs text-gray-500">
             N/A

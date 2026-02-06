@@ -9,39 +9,6 @@ export default function AnalyticsTracker() {
     const startTimeRef = useRef<number>(Date.now());
     const prevPathnameRef = useRef<string>(pathname);
 
-    useEffect(() => {
-        // Track the initial page view or route change
-        const trackPageView = () => {
-            const category = getCategoryFromPath(pathname);
-            const subCategory = getSubCategoryFromPath(pathname);
-
-            trackEvent({
-                type: "view",
-                category,
-                subCategory,
-                metadata: {
-                    device: getDeviceType(),
-                    browser: navigator.userAgent,
-                },
-            });
-        };
-
-        const handleBeforeUnload = () => {
-            sendDuration(prevPathnameRef.current);
-        };
-
-        trackPageView();
-        startTimeRef.current = Date.now();
-        prevPathnameRef.current = pathname;
-
-        window.addEventListener("beforeunload", handleBeforeUnload);
-
-        return () => {
-            sendDuration(prevPathnameRef.current);
-            window.removeEventListener("beforeunload", handleBeforeUnload);
-        };
-    }, [pathname]);
-
     const sendDuration = (path: string) => {
         const duration = Math.round((Date.now() - startTimeRef.current) / 1000);
         if (duration > 0) {
@@ -73,6 +40,39 @@ export default function AnalyticsTracker() {
             }
         }
     };
+
+    useEffect(() => {
+        // Track the initial page view or route change
+        const trackPageView = () => {
+            const category = getCategoryFromPath(pathname);
+            const subCategory = getSubCategoryFromPath(pathname);
+
+            trackEvent({
+                type: "view",
+                category,
+                subCategory,
+                metadata: {
+                    device: getDeviceType(),
+                    browser: navigator.userAgent,
+                },
+            });
+        };
+
+        const handleBeforeUnload = () => {
+            sendDuration(prevPathnameRef.current);
+        };
+
+        trackPageView();
+        startTimeRef.current = Date.now();
+        prevPathnameRef.current = pathname;
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            sendDuration(prevPathnameRef.current);
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [pathname, sendDuration]);
 
     const getCategoryFromPath = (path: string) => {
         if (path === "/") return "home";
