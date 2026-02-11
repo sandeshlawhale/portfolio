@@ -55,7 +55,6 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    console.log("initialData ===>>>", initialData)
 
     // Form States - Flat for inputs, constructed to object on submit
     const [companyName, setCompanyName] = useState(initialData?.company?.name || "");

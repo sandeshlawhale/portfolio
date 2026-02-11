@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { AnimatePresence, useScroll } from "framer-motion";
+import { AnimatePresence, useScroll } from "motion/react";
 import { Menu } from "lucide-react";
 import ProjectsSidebar from "@/components/sidebar/projects-sidebar";
 import { useAppContext } from "@/context/AppContext";

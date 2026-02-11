@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "motion/react";
 import { useAppContext } from "@/context/AppContext";
 
 // Mock context for testing

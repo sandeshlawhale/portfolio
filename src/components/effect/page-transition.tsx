@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "motion/react";
 import { usePathname } from "next/navigation";
 
 const PageTransition = ({ children }: { children: React.ReactNode }) => {

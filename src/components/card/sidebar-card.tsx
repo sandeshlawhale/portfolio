@@ -2,7 +2,7 @@
 
 import { useAppContext } from "@/context/AppContext";
 import { Project } from "@/types";
-import { MotionValue, motion } from "framer-motion";
+import { MotionValue, motion } from "motion/react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";

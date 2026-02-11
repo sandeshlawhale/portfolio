@@ -1,4 +1,4 @@
-import { easeInOut, motion } from "framer-motion";
+import { easeInOut, motion } from "motion/react";
 
 const DURATION = 0.25;
 const STAGGER = 0.025;

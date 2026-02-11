@@ -70,7 +70,6 @@ export default function AdminPage() {
         try {
             const data = await getAnalyticsStats(days);
             if (data.success) {
-                console.log("data result ===>>>", data.result)
                 setStats(data.result);
             }
         } catch (error) {

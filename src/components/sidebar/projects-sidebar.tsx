@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import SidebarCard from "../card/sidebar-card";
 import { Project } from "@/types";
 import { useAppContext } from "@/context/AppContext";
-import { MotionValue, easeInOut, motion } from "framer-motion";
+import { MotionValue, easeInOut, motion } from "motion/react";
 import { X } from "lucide-react";
 import { useParams } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";

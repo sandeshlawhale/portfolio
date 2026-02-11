@@ -3,6 +3,7 @@
 import Image from "next/image";
 import StackBadge from "../ui/stack-badge";
 import Fadeup from "../ui/fadeup";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
     Accordion,
     AccordionContent,
@@ -16,7 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { getTechIcon } from "@/utils/tech-icon";
 import { getAllWorks } from "@/utils/api/work";
 
@@ -76,8 +77,10 @@ const HeroExperience = () => {
 
             {loading ? (
                 <div className="space-y-4">
-                    {[1, 2].map((i) => (
-                        <div key={i} className="w-full h-24 rounded-xl bg-card border border-border/50 animate-pulse" />
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="space-y-2">
+                            <Skeleton className="h-20 w-full rounded-xl" />
+                        </div>
                     ))}
                 </div>
             ) : (

@@ -27,7 +27,7 @@ export default function AnalyticsTracker() {
                 metadata: { device: getDeviceType() }
             });
 
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5051";
+            const API_URL = process.env.NEXT_PUBLIC_API_URL;
             if (navigator.sendBeacon) {
                 navigator.sendBeacon(`${API_URL}/api/analytics/track`, body);
             } else {
