@@ -188,7 +188,7 @@ const HeroExperience = () => {
 
                                                         {/* Responsibilities */}
                                                         <div>
-                                                            <ul className="list-disc list-outside pl-4 flex flex-col gap-2 text-sm text-gray-400/90 leading-relaxed tracking-wider">
+                                                            <ul className="list-disc list-outside pl-4 flex flex-col gap-2 tracking-wider text-mutedText text-base leading-relaxed">
                                                                 {exp.responsibilities.map((resp: string, idx: number) => (
                                                                     <li key={idx} className="pl-1">
                                                                         {resp}

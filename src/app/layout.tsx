@@ -5,7 +5,6 @@ import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
 import BottomNavbar from "@/components/navbar/bottom-navbar";
 import { AppContextProvider } from "@/context/AppContext";
-import SparkleBackground from "@/components/ui/sparkle-background";
 import CommandPalette from "@/components/command-palette/command-palette";
 import AmongUsEasterEgg from "@/components/easter-egg/amoung-us";
 import { Toaster } from "@/components/ui/sonner";

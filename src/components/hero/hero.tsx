@@ -5,11 +5,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { motion, useAnimation } from "motion/react";
 import { ScanText, Send } from "lucide-react";
 
 import Me from "../../../public/assets/me.jpg";
-import MeWithGlasses from "../../../public/assets/me-with-glasses.jpg";
 
 import LiveClock from "../live-clock/live-clock";
 import Fadeup from "../ui/fadeup";
@@ -134,41 +132,41 @@ const SocialLinks = () => {
 
 const ProfileAvatar = () => {
   const { increaseAmongUsCount } = useAppContext();
-  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-  const controls = useAnimation();
+  // const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+  // const controls = useAnimation();
 
-  const handleMouseEnter = () => {
-    controls.start({
-      pathLength: 1,
-      transition: { duration: 1, ease: "easeInOut" },
-    });
-  };
+  // const handleMouseEnter = () => {
+  //   controls.start({
+  //     pathLength: 1,
+  //     transition: { duration: 1, ease: "easeInOut" },
+  //   });
+  // };
 
-  const handleMouseLeave = () => {
-    controls.start({
-      pathLength: 0,
-      transition: { duration: 0.5, ease: "easeInOut" },
-    });
-    setIsAnimationComplete(false);
-  };
+  // const handleMouseLeave = () => {
+  //   controls.start({
+  //     pathLength: 0,
+  //     transition: { duration: 0.5, ease: "easeInOut" },
+  //   });
+  //   setIsAnimationComplete(false);
+  // };
 
   return (
     <div
       className="relative w-20 h-20 rounded-full flex items-center justify-center cursor-pointer"
       onClick={increaseAmongUsCount}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    // onMouseEnter={handleMouseEnter}
+    // onMouseLeave={handleMouseLeave}
     >
       <div className="absolute w-16 h-16 rounded-full overflow-hidden">
         <Image
-          src={isAnimationComplete ? MeWithGlasses : Me}
+          src={Me}
           alt="Sandesh Lawhale"
           className="w-full h-full object-cover object-center scale-110"
         />
       </div>
 
       {/* Circle Outline SVG */}
-      <motion.svg
+      {/* <motion.svg
         width="100"
         height="100"
         viewBox="0 0 100 100"
@@ -190,7 +188,7 @@ const ProfileAvatar = () => {
             }
           }}
         />
-      </motion.svg>
+      </motion.svg> */}
     </div>
   );
 };
