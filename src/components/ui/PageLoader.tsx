@@ -51,11 +51,11 @@ export default function PageLoader() {
         <AnimatePresence mode="wait">
             {isPageLoading && (
                 <motion.div
-                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black overflow-hidden"
+                    className="fixed inset-0 z-[9999] flex items-center justify-center md:items-end md:justify-end bg-black overflow-hidden p-16"
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0, transition: { duration: 0.8, ease: [0.22, 0.61, 0.36, 1.00] } }}
                 >
-                    <div className="relative overflow-hidden leading-none flex items-center justify-center border border-white/0">
+                    <div className="relative overflow-hidden leading-none flex items-center justify-center border border-white/0 ">
                         <svg
                             viewBox="0 0 300 110"
                             className="w-md h-fit overflow-visible"
