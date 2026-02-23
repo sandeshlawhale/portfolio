@@ -46,7 +46,7 @@ export default function RootLayout({
           <PageLoader />
           <div className="w-screen h-screen flex">
             <AnalyticsTracker />
-            <SparkleBackground />
+            {/* <SparkleBackground /> */}
             <AmongUsEasterEgg />
             <Navbar />
             <main className="w-full flex flex-col items-center h-screen overflow-y-auto scrollbar">
