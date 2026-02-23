@@ -11,24 +11,32 @@ import { Button } from "../ui/button";
 import { getAllProjects } from "@/utils/api/projects";
 import { Project } from "@/types";
 import { Skeleton } from "../ui/skeleton";
+import { useAppContext } from "@/context/AppContext";
 
 const HeroProject = () => {
   const router = useRouter();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
+  const { setDataLoaded } = useAppContext();
 
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
-      const data = await getAllProjects({ limit: 4, draft: false });
-      if (Array.isArray(data.result)) {
-        setProjects(data.result);
+      try {
+        const data = await getAllProjects({ limit: 4, draft: false });
+        if (Array.isArray(data.result)) {
+          setProjects(data.result);
+        }
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      } finally {
+        setLoading(false);
+        setDataLoaded(true);
       }
-      setLoading(false);
     };
 
     fetchProjects();
-  }, []);
+  }, [setDataLoaded]);
 
   return (
     <section className="relative px-4 w-full flex flex-col" id="home-project">

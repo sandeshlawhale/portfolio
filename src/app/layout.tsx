@@ -11,6 +11,7 @@ import AmongUsEasterEgg from "@/components/easter-egg/amoung-us";
 import { Toaster } from "@/components/ui/sonner";
 import FooterOverlay from "@/components/ui/footer-overlay";
 import AnalyticsTracker from "@/components/analytics/AnalyticsTracker";
+import PageLoader from "@/components/ui/PageLoader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="relative antialiased bg-black text-primaryText">
         <AppContextProvider>
+          <PageLoader />
           <div className="w-screen h-screen flex">
             <AnalyticsTracker />
             <SparkleBackground />

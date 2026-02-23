@@ -18,6 +18,12 @@ interface AppContextType {
   amongUsCount: number;
   setAmongUsCount: Dispatch<SetStateAction<number>>;
   increaseAmongUsCount: () => void;
+  isPageLoading: boolean;
+  loadingProgress: number;
+  dataLoaded: boolean;
+  setLoadingProgress: (progress: number) => void;
+  setDataLoaded: (loaded: boolean) => void;
+  finishPageLoading: () => void;
 }
 
 const defaultContext: AppContextType = {
@@ -31,6 +37,12 @@ const defaultContext: AppContextType = {
   amongUsCount: 0,
   setAmongUsCount: () => { },
   increaseAmongUsCount: () => { },
+  isPageLoading: true,
+  loadingProgress: 0,
+  dataLoaded: false,
+  setLoadingProgress: () => { },
+  setDataLoaded: () => { },
+  finishPageLoading: () => { },
 };
 
 const AppContext = createContext<AppContextType>(defaultContext);
@@ -65,6 +77,15 @@ export const AppContextProvider = ({
   const openPalette = () => setIsOpen(true);
   const closePalette = () => setIsOpen(false);
 
+  // Loading state management
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  const finishPageLoading = () => {
+    setIsPageLoading(false);
+  };
+
   const value: AppContextType = {
     isOpen,
     openPalette,
@@ -76,6 +97,12 @@ export const AppContextProvider = ({
     setAmongUsCount,
     increaseAmongUsCount,
     resetAmongUsCount,
+    isPageLoading,
+    loadingProgress,
+    dataLoaded,
+    setLoadingProgress,
+    setDataLoaded,
+    finishPageLoading,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
