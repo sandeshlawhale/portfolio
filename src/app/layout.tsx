@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/navbar/navbar";
@@ -19,6 +19,13 @@ const inter = Inter({
   display: "swap",
 });
 
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas-neue",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Portfolio | Sandesh Lawhale",
   description: "Sandesh Lawhale's Portfolio Website",
@@ -33,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${bebasNeue.variable}`}>
       <body className="relative antialiased bg-black text-primaryText">
         <AppContextProvider>
           <PageLoader />

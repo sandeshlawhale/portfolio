@@ -4,7 +4,16 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAppContext } from "@/context/AppContext";
 
-const CHARS = "Sandesh.".split("");
+const CHAR_MAP = [
+    { char: "S", x: "20" },
+    { char: "a", x: "55" },
+    { char: "n", x: "93" },
+    { char: "d", x: "132" },
+    { char: "e", x: "169" },
+    { char: "s", x: "204" },
+    { char: "h", x: "240" },
+    { char: ".", x: "278" },
+];
 
 export default function PageLoader() {
     const { isPageLoading, finishPageLoading, dataLoaded } = useAppContext();
@@ -33,7 +42,7 @@ export default function PageLoader() {
             // Wait at least 1s total + a small delay for the 100% to be visible
             const timer = setTimeout(() => {
                 setIsExitStarted(true);
-            }, remaining + 300);
+            }, remaining + 600);
             return () => clearTimeout(timer);
         }
     }, [progress]);
@@ -48,47 +57,47 @@ export default function PageLoader() {
                 >
                     <div className="relative overflow-hidden leading-none flex items-center justify-center border border-white/0">
                         <svg
-                            viewBox="0 0 460 80"
+                            viewBox="0 0 300 110"
                             className="w-md h-fit overflow-visible"
                             xmlns="http://www.w3.org/2000/svg"
                         >
                             <defs>
                                 <clipPath id="text-clip">
-                                    {CHARS.map((char, i) => (
+                                    {CHAR_MAP.map((item, i) => (
                                         <motion.text
                                             key={`clip-${i}`}
-                                            x={`${(100 / CHARS.length) * i + (100 / CHARS.length) / 2}%`}
-                                            y="60%"
+                                            x={item.x}
+                                            y="65%"
                                             dominantBaseline="middle"
-                                            textAnchor="middle"
+                                            textAnchor="start"
                                             fontSize="100"
-                                            fontWeight="900"
-                                            fontFamily="Inter, sans-serif"
+                                            fontWeight="400"
+                                            fontFamily="'Bebas Neue', sans-serif"
                                             initial={{ y: 0 }}
                                             animate={isExitStarted ? { y: 200 } : { y: 0 }}
                                             transition={{
                                                 duration: 0.8,
                                                 ease: [0.16, 1, 0.3, 1],
-                                                delay: (CHARS.length - 1 - i) * 0.075,
+                                                delay: (CHAR_MAP.length - 1 - i) * 0.075,
                                             }}
                                         >
-                                            {char}
+                                            {item.char}
                                         </motion.text>
                                     ))}
                                 </clipPath>
                             </defs>
 
                             {/* Outlined text (Background) */}
-                            {CHARS.map((char, i) => (
+                            {CHAR_MAP.map((item, i) => (
                                 <motion.text
                                     key={`outline-${i}`}
-                                    x={`${(100 / CHARS.length) * i + (100 / CHARS.length) / 2}%`}
-                                    y="60%"
+                                    x={item.x}
+                                    y="65%"
                                     dominantBaseline="middle"
-                                    textAnchor="middle"
+                                    textAnchor="start"
                                     fontSize="100"
-                                    fontWeight="900"
-                                    fontFamily="Inter, sans-serif"
+                                    fontWeight="400"
+                                    fontFamily="'Bebas Neue', sans-serif"
                                     stroke="rgba(255, 255, 255, 0.2)"
                                     strokeWidth="1"
                                     fill="none"
@@ -97,7 +106,7 @@ export default function PageLoader() {
                                     transition={{
                                         duration: 0.8,
                                         ease: [0.22, 0.61, 0.36, 1.00],
-                                        delay: (CHARS.length - 1 - i) * 0.15,
+                                        delay: (CHAR_MAP.length - 1 - i) * 0.15,
                                     }}
                                     onAnimationComplete={() => {
                                         // The first character 'S' (index 0) finishes last in this delay sequence
@@ -106,7 +115,7 @@ export default function PageLoader() {
                                         }
                                     }}
                                 >
-                                    {char}
+                                    {item.char}
                                 </motion.text>
                             ))}
 
@@ -115,11 +124,11 @@ export default function PageLoader() {
                                 <motion.rect
                                     x="0"
                                     y="0"
-                                    width="100%"
+                                    width="0%"
                                     height="100%"
                                     fill="white"
                                     initial={{ scaleX: 0, originX: 0 }}
-                                    animate={{ scaleX: progress / 100 }}
+                                    animate={{ scaleX: progress / 100, width: "100%" }}
                                     transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1.00] }}
                                 />
                             </g>
