@@ -19,22 +19,23 @@ export default function AnalyticsTracker() {
             // For simplicity, let's just track a "duration" event or 
             // the backend could handle updating the last view.
             // But fetch is often cancelled on unload, so we use sendBeacon if possible.
-            const body = JSON.stringify({
+            const payload = {
                 type: "view",
                 category,
                 subCategory,
                 duration,
                 metadata: { device: getDeviceType() }
-            });
+            };
 
             const API_URL = process.env.NEXT_PUBLIC_API_URL;
             if (navigator.sendBeacon) {
-                navigator.sendBeacon(`${API_URL}/api/analytics/track`, body);
+                const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+                navigator.sendBeacon(`${API_URL}/api/analytics/track`, blob);
             } else {
                 fetch(`${API_URL}/api/analytics/track`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body,
+                    body: JSON.stringify(payload),
                     keepalive: true
                 });
             }
