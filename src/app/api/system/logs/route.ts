@@ -17,10 +17,11 @@ export async function GET(req: NextRequest) {
             success: true,
             result: logs,
         });
-    } catch (error: any) {
-        console.error("Error fetching admin logs:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error fetching logs:", errorMessage);
         return NextResponse.json(
-            { success: false, message: error.message },
+            { success: false, message: "Failed to fetch logs" },
             { status: 500 }
         );
     }

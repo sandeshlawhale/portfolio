@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import Footer from "@/components/footer/footer";
+export const dynamic = "force-dynamic";
 import { getProjectById, getAllProjects } from "@/utils/api/projects";
 import InfoRow from "@/components/projects/info-row";
 import { Metadata } from "next";

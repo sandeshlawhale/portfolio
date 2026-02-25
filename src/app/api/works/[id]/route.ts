@@ -5,12 +5,12 @@ import cloudinary from "@/lib/cloudinary";
 import { logAdminAction } from "@/utils/backend/system";
 import { verifyAdmin, createErrorResponse } from "@/utils/backend/auth";
 
-type RouteParams = { params: { id: string } };
+type RouteParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: NextRequest, { params }: RouteParams) {
     try {
         await connectDB();
-        const { id } = params;
+        const { id } = await params;
 
         const work = await Work.findById(id);
 
@@ -26,8 +26,9 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
             message: "Work fetched successfully",
             result: work,
         });
-    } catch (error: any) {
-        console.error("Error fetching work:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error fetching work:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error while fetching work" },
             { status: 500 }
@@ -43,7 +44,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
         }
 
         await connectDB();
-        const { id } = params;
+        const { id } = await params;
 
         const existingWork = await Work.findById(id);
         if (!existingWork) {
@@ -61,12 +62,12 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
-            const result: any = await new Promise((resolve, reject) => {
+            const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
                 cloudinary.uploader.upload_stream(
                     { resource_type: "image" },
                     (error, result) => {
                         if (error) reject(error);
-                        else resolve(result);
+                        else resolve(result as { secure_url: string });
                     }
                 ).end(buffer);
             });
@@ -118,10 +119,11 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
             message: "Work updated successfully",
             result: updatedWork,
         });
-    } catch (error: any) {
-        console.error("Error updating work:", error);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error updating work:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Server error while updating work", error: error.message },
+            { success: false, message: "Server error while updating work", error: errorMessage },
             { status: 500 }
         );
     }
@@ -135,7 +137,7 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
         }
 
         await connectDB();
-        const { id } = params;
+        const { id } = await params;
 
         const work = await Work.findByIdAndDelete(id);
 
@@ -152,8 +154,9 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
             success: true,
             message: "Work deleted successfully",
         });
-    } catch (error: any) {
-        console.error("Error deleting work:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error deleting work:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error while deleting work" },
             { status: 500 }

@@ -18,7 +18,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const page = () => {
+const ContactPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -176,4 +176,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ContactPage;

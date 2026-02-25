@@ -14,8 +14,9 @@ export async function GET() {
             message: "Resumes fetched successfully",
             result: resumes,
         });
-    } catch (error: any) {
-        console.error("Error fetching resumes:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error fetching resumes:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error while fetching resumes" },
             { status: 500 }
@@ -46,12 +47,12 @@ export async function POST(req: NextRequest) {
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
-            const result: any = await new Promise((resolve, reject) => {
+            const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
                 cloudinary.uploader.upload_stream(
                     { resource_type: "raw" },
                     (error, result) => {
                         if (error) reject(error);
-                        else resolve(result);
+                        else resolve(result as { secure_url: string });
                     }
                 ).end(buffer);
             });
@@ -75,10 +76,11 @@ export async function POST(req: NextRequest) {
             { success: true, message: "Resume added successfully", result: newResume },
             { status: 201 }
         );
-    } catch (error: any) {
-        console.error("Error adding resume:", error);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error adding resume:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Server error while adding resume", error: error.message },
+            { success: false, message: "Server error while adding resume", error: errorMessage },
             { status: 500 }
         );
     }

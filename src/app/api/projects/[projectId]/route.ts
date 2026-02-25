@@ -5,12 +5,12 @@ import cloudinary from "@/lib/cloudinary";
 import { logAdminAction } from "@/utils/backend/system";
 import { verifyAdmin, createErrorResponse } from "@/utils/backend/auth";
 
-type RouteParams = { params: { projectId: string } };
+type RouteParams = { params: Promise<{ projectId: string }> };
 
 export async function GET(req: NextRequest, { params }: RouteParams) {
     try {
         await connectDB();
-        const { projectId } = params;
+        const { projectId } = await params;
 
         const project = await Project.findById(projectId);
 
@@ -26,8 +26,9 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
             message: "Project fetched successfully",
             result: project,
         });
-    } catch (error: any) {
-        console.error("Error fetching project:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error fetching project:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error while fetching project" },
             { status: 500 }
@@ -43,12 +44,12 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
         }
 
         await connectDB();
-        const { projectId } = params;
+        const { projectId } = await params;
 
         const formData = await req.formData();
         const file = formData.get("image") as File | null;
 
-        const updateData: any = {};
+        const updateData: Record<string, unknown> = {};
         formData.forEach((value, key) => {
             if (key !== "image") {
                 try {
@@ -64,12 +65,12 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
-            const result: any = await new Promise((resolve, reject) => {
+            const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
                 cloudinary.uploader.upload_stream(
                     { resource_type: "image" },
                     (error, result) => {
                         if (error) reject(error);
-                        else resolve(result);
+                        else resolve(result as { secure_url: string });
                     }
                 ).end(buffer);
             });
@@ -94,10 +95,11 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
             message: "Project updated successfully",
             result: updatedProject,
         });
-    } catch (error: any) {
-        console.error("Error updating project:", error);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error updating project:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Server error while updating project", error: error.message },
+            { success: false, message: "Server error while updating project", error: errorMessage },
             { status: 500 }
         );
     }
@@ -111,7 +113,7 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
         }
 
         await connectDB();
-        const { projectId } = params;
+        const { projectId } = await params;
 
         const project = await Project.findByIdAndDelete(projectId);
 
@@ -128,8 +130,9 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
             success: true,
             message: "Project deleted successfully",
         });
-    } catch (error: any) {
-        console.error("Error deleting project:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error deleting project:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error while deleting project" },
             { status: 500 }

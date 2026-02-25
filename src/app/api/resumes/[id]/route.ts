@@ -5,12 +5,12 @@ import cloudinary from "@/lib/cloudinary";
 import { logAdminAction } from "@/utils/backend/system";
 import { verifyAdmin, createErrorResponse } from "@/utils/backend/auth";
 
-type RouteParams = { params: { id: string } };
+type RouteParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: NextRequest, { params }: RouteParams) {
     try {
         await connectDB();
-        const { id } = params;
+        const { id } = await params;
 
         const resume = await Resume.findById(id);
 
@@ -26,8 +26,9 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
             message: "Resume fetched successfully",
             result: resume,
         });
-    } catch (error: any) {
-        console.error("Error fetching resume:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error fetching resume:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error while fetching resume" },
             { status: 500 }
@@ -43,7 +44,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
         }
 
         await connectDB();
-        const { id } = params;
+        const { id } = await params;
 
         const formData = await req.formData();
         const name = formData.get("name") as string;
@@ -52,7 +53,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
         const isActiveStr = formData.get("isActive") as string;
         const file = formData.get("resume") as File | null;
 
-        const updateData: any = {};
+        const updateData: Record<string, unknown> = {};
         if (name) updateData.name = name;
         if (type) updateData.type = type;
         if (url) updateData.url = url;
@@ -61,12 +62,12 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
-            const result: any = await new Promise((resolve, reject) => {
+            const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
                 cloudinary.uploader.upload_stream(
                     { resource_type: "raw" },
                     (error, result) => {
                         if (error) reject(error);
-                        else resolve(result);
+                        else resolve(result as { secure_url: string });
                     }
                 ).end(buffer);
             });
@@ -101,10 +102,11 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
             message: "Resume updated successfully",
             result: updatedResume,
         });
-    } catch (error: any) {
-        console.error("Error updating resume:", error);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error updating resume:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Server error while updating resume", error: error.message },
+            { success: false, message: "Server error while updating resume", error: errorMessage },
             { status: 500 }
         );
     }
@@ -118,7 +120,7 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
         }
 
         await connectDB();
-        const { id } = params;
+        const { id } = await params;
 
         const resume = await Resume.findByIdAndDelete(id);
 
@@ -135,8 +137,9 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
             success: true,
             message: "Resume deleted successfully",
         });
-    } catch (error: any) {
-        console.error("Error deleting resume:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error deleting resume:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error while deleting resume" },
             { status: 500 }

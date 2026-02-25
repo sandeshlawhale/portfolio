@@ -19,10 +19,11 @@ export async function GET(req: NextRequest) {
             success: true,
             result: settings,
         });
-    } catch (error: any) {
-        console.error("Error fetching system info:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error fetching info:", errorMessage);
         return NextResponse.json(
-            { success: false, message: error.message },
+            { success: false, message: "Failed to fetch info" },
             { status: 500 }
         );
     }
