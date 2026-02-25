@@ -11,7 +11,8 @@ export const getAllResumes = async () => {
         cache: "no-store",
     });
     if (!res.ok) {
-        throw new Error("Failed to fetch resumes");
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.message || "Failed to fetch resumes");
     }
     return res.json();
 };
@@ -81,7 +82,8 @@ export const deleteResume = async (id: string) => {
 export const getActiveResume = async () => {
     const res = await fetch(`${API_URL}/api/resumes/active`, { cache: "no-store" });
     if (!res.ok) {
-        throw new Error("Failed to fetch active resume");
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.message || "Failed to fetch active resume");
     }
     return res.json();
 };

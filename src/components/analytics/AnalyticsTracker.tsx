@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { trackEvent, getDeviceType } from "@/utils/api/analytics";
+import { getBaseUrl } from "@/utils/api/baseUrl";
 
 export default function AnalyticsTracker() {
     const pathname = usePathname();
@@ -27,7 +28,7 @@ export default function AnalyticsTracker() {
                 metadata: { device: getDeviceType() }
             };
 
-            const API_URL = process.env.NEXT_PUBLIC_API_URL;
+            const API_URL = getBaseUrl();
             if (navigator.sendBeacon) {
                 const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
                 navigator.sendBeacon(`${API_URL}/api/analytics/track`, blob);

@@ -5,7 +5,8 @@ const API_URL = getBaseUrl();
 export const getAllWorks = async () => {
     const res = await fetch(`${API_URL}/api/works`, { cache: "no-store" });
     if (!res.ok) {
-        throw new Error("Failed to fetch works");
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.message || "Failed to fetch works");
     }
     return res.json();
 };

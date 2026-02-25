@@ -18,7 +18,7 @@ export async function GET() {
         const errorMessage = error instanceof Error ? error.message : "Unknown error";
         console.error("Error fetching resumes:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Server error while fetching resumes" },
+            { success: false, message: "Server error while fetching resumes", error: errorMessage },
             { status: 500 }
         );
     }

@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
         const errorMessage = error instanceof Error ? error.message : "Unknown error";
         console.error("Error fetching projects:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Server error while fetching projects" },
+            { success: false, message: "Server error while fetching projects", error: errorMessage },
             { status: 500 }
         );
     }

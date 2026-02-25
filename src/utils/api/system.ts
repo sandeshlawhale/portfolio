@@ -26,6 +26,10 @@ export interface HealthStatus {
 
 export const getHealth = async (): Promise<HealthStatus> => {
     const response = await fetch(`${API_URL}/api/health`);
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.message || "Failed to fetch health status");
+    }
     const data = await response.json();
     return data;
 };
@@ -36,6 +40,10 @@ export const getSystemInfo = async (): Promise<SystemInfo> => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
     });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.message || "Failed to fetch system info");
+    }
     const data = await response.json();
     return data.result;
 };
@@ -47,6 +55,10 @@ export const refreshCache = async (): Promise<{ success: boolean; message: strin
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
     });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.message || "Failed to refresh cache");
+    }
     return await response.json();
 };
 
@@ -56,6 +68,10 @@ export const getAdminLogs = async (): Promise<AdminLog[]> => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
     });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.message || "Failed to fetch admin logs");
+    }
     const data = await response.json();
     return data.result;
 };

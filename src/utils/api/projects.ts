@@ -10,7 +10,8 @@ export const getAllProjects = async (options: { limit?: number; draft?: boolean 
 
   const res = await fetch(`${API_URL}/api/projects?${params.toString()}`, { cache: "no-store" });
   if (!res.ok) {
-    throw new Error("Failed to fetch projects");
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.error || errorData.message || "Failed to fetch projects");
   }
   return res.json();
 };
@@ -18,7 +19,8 @@ export const getAllProjects = async (options: { limit?: number; draft?: boolean 
 export const getProjectById = async (id: string) => {
   const res = await fetch(`${API_URL}/api/projects/${id}`, { cache: "no-store" });
   if (!res.ok) {
-    throw new Error("Failed to fetch project");
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.error || errorData.message || "Failed to fetch project");
   }
   const data = await res.json();
   return data.result;
