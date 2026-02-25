@@ -203,6 +203,11 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
       </>
     );
   } catch (error: unknown) {
+    if (error && typeof error === "object" && "digest" in error &&
+      typeof (error as { digest: unknown }).digest === "string" &&
+      (error as { digest: string }).digest.startsWith("NEXT_REDIRECT")) {
+      throw error;
+    }
     const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
     console.error("ProjectsPage error:", errorMessage);
     return (
