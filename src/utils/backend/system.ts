@@ -20,7 +20,8 @@ export const logAdminAction = async (
             entityAffected,
             adminId,
         });
-    } catch (error: any) {
-        console.error("Failed to log admin action:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Failed to log admin action:", errorMessage);
     }
 };

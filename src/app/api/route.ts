@@ -9,12 +9,13 @@ export async function GET() {
             message: "API WORKING",
             timestamp: new Date().toISOString(),
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
         return NextResponse.json(
             {
                 status: "error",
                 message: "Database connection failed",
-                error: error.message,
+                error: errorMessage,
             },
             { status: 500 }
         );

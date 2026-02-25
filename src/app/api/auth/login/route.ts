@@ -19,8 +19,9 @@ export async function POST(req: NextRequest) {
             { success: false, msg: "Invalid credentials" },
             { status: 401 }
         );
-    } catch (error: any) {
-        console.error("Login error:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Login error:", errorMessage);
         return NextResponse.json(
             { success: false, msg: "Server error during login" },
             { status: 500 }

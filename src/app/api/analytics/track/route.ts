@@ -29,10 +29,11 @@ export async function POST(req: NextRequest) {
             { success: true, result: newEvent },
             { status: 201 }
         );
-    } catch (error: any) {
-        console.error("Error tracking event:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error tracking event:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Failed to track event", error: error.message },
+            { success: false, message: "Failed to track event", error: errorMessage },
             { status: 500 }
         );
     }

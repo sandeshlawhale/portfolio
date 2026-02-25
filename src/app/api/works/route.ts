@@ -14,8 +14,9 @@ export async function GET() {
             message: "Works fetched successfully",
             result: works,
         });
-    } catch (error: any) {
-        console.error("Error fetching works:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error fetching works:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error while fetching works" },
             { status: 500 }
@@ -50,12 +51,12 @@ export async function POST(req: NextRequest) {
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 
-            const result: any = await new Promise((resolve, reject) => {
+            const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
                 cloudinary.uploader.upload_stream(
                     { resource_type: "image" },
                     (error, result) => {
                         if (error) reject(error);
-                        else resolve(result);
+                        else resolve(result as { secure_url: string });
                     }
                 ).end(buffer);
             });
@@ -91,10 +92,11 @@ export async function POST(req: NextRequest) {
             { success: true, message: "Work added successfully", result: newWork },
             { status: 201 }
         );
-    } catch (error: any) {
-        console.error("Error adding work:", error);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error adding work:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Server error while adding work", error: error.message },
+            { success: false, message: "Server error while adding work", error: errorMessage },
             { status: 500 }
         );
     }

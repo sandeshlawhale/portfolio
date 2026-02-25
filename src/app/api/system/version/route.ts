@@ -22,10 +22,11 @@ export async function POST(req: NextRequest) {
         );
 
         return NextResponse.json({ success: true, message: "Version updated" });
-    } catch (error: any) {
-        console.error("Error updating system version:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error updating system version:", errorMessage);
         return NextResponse.json(
-            { success: false, message: error.message },
+            { success: false, message: errorMessage },
             { status: 500 }
         );
     }

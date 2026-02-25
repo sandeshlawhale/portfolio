@@ -58,8 +58,9 @@ export async function POST(req: NextRequest) {
             { success: true, message: "Email sent successfully!", data },
             { status: 200 }
         );
-    } catch (error: any) {
-        console.error("Contact API error:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Contact API error:", errorMessage);
         return NextResponse.json(
             { success: false, message: "Server error during contact form submission" },
             { status: 500 }

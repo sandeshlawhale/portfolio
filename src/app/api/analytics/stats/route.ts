@@ -76,10 +76,11 @@ export async function GET(req: NextRequest) {
                 avgTime,
             },
         });
-    } catch (error: any) {
-        console.error("Error fetching stats:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error fetching stats:", errorMessage);
         return NextResponse.json(
-            { success: false, message: "Failed to fetch stats", error: error.message },
+            { success: false, message: "Failed to fetch stats", error: errorMessage },
             { status: 500 }
         );
     }

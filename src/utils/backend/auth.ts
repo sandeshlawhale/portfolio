@@ -18,7 +18,7 @@ export const verifyAdmin = (req: NextRequest) => {
         }
 
         return { decoded, authorized: true };
-    } catch (err) {
+    } catch {
         return { error: "Token invalid or expired", status: 401 };
     }
 };

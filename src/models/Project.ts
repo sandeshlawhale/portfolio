@@ -14,7 +14,7 @@ export interface IProject extends Document {
         link?: string;
         downloadable?: boolean;
     }[];
-    description: any[];
+    description: string[];
     shortDescription?: string;
     draft: boolean;
     createdAt: Date;

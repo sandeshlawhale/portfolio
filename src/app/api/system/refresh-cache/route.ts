@@ -31,10 +31,11 @@ export async function POST(req: NextRequest) {
             message: "Cache refreshed successfully",
             lastCacheRefreshAt: new Date(),
         });
-    } catch (error: any) {
-        console.error("Error refreshing cache:", error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.error("Error refreshing cache:", errorMessage);
         return NextResponse.json(
-            { success: false, message: error.message },
+            { success: false, message: errorMessage },
             { status: 500 }
         );
     }
