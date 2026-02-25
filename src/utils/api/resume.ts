@@ -1,4 +1,6 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { getBaseUrl } from "./baseUrl";
+
+const API_URL = getBaseUrl();
 
 export const getAllResumes = async () => {
     const token = localStorage.getItem("token");

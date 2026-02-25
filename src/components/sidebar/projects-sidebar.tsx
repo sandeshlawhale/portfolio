@@ -6,7 +6,7 @@ import { Project } from "@/types";
 import { useAppContext } from "@/context/AppContext";
 import { MotionValue, easeInOut, motion } from "motion/react";
 import { X } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
 
 const ProjectsSidebar = ({
@@ -21,7 +21,8 @@ const ProjectsSidebar = ({
   isMobile?: boolean;
 }) => {
   const { closeWorkSidebar: closeSidebar } = useAppContext();
-  const { id } = useParams();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   const { currentProject, restProjects } = useMemo(() => {
     const current = projects.find((project) => project._id === id) || null;

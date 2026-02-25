@@ -1,4 +1,6 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { getBaseUrl } from "./baseUrl";
+
+const API_URL = getBaseUrl();
 
 export const getAllWorks = async () => {
     const res = await fetch(`${API_URL}/api/works`, { cache: "no-store" });

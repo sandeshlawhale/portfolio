@@ -22,7 +22,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
       event: "project_view_clicked",
       metadata: { device: getDeviceType() }
     });
-    router.push(`/projects/${project._id}`);
+    router.push(`/projects?id=${project._id}`);
   };
 
   return (

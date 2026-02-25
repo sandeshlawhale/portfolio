@@ -4,7 +4,7 @@ import { useAppContext } from "@/context/AppContext";
 import { Project } from "@/types";
 import { MotionValue, motion } from "motion/react";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const SidebarCard = ({
@@ -18,7 +18,8 @@ const SidebarCard = ({
 }) => {
   const { closeWorkSidebar: closeSidebar } = useAppContext();
   const router = useRouter();
-  const params = useParams();
+  const searchParams = useSearchParams();
+  const currentId = searchParams.get("id");
   const scaleX = scrollYProgress;
 
   // Mouse tracking state for tooltip
@@ -34,13 +35,13 @@ const SidebarCard = ({
   };
 
   const handleClick = () => {
-    router.push(`/projects/${project?._id}`);
+    router.push(`/projects?id=${project?._id}`);
     closeSidebar();
   };
 
   return (
     <div
-      className={`relative ${params.id === project?._id && "bg-secondary-light"
+      className={`relative ${currentId === project?._id && "bg-secondary-light"
         } p-2 flex items-center gap-3 hover:bg-secondary-light rounded-lg cursor-pointer overflow-hidden group transition-colors duration-200 ease-in`}
       onClick={() => handleClick()}
       onMouseMove={handleMouseMove}
