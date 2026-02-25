@@ -8,5 +8,10 @@ export const getBaseUrl = () => {
         return `https://${process.env.VERCEL_URL}`;
     }
 
-    return process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (apiUrl && apiUrl !== "undefined") {
+        return apiUrl;
+    }
+
+    return "http://localhost:3000";
 };
