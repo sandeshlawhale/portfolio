@@ -27,7 +27,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
 
   return (
     <article
-      className="group flex flex-col rounded-2xl bg-primary border border-primary shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 h-full"
+      className="group flex flex-col rounded-2xl bg-card border border-border shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 h-full"
       onClick={handleClick}
     >
       {/* Image Section */}
@@ -46,9 +46,9 @@ const ProjectCard = ({ project }: { project: Project }) => {
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-col flex-1 p-2 gap-1 bg-primary">
+      <div className="flex flex-col flex-1 p-2 gap-1 bg-card">
         <header className="flex items-center justify-between w-full">
-          <h3 className={`text-base font-normal text-primaryText tracking-wider truncate ${!project.name && "blur-sm"}`}>
+          <h3 className={`text-base font-normal text-card-foreground tracking-wider truncate ${!project.name && "blur-sm"}`}>
             {project.name || "Untitled Project"}
           </h3>
           <div className="flex gap-1">
@@ -92,7 +92,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
         </header>
 
         {project.shortDescription && (
-          <p className="text-sm tracking-wider text-mutedText line-clamp-3 leading-relaxed">
+          <p className="text-sm tracking-wider text-muted-foreground line-clamp-3 leading-relaxed">
             {project.shortDescription}
           </p>
         )}
@@ -120,7 +120,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
                 );
               })}
               {project.techstack.length > 5 && (
-                <div className="w-6 h-6 rounded-md bg-primary/5 border border-border/40 flex items-center justify-center text-[10px] font-medium text-mutedText">
+                <div className="w-6 h-6 rounded-md bg-primary/5 border border-border/40 flex items-center justify-center text-[10px] font-medium text-muted-foreground">
                   +{project.techstack.length - 5}
                 </div>
               )}
@@ -128,7 +128,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           )}
 
         </div>
-        <div className="w-full flex items-center justify-end text-xs tracking-wider gap-1 text-mutedText hover:text-primaryText transition-colors duration-300 hover:underline cursor-pointer">
+        <div className="w-full flex items-center justify-end text-xs tracking-wider gap-1 text-muted-foreground hover:text-foreground transition-colors duration-300 hover:underline cursor-pointer">
           View details <ArrowRight className="w-3 h-3" />
         </div>
       </div>

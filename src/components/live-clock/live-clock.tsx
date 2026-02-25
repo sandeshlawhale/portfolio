@@ -19,7 +19,7 @@ const LiveClock = () => {
   }, [time]);
 
   return (
-    <div className={`${dmMono.className} tracking-wider text-gray-600 `}>
+    <div className={`${dmMono.className} tracking-wider text-muted-foreground `}>
       <TextEffect>
         {time.toLocaleTimeString([], {
           hour: "2-digit",

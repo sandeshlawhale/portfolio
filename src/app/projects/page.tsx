@@ -67,7 +67,7 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
               priority
             />
           ) : (
-            <div className="w-full h-full bg-linear-to-tr to-indigo-500/30 flex items-center justify-center rounded-lg">
+            <div className="w-full h-full bg-linear-to-tr to-primary/30 flex items-center justify-center rounded-lg">
               <div className="w-full h-full rounded-lg overflow-hidden bg-[#121212] flex items-center justify-center">
                 <p className="text-base text-mutedText">No Preview Available</p>
               </div>
@@ -77,7 +77,7 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
 
         <section className="flex flex-col gap-4">
           <div className="w-full flex items-start justify-between px-4">
-            <h1 className="text-xl font-semibold text-primaryText">
+            <h1 className="text-xl font-semibold text-primary-foreground">
               {currentProject.name}
             </h1>
             <div className="flex gap-4">
@@ -139,12 +139,12 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
                   <Link href={link} target="_blank">
                     <div className="flex items-center justify-between gap-4 hover:bg-primary transition duration-200 ease-in px-4 py-2 rounded-lg">
                       <div>
-                        <p className="text-lg font-bold tracking-wide text-secondaryText">
+                        <p className="text-lg font-bold tracking-wide text-muted-foreground">
                           {title === "app_download"
                             ? "WallList_Pre_Alpha_03"
                             : "WallList Feedback Form"}
                         </p>
-                        <p className="text-sm text-gray-400">{title}</p>
+                        <p className="text-sm text-muted-foreground/50">{title}</p>
                       </div>
                       <div>
                         {downloadable ? (
@@ -175,7 +175,7 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
           {currentProject.description?.map((detail: string, index: number) => (
             <p
               key={`detail_${index}`}
-              className="text-base font-normal tracking-wide text-gray-200 px-4"
+              className="text-base font-normal tracking-wide text-muted-foreground px-4"
             >
               {detail}
             </p>

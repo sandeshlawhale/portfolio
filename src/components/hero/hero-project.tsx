@@ -41,7 +41,7 @@ const HeroProject = () => {
   return (
     <section className="relative px-4 w-full flex flex-col" id="home-project">
       <Fadeup>
-        <h2 className="text-2xl pb-4 font-semibold tracking-wider leading-relaxed text-primaryText">
+        <h2 className="text-2xl pb-4 font-semibold tracking-wider leading-relaxed text-primary-foreground">
           Projects
         </h2>
       </Fadeup>
@@ -66,6 +66,7 @@ const HeroProject = () => {
           <Button
             onClick={() => router.push("/projects")}
             className="w-xs mx-auto"
+            variant="secondary"
           >
             View all <ArrowRight className="w-5 h-5 text-icon-muted" />
           </Button>

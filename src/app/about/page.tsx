@@ -13,8 +13,8 @@ const About = () => {
       <MainTitle title="About" subTitle="let's learn about me" />
 
       <Fadeup delay={0.2} duration={0.5}>
-        <div className="relative w-full h-60 sm:h-96 flex items-center  justify-center">
-          <div className="absolute w-full lg:w-4xl h-full bg-linear-to-tr to-indigo-300/60">
+        <div className="relative w-full h-60 sm:h-96 flex items-center justify-center">
+          <div className="absolute w-full lg:w-4xl h-full bg-linear-to-tr to-primary/60">
             <Image
               fill
               src="/assets/me/me.jpg"
@@ -28,19 +28,19 @@ const About = () => {
       <div className="flex flex-col gap-4">
         <div className="">
           <Fadeup delay={0.25} duration={0.5}>
-            <h1 className="text-2xl font-bold text-gray-700">
+            <h1 className="text-2xl font-bold text-muted-foreground">
               Hey, I&apos;m&nbsp;
-              <span className="text-indigo-400">Sandesh Lawhale</span>
+              <span className="text-primary">Sandesh Lawhale</span>
             </h1>
           </Fadeup>
           <Fadeup delay={0.3} duration={0.5}>
-            <h2 className="text-lg font-semibold text-gray-600">
+            <h2 className="text-lg font-medium text-muted-foreground">
               A Developer Who Loves Turning Ideas Into Interactive Realities
             </h2>
           </Fadeup>
         </div>
         <div
-          className="relative text-gray-200 text-md tracking-wide leading-6"
+          className="relative text-muted-foreground text-md tracking-wide leading-6"
           id="about-started"
         >
           <SideTitle title="How It All Started" />
@@ -55,7 +55,7 @@ const About = () => {
           </Fadeup>
         </div>
         <Fadeup delay={0.4} duration={0.5}>
-          <p className="relative text-gray-200 text-md tracking-wide leading-6">
+          <p className="relative text-muted-foreground text-md tracking-wide leading-6">
             As I dug deeper, I started exploring the world of JavaScript, React,
             Node.js, and Firebase. I wasn&apos;t just learning how to code—I was
             learning how to think, how to break problems into pieces and rebuild
@@ -66,14 +66,14 @@ const About = () => {
         </Fadeup>
         <Fadeup delay={0.45} duration={0.5}>
           {/* <blockquote
-            className="text-indigo-300 border-l-4 border-indigo-300 pl-4"
+            className="text-primary border-l-4 border-primary pl-4"
             id="about-journey"
           > */}
           <blockquote
-            className="relative text-indigo-300 pl-3"
+            className="relative text-primary pl-3"
             id="about-journey"
           >
-            <div className="absolute left-0 top-0 h-full w-6 bg-indigo-400/30" />
+            <div className="absolute left-0 top-0 h-full w-6 bg-primary/30" />
             <p className="italic text-lg font-medium">
               &quot;A journey of a thousand miles begins with a single
               step.&quot;
@@ -157,12 +157,12 @@ const About = () => {
           </Fadeup>
         </div>
         <Fadeup delay={0.2}>
-          {/* border-l-4 border-indigo-300 */}
+          {/* border-l-4 border-primary */}
           <blockquote
-            className="relative text-indigo-300 pl-3"
+            className="relative text-primary pl-3"
             id="about-vision"
           >
-            <div className="absolute left-0 top-0 h-full w-6 bg-indigo-400/30" />
+            <div className="absolute left-0 top-0 h-full w-6 bg-primary/30" />
             <p className="italic text-lg font-medium">
               &quot;Vision without action is merely a dream. Action without
               vision just passes the time. But vision with action can change the
@@ -186,7 +186,7 @@ const About = () => {
               what the web can do. If you&apos;re into building exciting
               things—or just want to chat about code, anime, or cars—
               <span
-                className="hover:text-indigo-300 transition-colors ease-in duration-200 cursor-pointer"
+                className="hover:text-primary transition-colors ease-in duration-200 cursor-pointer"
                 onClick={() => router.push("/contact")}
               >
                 let&apos;s connect!

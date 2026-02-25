@@ -35,19 +35,19 @@ const ProjectsSidebar = ({
       {isMobile && (
         <div className="w-full px-4 mt-4 flex items-center justify-start gap-2">
           <X className="cursor-pointer" onClick={closeSidebar} />
-          <p className="text-xl font-semibold text-indigo-300">Projects</p>
+          <p className="text-xl font-semibold text-primary-foreground">Projects</p>
         </div>
       )}
 
       {!isMobile && (
         <div className="w-full px-4 mt-4 flex items-center justify-start gap-2 py-2">
-          <p className="text-xl font-semibold text-indigo-300">Projects</p>
+          <p className="text-xl font-semibold text-primary-foreground">Projects</p>
         </div>
       )}
 
       <div className="flex flex-col h-full overflow-hidden">
         <div className="flex flex-col gap-1 shrink-0 p-3">
-          <p className="px-0 font-semibold text-sm text-gray-600 tracking-wide">
+          <p className="px-0 font-semibold text-sm text-muted-foreground tracking-wide">
             Now Viewing
           </p>
           {loading ? (
@@ -63,7 +63,7 @@ const ProjectsSidebar = ({
           )}
         </div>
 
-        <p className="px-3 pt-3 font-semibold text-sm text-gray-600 tracking-wide">
+        <p className="px-3 pt-3 font-semibold text-sm text-muted-foreground tracking-wide">
           Up Next
         </p>
         <div className="scrollbar flex-1 overflow-y-auto p-3 mb-10 md:mb-0 pb-20">

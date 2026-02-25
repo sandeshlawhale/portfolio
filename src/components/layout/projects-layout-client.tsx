@@ -40,7 +40,7 @@ const ProjectsLayoutClient = ({ children, projects }: ProjectsLayoutClientProps)
 
             <div ref={ref} className="hide-scrollbar flex-1 w-full h-full overflow-y-auto relative">
                 <main className="w-full h-full relative">
-                    <header className="sticky top-0 z-20 w-full px-4 py-4 bg-black/90 backdrop-blur-xl flex items-center gap-2 md:hidden">
+                    <header className="sticky top-0 z-20 w-full px-4 py-4 bg-background/90 backdrop-blur-xl flex items-center gap-2 md:hidden">
                         <Menu
                             onClick={openWorkSidebar}
                             className="cursor-pointer text-muted-foreground hover:text-foreground transition-colors"

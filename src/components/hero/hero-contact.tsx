@@ -9,10 +9,10 @@ const HeroContact = () => {
     <Fadeup delay={0.1} duration={0.6}>
       <div className="mx-4 py-12 border-2 border-border rounded-xl" id="home-contact">
         <div className="flex flex-col text-center items-center justify-center">
-          <h2 className="text-xl font-semibold text-primaryText tracking-wider">
+          <h2 className="text-xl font-semibold text-primary-foreground tracking-wider">
             Let&apos;s build something thoughtful.
           </h2>
-          <p className="text-mutedText text-base tracking-wider">
+          <p className="text-muted-foreground text-base tracking-wider">
             Open to projects, collaborations, and interesting ideas.
           </p>
 

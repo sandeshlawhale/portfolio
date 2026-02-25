@@ -70,7 +70,7 @@ const HeroExperience = () => {
     return (
         <section id="experience" className="px-4 w-full flex flex-col">
             <Fadeup delay={0.5}>
-                <h2 className="text-2xl pb-4 font-semibold tracking-wider leading-relaxed text-primaryText">
+                <h2 className="text-2xl pb-4 font-semibold tracking-wider leading-relaxed text-primary-foreground">
                     Experience
                 </h2>
             </Fadeup>
@@ -116,7 +116,7 @@ const HeroExperience = () => {
                                                 </div>
                                                 <div className="flex flex-col gap-1">
                                                     <div className="flex items-center gap-2">
-                                                        <h3 className="text-lg font-semibold text-primaryText w-fit tracking-wider">
+                                                        <h3 className="text-lg font-semibold text-primary-foreground w-fit tracking-wider">
                                                             {exp.role}
                                                         </h3>
                                                         <Tooltip>
@@ -137,7 +137,7 @@ const HeroExperience = () => {
                                                                 }`}>
                                                                 <span className={`w-1.5 h-1.5 rounded-full ${exp.status === "Working" || exp.status === "Ongoing"
                                                                     ? "bg-green-400 animate-pulse"
-                                                                    : "bg-mutedText"
+                                                                    : "bg-muted-foreground"
                                                                     }`} />
                                                                 {exp.status}
                                                             </span>
@@ -147,8 +147,8 @@ const HeroExperience = () => {
                                             </div>
 
                                             {/* Right Side: Date, Location */}
-                                            <div className="flex flex-col md:items-end gap-1 text-sm text-gray-500 font-medium">
-                                                <p className="text-gray-300">
+                                            <div className="flex flex-col md:items-end gap-1 text-sm text-muted-foreground/70 font-medium">
+                                                <p className="text-muted-foreground">
                                                     {exp.duration.start} – {exp.duration.end}
                                                 </p>
                                                 <p className="text-nowrap">
@@ -170,7 +170,7 @@ const HeroExperience = () => {
                                                     <div className="pb-0 px-1">
                                                         {/* Technologies */}
                                                         <div className="my-4">
-                                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">
+                                                            <p className="text-xs font-semibold text-secondary-foreground uppercase tracking-widest mb-2">
                                                                 Technologies & Tools
                                                             </p>
                                                             <div className="flex flex-wrap gap-2">
@@ -188,7 +188,7 @@ const HeroExperience = () => {
 
                                                         {/* Responsibilities */}
                                                         <div>
-                                                            <ul className="list-disc list-outside pl-4 flex flex-col gap-2 tracking-wider text-mutedText text-base leading-relaxed">
+                                                            <ul className="list-disc list-outside pl-4 flex flex-col gap-2 tracking-wider text-muted-foreground text-base leading-relaxed">
                                                                 {exp.responsibilities.map((resp: string, idx: number) => (
                                                                     <li key={idx} className="pl-1">
                                                                         {resp}

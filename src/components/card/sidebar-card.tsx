@@ -41,8 +41,8 @@ const SidebarCard = ({
 
   return (
     <div
-      className={`relative ${currentId === project?._id && "bg-secondary-light"
-        } p-2 flex items-center gap-3 hover:bg-secondary-light rounded-lg cursor-pointer overflow-hidden group transition-colors duration-200 ease-in`}
+      className={`relative ${currentId === project?._id && "bg-card"
+        } p-2 flex items-center gap-3 hover:bg-card rounded-lg cursor-pointer overflow-hidden group transition-colors duration-200 ease-in`}
       onClick={() => handleClick()}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
@@ -74,7 +74,7 @@ const SidebarCard = ({
       )}
 
       {/* Project Image */}
-      <div className="relative w-12 h-12 shrink-0 rounded-md overflow-hidden bg-gray-800 border border-white/10 mt-1">
+      <div className="relative w-14 h-14 shrink-0 rounded-md overflow-hidden bg-gray-800 border border-white/10 mt-1">
         {project?.image ? (
           <Image
             src={project.image}
@@ -91,11 +91,11 @@ const SidebarCard = ({
       </div>
 
       <div className="flex flex-col min-w-0 z-10">
-        <p className="font-medium text-base text-gray-200 tracking-wide truncate group-hover:text-white transition-colors">
+        <p className="font-medium text-base text-primary-foreground tracking-wide truncate group-hover:text-white transition-colors">
           {project?.name}
         </p>
         {project?.shortDescription && (
-          <p className="text-xs text-gray-500 line-clamp-2 mt-0.5 group-hover:text-gray-400 transition-colors">
+          <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5 transition-colors tracking-wider">
             {project?.shortDescription}
           </p>
         )}

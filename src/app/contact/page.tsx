@@ -12,6 +12,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { trackEvent, getDeviceType } from "@/utils/api/analytics";
 import { toast } from "sonner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const page = () => {
   const [name, setName] = useState("");
@@ -85,24 +90,27 @@ const page = () => {
         <div className="flex gap-6 items-center justify-center">
           {MyData.socials?.map((link) => {
             return (
-              <Link
-                href={link.href}
-                key={link.title}
-                target="_blank"
-                className="group relative"
-                onClick={() => handleSocialClick(link.title)}
-              >
-                <Image
-                  src={link.icon}
-                  alt={link.title}
-                  width={24}
-                  height={24}
-                  className="brightness-50 hover:brightness-80 ease-in-out duration-200"
-                />
-                <p className="absolute -bottom-full left-1/2 -translate-x-1/2 text-primaryText text-sm  group-hover:flex bg-secondary border-border border p-1 py-0 rounded-sm hidden gap-1 items-center z-10">
-                  {link.title}
-                </p>
-              </Link>
+              <Tooltip key={link.title}>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={link.href}
+                    target="_blank"
+                    className="group relative"
+                    onClick={() => handleSocialClick(link.title)}
+                  >
+                    <Image
+                      src={link.icon}
+                      alt={link.title}
+                      width={24}
+                      height={24}
+                      className="brightness-50 hover:brightness-80 ease-in-out duration-200"
+                    />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent className="bg-secondary border-border text-primary-foreground">
+                  <p>{link.title}</p>
+                </TooltipContent>
+              </Tooltip>
             );
           })}
         </div>

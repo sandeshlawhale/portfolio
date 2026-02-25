@@ -12,7 +12,7 @@ const StackBadge = ({
     height?: number;
 }) => {
     return (
-        <span className="text-sm inline-flex gap-2 items-center justify-center my-1 p-2 py-0.5 rounded-lg bg-primary border-1 border-border border-dashed w-fit text-primaryText align-middle shadow-[inset_2px_2px_2px_rgba(255,255,255,0.05)]">
+        <span className="text-sm inline-flex gap-2 items-center justify-center my-1 p-2 py-0.5 rounded-lg bg-secondary border-1 border-border border-dashed w-fit text-secondary-foreground align-middle">
             {icon && <Image src={icon} alt={name} width={width} height={height} />}
             {name}
         </span>

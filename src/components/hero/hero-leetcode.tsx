@@ -13,6 +13,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Badge } from "../ui/badge";
 
 const username = "sandeshlawhale";
 const CACHE_KEY = "leetcode_data";
@@ -95,14 +96,14 @@ const HeroLeetCode = () => {
             <div className="w-full mt-6 p-4 rounded-2xl border-2 border-border bg-secondary/5 backdrop-blur-sm shadow-[inset_4px_4px_2px_rgba(255,255,255,0.1),0_0_20px_-5px_rgba(34,197,94,0.35)] group">
 
                 <div className="flex flex-col">
-                    <h3 className="text-xs font-medium text-mutedText uppercase tracking-wider flex items-center gap-2 mb-1">
+                    <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-2 mb-1">
                         <Image src="/assets/stack/lc-logo-colored.webp" alt="lc" width={20} height={20} className="rounded-full" />
                         Latest LeetCode Solution
                     </h3>
                     <div className="flex gap-2 items-center">
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <div className={`w-2 h-2 rounded-full shrink-0 ${solvedToday ? "bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-gray-500"}`} />
+                                <div className={`w-2 h-2 rounded-full shrink-0 ${solvedToday ? "bg-green-400 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-gray-500/80"}`} />
                             </TooltipTrigger>
                             <TooltipContent>
                                 <p>{solvedToday ? "Solved today" : "Solved previously"}</p>
@@ -112,7 +113,7 @@ const HeroLeetCode = () => {
                         <Link
                             href={`https://leetcode.com/problems/${submission.titleSlug}/`}
                             target="_blank"
-                            className="flex-1 truncate text-lg font-semibold text-primaryText flex items-center gap-2"
+                            className="flex-1 truncate text-lg font-semibold text-primary-foreground flex items-center gap-2"
                         >
                             {submission.title}
                             <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -129,12 +130,15 @@ const HeroLeetCode = () => {
                     {problem.topicTags && problem.topicTags.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-1">
                             {problem.topicTags.map((tag) => (
-                                <span
-                                    key={tag.slug}
-                                    className="text-[10px] px-2 py-0.5 rounded-lg bg-white/5 text-gray-400 border border-white/5"
-                                >
+                                // <span
+                                //     key={tag.slug}
+                                //     className="text-[10px] px-2 py-0.5 rounded-lg bg-white/5 text-gray-400 border border-white/5"
+                                // >
+                                //     {tag.name}
+                                // </span>
+                                <Badge key={tag.slug} variant="outline" className="text-xs text-muted-foreground">
                                     {tag.name}
-                                </span>
+                                </Badge>
                             ))}
                         </div>
                     )}

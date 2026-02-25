@@ -46,11 +46,11 @@ const HeroAbout = () => {
         {/* Content - Full Width */}
         <Fadeup delay={0.2} duration={0.6}>
           <div className="flex flex-col gap-2">
-            <h3 className="text-3xl font-bold text-primaryText tracking-wider">
+            <h3 className="text-3xl font-bold text-primary-foreground tracking-wider">
               {MyData.name}
             </h3>
 
-            <div className="tracking-wider text-mutedText text-base flex flex-col leading-relaxed max-w-2xl">
+            <div className="tracking-wider text-muted-foreground text-base flex flex-col leading-relaxed max-w-2xl">
               <p>
                 I&apos;m a full-stack developer who enjoys building clean, thoughtful products.
                 I care deeply about UX, performance, and small details.
@@ -62,7 +62,7 @@ const HeroAbout = () => {
 
             {/* Skills - Icons Only */}
             <div className="mt-2">
-              <p className="text-xs font-semibold text-mutedText uppercase tracking-wider mb-3">
+              <p className="text-xs font-semibold text-secondary-foreground uppercase tracking-wider mb-3">
                 Skills
               </p>
               <div className="flex flex-wrap gap-2">

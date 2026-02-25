@@ -48,7 +48,7 @@ const Hero = () => {
       </Fadeup>
 
       <Fadeup delay={0.25}>
-        <p className="text-mutedText text-lg tracking-wider leading-loose pt-4">
+        <p className="text-muted-foreground text-lg tracking-wider leading-loose pt-4">
           I build interactive web apps using{" "}
           <StackBadge
             icon="/assets/stack/ts-logo-colored.webp"
@@ -71,9 +71,9 @@ const Hero = () => {
             width={9}
             height={9}
           />{" "}
-          . With a focus on clean <span className="text-primaryText">UI</span>.
-          Exploring <span className="text-primaryText">n8n</span> automation
-          and <span className="text-primaryText">LangChain</span>, driven by
+          . With a focus on clean <span className="text-primary-foreground">UI</span>.
+          Exploring <span className="text-primary-foreground">n8n</span> automation
+          and <span className="text-primary-foreground">LangChain</span>, driven by
           curiosity.
         </p>
       </Fadeup>
@@ -115,9 +115,9 @@ const SocialLinks = () => {
               <Image
                 src={link.icon}
                 alt={link.title}
-                width={16}
-                height={16}
-                className="brightness-50 hover:brightness-80 ease-in-out duration-200"
+                width={18}
+                height={18}
+                className="brightness-60 hover:brightness-80 ease-in-out duration-200"
               />
             </TooltipTrigger>
             <TooltipContent>
@@ -196,15 +196,15 @@ const ProfileAvatar = () => {
 const HeroIntroduction = () => {
   return (
     <div className="w-full h-full">
-      <p className="text-mutedText text-sm">Hi, I&apos;m</p>
-      <div className="flex gap-2 items-center text-primaryText text-2xl tracking-wide font-semibold">
+      <p className="text-muted-foreground text-sm">Hi, I&apos;m</p>
+      <div className="flex gap-2 items-center text-primary-foreground text-2xl tracking-wide font-semibold">
         {/* <FlipEffect sidename={MyData.sidename}>{MyData.name}</FlipEffect> */}
         {MyData.name}
         <WaveEffect>
           <span className="cursor-pointer">👋</span>
         </WaveEffect>
       </div>
-      <p className="text-mutedText text-lg tracking-wide font-medium">
+      <p className="text-muted-foreground text-lg tracking-wide font-medium">
         {MyData.post}
       </p>
     </div>
