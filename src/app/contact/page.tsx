@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import CopyMail from "@/components/copy-mail/copy-mail";
 import TextEffect from "@/components/effect/text-effect";
 import Footer from "@/components/footer/footer";
@@ -10,17 +11,54 @@ import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { trackEvent, getDeviceType } from "@/utils/api/analytics";
+import { toast } from "sonner";
 
 const page = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!name || !email || !message) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setLoading(true);
     trackEvent({
       type: "interaction",
       category: "contact",
       event: "contact_form_submitted",
       metadata: { device: getDeviceType() }
     });
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success("Message sent successfully!");
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        toast.error(data.message || "Failed to send message");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSocialClick = (title: string) => {
@@ -84,11 +122,19 @@ const page = () => {
                 type="text"
                 className="w-full p-3 bg-secondary text-secondaryText rounded-lg focus-visible:outline-2 outline-indigo-400"
                 placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                disabled={loading}
               />
               <input
                 type="email"
                 className="w-full p-3 bg-secondary text-secondaryText rounded-lg focus-visible:outline-2 outline-indigo-400"
                 placeholder="email@gmail.com "
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={loading}
               />
             </div>
           </Fadeup>
@@ -96,14 +142,19 @@ const page = () => {
             <textarea
               className="w-full p-3 bg-secondary text-secondaryText rounded-lg h-36 focus-visible:outline-2 outline-indigo-400"
               placeholder="Enter Your Message Here..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              required
+              disabled={loading}
             />
           </Fadeup>
           <Fadeup delay={0.5}>
             <Button
               type="submit"
               className="w-full p-6 bg-secondaryText text-primary hover:bg-secondaryText/90 cursor-pointer text-lg font-semibold"
+              disabled={loading}
             >
-              Send
+              {loading ? "Sending..." : "Send"}
             </Button>
             <div className="text-sm text-mutedText w-full flex gap-1 mt-2 items-center justify-center">
               <Clock className="w-3 h-3" />
