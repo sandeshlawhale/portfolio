@@ -29,7 +29,7 @@ export const getHealth = async (): Promise<HealthStatus> => {
 };
 
 export const getSystemInfo = async (): Promise<SystemInfo> => {
-    const response = await fetch(`${API_URL}/api/v1/admin/system/info`, {
+    const response = await fetch(`${API_URL}/api/system/info`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -39,7 +39,7 @@ export const getSystemInfo = async (): Promise<SystemInfo> => {
 };
 
 export const refreshCache = async (): Promise<{ success: boolean; message: string }> => {
-    const response = await fetch(`${API_URL}/api/v1/admin/system/refresh-cache`, {
+    const response = await fetch(`${API_URL}/api/system/refresh-cache`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -49,7 +49,7 @@ export const refreshCache = async (): Promise<{ success: boolean; message: strin
 };
 
 export const getAdminLogs = async (): Promise<AdminLog[]> => {
-    const response = await fetch(`${API_URL}/api/v1/admin/system/logs`, {
+    const response = await fetch(`${API_URL}/api/system/logs`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -59,7 +59,7 @@ export const getAdminLogs = async (): Promise<AdminLog[]> => {
 };
 
 export const reportVersion = async (version: string): Promise<void> => {
-    await fetch(`${API_URL}/api/v1/admin/system/version`, {
+    await fetch(`${API_URL}/api/system/version`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

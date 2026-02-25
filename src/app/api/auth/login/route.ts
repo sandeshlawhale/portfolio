@@ -16,13 +16,13 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json(
-            { success: false, message: "Invalid credentials" },
+            { success: false, msg: "Invalid credentials" },
             { status: 401 }
         );
     } catch (error: any) {
         console.error("Login error:", error.message);
         return NextResponse.json(
-            { success: false, message: "Server error during login" },
+            { success: false, msg: "Server error during login" },
             { status: 500 }
         );
     }

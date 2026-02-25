@@ -16,7 +16,7 @@ const CHAR_MAP = [
 ];
 
 export default function PageLoader() {
-    const { isPageLoading, finishPageLoading, dataLoaded } = useAppContext();
+    const { isPageLoading, finishPageLoading, dataLoaded, setDataLoaded } = useAppContext();
     const [progress, setProgress] = useState(0);
     const [isExitStarted, setIsExitStarted] = useState(false);
 
@@ -31,8 +31,19 @@ export default function PageLoader() {
             });
         }, 100);
 
-        return () => clearInterval(interval);
-    }, [dataLoaded]);
+        // Fallback: If data doesn't load within 3 seconds, force it.
+        const fallback = setTimeout(() => {
+            if (!dataLoaded) {
+                console.log("PageLoader: Fallback triggered.");
+                setDataLoaded(true);
+            }
+        }, 3000);
+
+        return () => {
+            clearInterval(interval);
+            clearTimeout(fallback);
+        };
+    }, [dataLoaded, setDataLoaded]);
 
     useEffect(() => {
         if (progress === 100) {

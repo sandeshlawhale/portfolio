@@ -10,7 +10,7 @@ export const login = async (email: string, password: string) => {
     const data = await res.json();
 
     if (!res.ok) {
-        throw new Error(data.msg || "Login failed");
+        throw new Error(data.msg || data.message || "Login failed");
     }
 
     return data;

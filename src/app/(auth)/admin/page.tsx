@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAppContext } from "@/context/AppContext";
 
 const COLORS = ["#818cf8", "#c084fc", "#fb7185", "#38bdf8", "#4ade80"];
 
@@ -60,6 +61,7 @@ type StatCardProps = {
 
 export default function AdminPage() {
     const router = useRouter();
+    const { setDataLoaded } = useAppContext();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const [days, setDays] = useState(7);
@@ -76,8 +78,9 @@ export default function AdminPage() {
             console.error(error);
         } finally {
             setLoading(false);
+            setDataLoaded(true);
         }
-    }, [days]);
+    }, [days, setDataLoaded]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");

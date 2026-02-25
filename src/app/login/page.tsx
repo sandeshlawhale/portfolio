@@ -1,18 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner"; // Assuming sonner is installed as seen in file list
 
 import { login } from "@/utils/api/auth";
+import { useAppContext } from "@/context/AppContext";
 
 export default function LoginPage() {
+    const { setDataLoaded } = useAppContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        setDataLoaded(true);
+    }, [setDataLoaded]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
