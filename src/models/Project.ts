@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IProject extends Document {
     name: string;
+    slug?: string;
     image?: string;
     techstack: string[];
     gitlink: string;
@@ -16,6 +17,10 @@ export interface IProject extends Document {
     }[];
     description: string[];
     shortDescription?: string;
+    quote?: {
+        title: string;
+        description: string;
+    };
     draft: boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -27,6 +32,10 @@ const ProjectSchema: Schema = new Schema(
             type: String,
             required: true,
             unique: true,
+        },
+        slug: {
+            type: String,
+            trim: true,
         },
         image: {
             type: String,
@@ -82,6 +91,10 @@ const ProjectSchema: Schema = new Schema(
         shortDescription: {
             type: String,
             trim: true,
+        },
+        quote: {
+            title: String,
+            description: String,
         },
         draft: {
             type: Boolean,

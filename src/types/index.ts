@@ -3,7 +3,7 @@ import { StaticImageData } from "next/image";
 export interface Project {
   _id: string;
   name: string;
-  slug: string;
+  slug?: string;
   gitlink?: string;
   demoLink?: string;
   image?: string | StaticImageData;
@@ -16,7 +16,7 @@ export interface Project {
   otherLink: [
     { title: string; link: string; downloadable: boolean; _id: string }
   ];
-  quote: {
+  quote?: {
     title: string;
     description: string;
   };
