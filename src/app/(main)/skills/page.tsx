@@ -1,6 +1,6 @@
 "use client";
 import SideTitle from "@/components/title/side-title";
-import MainTitle from "../../components/title/main-title";
+import MainTitle from "@/components/title/main-title";
 import { Stack } from "@/constants/data";
 import StackCard from "@/components/card/stack-card";
 import Footer from "@/components/footer/footer";
