@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 
-import Navbar from "@/components/navbar/navbar";
-import BottomNavbar from "@/components/navbar/bottom-navbar";
 import { AppContextProvider } from "@/context/AppContext";
 import CommandPalette from "@/components/command-palette/command-palette";
 import AmongUsEasterEgg from "@/components/easter-egg/amoung-us";
 import { Toaster } from "@/components/ui/sonner";
-import FooterOverlay from "@/components/ui/footer-overlay";
 import AnalyticsTracker from "@/components/analytics/AnalyticsTracker";
 import PageLoader from "@/components/ui/PageLoader";
 
@@ -39,24 +36,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${bebasNeue.variable}`}>
-      <body className="relative antialiased bg-black text-primaryText">
+    <html lang="en" className={`${inter.variable} ${bebasNeue.variable} no-scrollbar`}>
+      <body className="relative antialiased bg-black text-primaryText no-scrollbar">
         <AppContextProvider>
           <PageLoader />
-          <div className="w-screen h-screen flex">
-            <AnalyticsTracker />
-            {/* <SparkleBackground /> */}
-            <AmongUsEasterEgg />
-            <Navbar />
-            <main className="w-full flex flex-col items-center h-screen overflow-y-auto scrollbar">
-              {children}
-            </main>
-            <BottomNavbar />
-            <CommandPalette />
-            <Toaster />
-          </div>
+          <AnalyticsTracker />
+          {/* <SparkleBackground /> */}
+          <AmongUsEasterEgg />
+          {children}
+          <CommandPalette />
+          <Toaster />
         </AppContextProvider>
-        <FooterOverlay />
       </body>
     </html>
   );
