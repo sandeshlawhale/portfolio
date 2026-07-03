@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add/Edit Resume | Portfolio Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --font-geist: 'Inter', sans-serif; /* Using Inter as a close Geist proxy for system UI */
+        }
+
+        body {
+            font-family: var(--font-geist);
+            background-color: #030303; /* Design System Base */
+            color: #e5e1e4;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom scrollbar for premium look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131315;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 10px;
+        }
+
+        /* The Vercel Glow Effect */
+        .glow-card:hover {
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.1);
+            border-color: #3f3f46;
+        }
+
+        /* Toggle Switch Custom */
+        .toggle-checkbox:checked {
+            right: 0;
+            background-color: #3b82f6;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #1e3a8a;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#1c1b1d",
+                      "surface-dim": "#131315",
+                      "on-tertiary-fixed-variant": "#723600",
+                      "on-background": "#e5e1e4",
+                      "outline": "#8c909f",
+                      "tertiary": "#ffb786",
+                      "surface-container": "#201f22",
+                      "surface-container-highest": "#353437",
+                      "on-surface": "#e5e1e4",
+                      "on-primary-fixed": "#001a42",
+                      "secondary": "#c6c6cf",
+                      "tertiary-container": "#df7412",
+                      "inverse-primary": "#005ac2",
+                      "surface-container-high": "#2a2a2c",
+                      "secondary-fixed-dim": "#c6c6cf",
+                      "primary": "#adc6ff",
+                      "outline-variant": "#424754",
+                      "inverse-surface": "#e5e1e4",
+                      "surface-tint": "#adc6ff",
+                      "primary-fixed-dim": "#adc6ff",
+                      "on-surface-variant": "#c2c6d6",
+                      "surface-bright": "#39393b",
+                      "secondary-container": "#45464e",
+                      "on-secondary-container": "#b4b4bd",
+                      "on-tertiary-fixed": "#311400",
+                      "on-tertiary": "#502400",
+                      "on-error": "#690005",
+                      "error-container": "#93000a",
+                      "on-secondary-fixed-variant": "#45464e",
+                      "on-secondary": "#2f3037",
+                      "surface-container-lowest": "#0e0e10",
+                      "surface": "#131315",
+                      "on-primary-fixed-variant": "#004395",
+                      "inverse-on-surface": "#313032",
+                      "background": "#131315",
+                      "primary-fixed": "#d8e2ff",
+                      "primary-container": "#4d8eff",
+                      "on-secondary-fixed": "#1a1b22",
+                      "on-error-container": "#ffdad6",
+                      "on-tertiary-container": "#461f00",
+                      "on-primary-container": "#00285d",
+                      "on-primary": "#002e6a",
+                      "secondary-fixed": "#e2e1eb",
+                      "error": "#ffb4ab",
+                      "tertiary-fixed": "#ffdcc6",
+                      "tertiary-fixed-dim": "#ffb786",
+                      "surface-variant": "#353437"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter", "sans-serif"],
+                      "headline-lg": ["Inter", "sans-serif"],
+                      "headline-md": ["Inter", "sans-serif"],
+                      "code": ["JetBrains Mono", "monospace"]
+              },
+              "fontSize": {
+                      "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+                      "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                      "code": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Sidebar Shell Implementation -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-outline-variant bg-surface-dim flex flex-col py-6">
+<div class="px-6 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Portfolio Admin</h1>
+<p class="text-xs text-on-surface-variant tracking-wider uppercase mt-1">Management Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active Tab: Resume -->
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">work</span>
+<span class="font-body-md text-body-md">Work Experience</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">folder</span>
+<span class="font-body-md text-body-md">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-primary border-l-2 border-primary bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Resume</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-body-md text-body-md">Testimonials</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 px-4 bg-surface-container-highest border border-outline-variant text-on-surface font-body-md text-body-md rounded-lg hover:bg-surface-bright transition-colors flex items-center justify-center gap-2">
+<span>View Live Site</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</aside>
+<!-- Top App Bar Shell -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant z-10">
+<div class="flex justify-between items-center px-8 w-full h-full">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-full py-1.5 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary outline-none text-on-surface" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md font-body-md" href="#">Docs</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md font-body-md" href="#">Support</a>
+</div>
+<div class="flex items-center gap-3 border-l border-outline-variant pl-6">
+<button class="text-on-surface-variant hover:text-primary transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a software engineer with short dark hair, wearing a charcoal grey turtleneck, against a minimalist dark grey background. The lighting is dramatic with soft rim highlights, conveying high-end corporate sophistication and technical expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc-YyR09Dc0q4MmPIM36L015QvJynJ_MEhi6yIpytquqK6CGUl7Dt7z8IJH7n3qRpaN63YxNI2fMJaOnFciIHaI6bA1qogob8iDgaQ3IInTUcwLN9LRUD5PjArh2Vq-HSsu7cOyDZyABPxoehi5LlxGPE8QlzwYXa1Yecrz4vfbA0SfMvL25nNZ2PDTJlgjhdceqZ6IZ6DRwuy2Lu1tha6X2-KDZVieAY9SuZ-HdKddd4jpXS8PDwnGJVQrDew41bFf3y5HVs_u_L4"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-16 px-10 min-h-screen flex justify-center bg-surface">
+<div class="w-full max-w-2xl">
+<!-- Header Section -->
+<div class="mb-8">
+<nav class="flex items-center gap-2 text-xs text-on-surface-variant mb-4">
+<a class="hover:text-primary" href="#">Resume Management</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface">Add New Resume</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Add Resume</h2>
+<p class="text-on-surface-variant text-body-md font-body-md mt-2">Manage your professional documents and external links for your portfolio.</p>
+</div>
+<!-- Form Card -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl p-8 glow-card transition-all duration-300">
+<form class="space-y-8" id="resumeForm">
+<!-- Resume Name -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-on-surface" for="resume_name">Resume Name</label>
+<input class="w-full bg-surface-dim border border-outline-variant rounded-lg px-4 py-3 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-outline" id="resume_name" name="resume_name" placeholder="e.g., Senior Fullstack Engineer - 2024" type="text"/>
+</div>
+<!-- Resume Type -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block text-sm font-medium text-on-surface" for="resume_type">Resume Type</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-dim border border-outline-variant rounded-lg px-4 py-3 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none transition-all cursor-pointer" id="resume_type" name="resume_type">
+<option value="pdf">PDF Document</option>
+<option value="word">Microsoft Word</option>
+<option value="link">External Link</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<!-- Set as Active Toggle -->
+<div class="flex items-end pb-3">
+<label class="flex items-center cursor-pointer gap-3">
+<div class="relative">
+<input class="sr-only toggle-checkbox" id="is_active" type="checkbox"/>
+<div class="block bg-surface-container-highest border border-outline-variant w-10 h-5 rounded-full toggle-label transition-colors"></div>
+<div class="dot absolute left-1 top-1 bg-on-surface-variant w-3 h-3 rounded-full transition-all duration-200"></div>
+</div>
+<div class="text-sm font-medium text-on-surface">Set as Active Resume</div>
+</label>
+</div>
+</div>
+<!-- File Upload Area (Conditional logic via JS below) -->
+<div class="space-y-2" id="upload_container">
+<label class="block text-sm font-medium text-on-surface">File Upload</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-10 flex flex-col items-center justify-center bg-surface-dim/50 hover:bg-surface-dim hover:border-primary/50 transition-all cursor-pointer group" id="drop_zone">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-2xl">upload_file</span>
+</div>
+<p class="text-sm text-on-surface font-medium">Click to upload or drag and drop</p>
+<p class="text-xs text-on-surface-variant mt-1">PDF or DOCX (Max. 10MB)</p>
+<input accept=".pdf,.doc,.docx" class="hidden" id="file_input" type="file"/>
+</div>
+</div>
+<!-- Resume URL (Conditional logic via JS below) -->
+<div class="space-y-2 hidden" id="url_container">
+<label class="block text-sm font-medium text-on-surface" for="resume_url">External URL</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">link</span>
+<input class="w-full bg-surface-dim border border-outline-variant rounded-lg pl-10 pr-4 py-3 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none transition-all" id="resume_url" name="resume_url" placeholder="https://linkedin.com/in/profile/..." type="url"/>
+</div>
+<p class="text-xs text-on-surface-variant">Links to Google Drive, Dropbox, or personal portfolio sites.</p>
+</div>
+</form>
+</div>
+<!-- Action Buttons -->
+<div class="mt-8 flex items-center justify-between">
+<button class="px-6 py-2.5 text-on-surface-variant font-medium hover:text-on-surface transition-colors" type="button">
+                    Cancel
+                </button>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-6 py-2.5 bg-surface-container-highest border border-outline-variant text-on-surface font-medium rounded-lg hover:bg-surface-bright transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span>Preview</span>
+</button>
+<button class="flex items-center gap-2 px-8 py-2.5 bg-[#3b82f6] text-[#fafafa] font-semibold rounded-lg shadow-lg shadow-blue-500/10 hover:brightness-110 transition-all active:scale-95 border-t border-white/10" type="button">
+<span class="material-symbols-outlined text-sm">save</span>
+<span>Save Resume</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Form Logic
+        const resumeType = document.getElementById('resume_type');
+        const uploadContainer = document.getElementById('upload_container');
+        const urlContainer = document.getElementById('url_container');
+        const dropZone = document.getElementById('drop_zone');
+        const fileInput = document.getElementById('file_input');
+        const isActiveCheckbox = document.getElementById('is_active');
+
+        // Toggle Upload vs URL
+        resumeType.addEventListener('change', (e) => {
+            if (e.target.value === 'link') {
+                uploadContainer.classList.add('hidden');
+                urlContainer.classList.remove('hidden');
+            } else {
+                uploadContainer.classList.remove('hidden');
+                urlContainer.classList.add('hidden');
+            }
+        });
+
+        // Toggle Switch Animation
+        isActiveCheckbox.addEventListener('change', (e) => {
+            const dot = e.target.parentElement.querySelector('.dot');
+            if (e.target.checked) {
+                dot.style.transform = 'translateX(20px)';
+                dot.classList.replace('bg-on-surface-variant', 'bg-white');
+            } else {
+                dot.style.transform = 'translateX(0)';
+                dot.classList.replace('bg-white', 'bg-on-surface-variant');
+            }
+        });
+
+        // Drag and Drop Logic
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-primary', 'bg-surface-dim');
+        });
+
+        ['dragleave', 'drop'].forEach(event => {
+            dropZone.addEventListener(event, () => {
+                dropZone.classList.remove('border-primary', 'bg-surface-dim');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            // Visual feedback for selected file
+            const name = file.name;
+            const size = (file.size / 1024 / 1024).toFixed(2);
+            dropZone.innerHTML = `
+                <div class="flex items-center gap-4 text-left w-full">
+                    <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-2xl">description</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-on-surface">${name}</p>
+                        <p class="text-xs text-on-surface-variant">${size} MB • Ready to upload</p>
+                    </div>
+                    <button type="button" onclick="resetUpload(event)" class="p-2 hover:bg-error-container/20 rounded-full text-error">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function resetUpload(e) {
+            e.stopPropagation();
+            dropZone.innerHTML = `
+                <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-primary text-2xl">upload_file</span>
+                </div>
+                <p class="text-sm text-on-surface font-medium">Click to upload or drag and drop</p>
+                <p class="text-xs text-on-surface-variant mt-1">PDF or DOCX (Max. 10MB)</p>
+                <input type="file" id="file_input" class="hidden" accept=".pdf,.doc,.docx">
+            `;
+            fileInput.value = '';
+        }
+    </script>
+</body></html>
