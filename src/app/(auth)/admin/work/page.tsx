@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getAllWorks } from "@/utils/api/work";
-import { Edit, Plus, Loader2, Globe } from "lucide-react";
+import { Edit, Plus, Globe } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Company = {
     name: string;
@@ -143,8 +144,19 @@ export default function AdminWorkPage() {
             </div>
 
             {loading ? (
-                <div className="flex justify-center p-12">
-                    <Loader2 className="w-8 h-8 animate-spin text-[#adc6ff]" />
+                <div className="space-y-4 mx-2 md:mx-0">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="bg-[#0e0e10]/60 border border-[#424754]/50 rounded-xl p-3 md:p-8 flex flex-col sm:flex-row gap-4 md:gap-6 items-start sm:items-center">
+                            <Skeleton className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-[#201f22]" />
+                            <div className="flex-1 space-y-3 w-full">
+                                <div className="flex flex-wrap items-center gap-3">
+                                    <Skeleton className="h-6 bg-[#201f22] rounded w-1/3" />
+                                    <Skeleton className="h-4 bg-[#201f22] rounded w-16" />
+                                </div>
+                                <Skeleton className="h-4 bg-[#201f22] rounded w-1/4" />
+                            </div>
+                        </div>
+                    ))}
                 </div>
             ) : (
                 <div className="space-y-4">

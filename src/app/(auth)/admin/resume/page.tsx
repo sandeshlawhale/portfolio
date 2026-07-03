@@ -10,7 +10,6 @@ import {
     Trash2,
     Edit,
     Plus,
-    Loader2,
     FileText,
     Link as LinkIcon,
     ExternalLink,
@@ -23,6 +22,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface Resume {
     _id: string;
@@ -192,8 +192,18 @@ export default function AdminResumePage() {
 
             {/* Resume List - Premium Card Grid */}
             {loading ? (
-                <div className="flex justify-center p-12">
-                    <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <div className="space-y-4">
+                    {[1, 2].map((i) => (
+                        <div key={i} className="border border-[#27272a]/50 rounded-xl p-4 md:p-8 bg-[#09090b]/60 flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6">
+                            <div className="flex items-start gap-6 flex-1 w-full">
+                                <Skeleton className="w-16 h-16 rounded-xl bg-[#131315]" />
+                                <div className="space-y-3 flex-1">
+                                    <Skeleton className="h-6 bg-[#201f22] rounded w-1/3" />
+                                    <Skeleton className="h-4 bg-[#201f22] rounded w-1/4" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             ) : (
                 <section className="grid grid-cols-1 gap-6">

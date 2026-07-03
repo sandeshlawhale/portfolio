@@ -8,8 +8,9 @@ import {
     updateTestimonialStatus,
     deleteTestimonial,
 } from "@/utils/api/testimonials";
-import { Trash2, Loader2, User } from "lucide-react";
+import { Trash2, User } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TestimonialItem = {
     _id: string;
@@ -168,8 +169,22 @@ export default function AdminTestimonialsPage() {
             </div>
 
             {loading ? (
-                <div className="flex justify-center p-12">
-                    <Loader2 className="w-8 h-8 animate-spin text-[#adc6ff]" />
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="border border-[#424754]/50 rounded-xl p-4 md:p-6 bg-[#0e0e10]/60 flex flex-col gap-4">
+                            <div className="flex gap-4">
+                                <Skeleton className="w-12 h-12 rounded-full bg-[#201f22]" />
+                                <div className="flex-1 space-y-2">
+                                    <Skeleton className="h-4 bg-[#201f22] rounded w-1/2" />
+                                    <Skeleton className="h-3 bg-[#201f22] rounded w-2/3" />
+                                </div>
+                            </div>
+                            <div className="space-y-2 mt-2">
+                                <Skeleton className="h-3 bg-[#201f22] rounded w-full" />
+                                <Skeleton className="h-3 bg-[#201f22] rounded w-5/6" />
+                            </div>
+                        </div>
+                    ))}
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">

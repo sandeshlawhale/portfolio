@@ -5,7 +5,8 @@ import NextImage from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getAllProjects } from "@/utils/api/projects";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type Project = {
     _id: string;
@@ -116,8 +117,18 @@ export default function AdminProjectsPage() {
             </div>
 
             {loading ? (
-                <div className="flex justify-center p-12">
-                    <Loader2 className="w-8 h-8 animate-spin text-[#adc6ff]" />
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="border border-[#424754]/50 rounded-xl overflow-hidden bg-[#0e0e10]/60 flex flex-col h-[380px]">
+                            <Skeleton className="h-56 w-full bg-[#131315]" />
+                            <div className="p-4 md:p-6 flex-1 flex flex-col gap-3">
+                                <Skeleton className="h-4 bg-[#201f22] rounded w-1/4" />
+                                <Skeleton className="h-6 bg-[#201f22] rounded w-2/3" />
+                                <Skeleton className="h-4 bg-[#201f22] rounded w-full" />
+                                <Skeleton className="h-4 bg-[#201f22] rounded w-5/6" />
+                            </div>
+                        </div>
+                    ))}
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
