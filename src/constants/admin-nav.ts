@@ -1,4 +1,4 @@
-import { LayoutDashboard, Briefcase, FileText, Settings, FolderGit2 } from "lucide-react";
+import { LayoutDashboard, Briefcase, FileText, Settings, FolderGit2, MessageSquare } from "lucide-react";
 
 export const adminNavItems = [
     {
@@ -24,6 +24,12 @@ export const adminNavItems = [
         title: "Resume",
         icon: FileText,
         href: "/admin/resume"
+    },
+    {
+        id: "testimonials",
+        title: "Testimonials",
+        icon: MessageSquare,
+        href: "/admin/testimonials"
     },
     {
         id: "system",
