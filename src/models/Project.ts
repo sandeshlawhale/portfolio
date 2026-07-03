@@ -22,6 +22,7 @@ export interface IProject extends Document {
         description: string;
     };
     draft: boolean;
+    featured?: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -97,6 +98,10 @@ const ProjectSchema: Schema = new Schema(
             description: String,
         },
         draft: {
+            type: Boolean,
+            default: false,
+        },
+        featured: {
             type: Boolean,
             default: false,
         },

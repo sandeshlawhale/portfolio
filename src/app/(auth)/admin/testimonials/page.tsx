@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { toast } from "sonner";
 import {
     getAllTestimonialsAdmin,
@@ -195,11 +194,10 @@ export default function AdminTestimonialsPage() {
                                 <div className="flex gap-4">
                                     <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[#424754]">
                                         {test.image ? (
-                                            <Image 
+                                            <img 
                                                 src={test.image} 
                                                 alt={test.name} 
-                                                fill 
-                                                className="object-cover"
+                                                className="w-full h-full object-cover"
                                             />
                                         ) : (
                                             <div className="w-full h-full bg-[#201f22] flex items-center justify-center text-[#8c909f]">

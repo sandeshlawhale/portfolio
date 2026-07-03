@@ -324,11 +324,10 @@ export default function TestimonialsPage() {
                                 <div className="flex items-center gap-3 pt-2 border-t border-border/10">
                                     <div className="relative w-8 h-8 rounded-full overflow-hidden border border-border flex-shrink-0 bg-secondary/40 flex items-center justify-center">
                                         {t.image ? (
-                                            <Image
+                                            <img
                                                 src={t.image}
                                                 alt={t.name}
-                                                fill
-                                                className="object-cover"
+                                                className="w-full h-full object-cover"
                                             />
                                         ) : (
                                             <User className="w-4 h-4 text-mutedText" />

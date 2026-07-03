@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
         }
 
         const projects = await Project.find(query)
-            .sort({ createdAt: -1 })
+            .sort({ featured: -1, createdAt: -1 })
             .limit(limit);
 
         return NextResponse.json({
@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
         const descriptionStr = formData.get("description") as string;
         const shortDescription = formData.get("shortDescription") as string;
         const draftStr = formData.get("draft") as string;
+        const featuredStr = formData.get("featured") as string;
         const file = formData.get("image") as File | null;
 
         let imageUrl = "";
@@ -79,6 +80,7 @@ export async function POST(req: NextRequest) {
         const otherLink = otherLinkStr ? JSON.parse(otherLinkStr) : [];
         const description = descriptionStr ? JSON.parse(descriptionStr) : [];
         const draft = draftStr === "true";
+        const featured = featuredStr === "true";
 
         const data = {
             name,
@@ -93,6 +95,7 @@ export async function POST(req: NextRequest) {
             description,
             shortDescription,
             draft,
+            featured,
         };
         const project = await Project.create(data);
 

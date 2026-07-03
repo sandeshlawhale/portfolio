@@ -54,6 +54,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         return initialData.description;
     });
     const [draft, setDraft] = useState(initialData?.draft || false);
+    const [featured, setFeatured] = useState(initialData?.featured || false);
 
     // Image handling
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -88,6 +89,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
             formData.append("demoLink", demoLink);
             formData.append("outcome", outcome);
             formData.append("draft", draft.toString());
+            formData.append("featured", featured.toString());
 
             const techStackArray = techstack.split(",").map((t: string) => t.trim()).filter((t: string) => t);
             formData.append("techstack", JSON.stringify(techStackArray));
@@ -263,6 +265,15 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                                 type="checkbox"
                                 checked={draft}
                                 onChange={(e) => setDraft(e.target.checked)}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between border-t border-[#27272a] pt-4">
+                            <span className="text-sm font-medium">Featured Project</span>
+                            <input 
+                                className="w-9 h-5 bg-[#201f22] rounded-full appearance-none relative checked:bg-[#adc6ff] transition-colors cursor-pointer before:content-[''] before:absolute before:w-4 before:h-4 before:rounded-full before:bg-white before:top-0.5 before:left-0.5 before:transition-transform checked:before:translate-x-4"
+                                type="checkbox"
+                                checked={featured}
+                                onChange={(e) => setFeatured(e.target.checked)}
                             />
                         </div>
                     </div>
