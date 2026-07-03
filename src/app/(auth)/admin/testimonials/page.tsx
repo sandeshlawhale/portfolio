@@ -102,7 +102,6 @@ export default function AdminTestimonialsPage() {
     };
 
     // Filter States
-    const [ratingFilter, setRatingFilter] = useState<number | null>(null);
     const [statusFilter, setStatusFilter] = useState<"All" | "Pending" | "Approved">("All");
     const [featuredOnly, setFeaturedOnly] = useState(false);
 
@@ -119,7 +118,7 @@ export default function AdminTestimonialsPage() {
     });
 
     return (
-        <div className="w-full max-w-[1440px] mx-auto pt-6 px-4 md:px-10 pb-20 text-[#e5e1e4] font-sans antialiased">
+        <div className="w-full max-w-[1440px] mx-auto pt-2 md:pt-6 px-2 md:px-10 pb-10 md:pb-20 text-[#e5e1e4] font-sans antialiased">
             {/* Page Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
                 <div>
@@ -129,25 +128,8 @@ export default function AdminTestimonialsPage() {
             </div>
 
             {/* Toolbar & Filters (Stitch Style) */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-[#0e0e10] border border-[#424754] rounded-xl">
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4 md:mb-8 p-3 md:p-4 bg-[#0e0e10] border border-[#424754] rounded-xl">
                 <div className="flex flex-wrap items-center gap-3">
-                    {/* Rating Dropdown Filter */}
-                    <div className="relative">
-                        <select 
-                            className="bg-[#1c1b1d] border border-[#424754] rounded-lg px-3 py-1.5 text-sm text-[#e5e1e4] focus:ring-1 focus:ring-[#adc6ff] outline-none cursor-pointer appearance-none pr-8"
-                            onChange={(e) => {
-                                const val = e.target.value;
-                                setRatingFilter(val ? parseInt(val) : null);
-                            }}
-                            value={ratingFilter || ""}
-                        >
-                            <option value="">Rating</option>
-                            <option value="5">5 Stars</option>
-                            <option value="4">4 Stars</option>
-                            <option value="3">3 Stars</option>
-                        </select>
-                        <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-xs text-[#c2c6d6]">&#9662;</span>
-                    </div>
 
                     {/* Approval Status Tab Group */}
                     <div className="flex items-center p-1 bg-[#131315] rounded-lg border border-[#424754]">
@@ -190,9 +172,9 @@ export default function AdminTestimonialsPage() {
                     <Loader2 className="w-8 h-8 animate-spin text-[#adc6ff]" />
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                     {filteredTestimonials.map((test) => (
-                        <div key={test._id} className="relative bg-[#0e0e10] border border-[#424754] rounded-xl p-6 flex flex-col hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300">
+                        <div key={test._id} className="relative bg-[#0e0e10] border border-[#424754] rounded-xl p-4 md:p-6 flex flex-col hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300">
                             {/* Top Row: Avatar & Metadata */}
                             <div className="flex justify-between items-start mb-4">
                                 <div className="flex gap-4">
@@ -214,6 +196,9 @@ export default function AdminTestimonialsPage() {
                                         <h4 className="text-[16px] font-bold text-[#e5e1e4]">{test.name}</h4>
                                         <p className="text-[12px] text-[#c2c6d6] opacity-75">{test.role ? `${test.role} at ${test.company}` : test.email}</p>
                                     </div>
+                                </div>
+                                <div className="text-[11px] text-[#8c909f] pt-1">
+                                    {new Date(test.createdAt).toLocaleDateString()}
                                 </div>
                             </div>
 
@@ -253,9 +238,6 @@ export default function AdminTestimonialsPage() {
                                         name={test.name} 
                                         onDelete={() => handleDelete(test._id)} 
                                     />
-                                </div>
-                                <div className="text-right text-[11px] text-[#8c909f]">
-                                    {new Date(test.createdAt).toLocaleDateString()}
                                 </div>
                             </div>
                         </div>

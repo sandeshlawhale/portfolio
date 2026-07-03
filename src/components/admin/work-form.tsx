@@ -135,8 +135,8 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
     };
 
     return (
-        <form onSubmit={handleSubmit} className="text-[#e5e1e4] font-sans antialiased space-y-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <form onSubmit={handleSubmit} className="text-[#e5e1e4] font-sans antialiased space-y-4 md:space-y-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-8 gap-4">
                 <div>
                     <h2 className="text-[32px] font-semibold text-[#e5e1e4] tracking-tight">{isEdit ? "Edit Work Experience" : "Add Work Experience"}</h2>
                     <p className="text-[#c2c6d6] text-[14px]">Document your professional journey and technical milestones.</p>
@@ -160,9 +160,9 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
                 </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-6">
+            <div className="grid grid-cols-12 gap-4 md:gap-6">
                 {/* Company & Role Details */}
-                <div className="col-span-12 lg:col-span-8 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl flex flex-col md:flex-row items-start gap-6 relative group overflow-hidden">
+                <div className="col-span-12 lg:col-span-8 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-start gap-4 md:gap-6 relative group overflow-hidden">
                     <div 
                         onClick={() => fileInputRef.current?.click()} 
                         className="w-24 h-24 bg-[#131315] rounded-lg border border-[#424754] flex flex-col items-center justify-center cursor-pointer hover:border-[#adc6ff] transition-all overflow-hidden shrink-0 relative"
@@ -214,7 +214,7 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
                 </div>
 
                 {/* Work Type & Status */}
-                <div className="col-span-12 lg:col-span-4 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-6">
+                <div className="col-span-12 lg:col-span-4 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl space-y-4 md:space-y-6">
                     <div className="space-y-2">
                         <label className="text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider block">Work Mode / Type</label>
                         <select 
@@ -242,7 +242,7 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
                 </div>
 
                 {/* Timeline & Location */}
-                <div className="col-span-12 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="col-span-12 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     <div className="space-y-2">
                         <label className="text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider block">Start Date</label>
                         <input 
@@ -279,7 +279,7 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
                 </div>
 
                 {/* Company Website */}
-                <div className="col-span-12 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-2">
+                <div className="col-span-12 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl space-y-2">
                     <label className="text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider block">Company Website</label>
                     <input 
                         className="w-full bg-[#131315] border border-[#27272a] rounded-lg p-2.5 text-sm text-[#e5e1e4] focus:border-[#adc6ff] focus:ring-1 focus:ring-[#adc6ff] outline-none" 
@@ -291,7 +291,7 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
                 </div>
 
                 {/* Responsibilities */}
-                <div className="col-span-12 lg:col-span-8 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-8 rounded-xl space-y-6">
+                <div className="col-span-12 lg:col-span-8 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-8 rounded-xl space-y-4 md:space-y-6">
                     <h3 className="text-[20px] font-bold text-[#e5e1e4]">Description & Key Contributions</h3>
                     <RichTextEditor 
                         value={responsibilities}
@@ -301,7 +301,7 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
                 </div>
 
                 {/* Tech Stack Sidebar */}
-                <div className="col-span-12 lg:col-span-4 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl flex flex-col space-y-6">
+                <div className="col-span-12 lg:col-span-4 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl flex flex-col space-y-4 md:space-y-6">
                     <label className="text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider block">Technologies Used (comma separated)</label>
                     <textarea 
                         className="w-full bg-[#131315] border border-[#27272a] rounded-xl p-4 text-sm text-[#e5e1e4] focus:border-[#adc6ff] focus:ring-1 focus:ring-[#adc6ff] outline-none resize-none font-mono text-[13px]" 

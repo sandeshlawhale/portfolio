@@ -29,6 +29,9 @@ export default function AdminProjectsPage() {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
+    const [statusFilter, setStatusFilter] = useState<"All" | "Draft" | "Published">("All");
+    const [featuredOnly, setFeaturedOnly] = useState(false);
+
     const fetchProjects = async () => {
         setLoading(true);
         try {
@@ -48,22 +51,67 @@ export default function AdminProjectsPage() {
         fetchProjects();
     }, []);
 
+    const filteredProjects = projects.filter((project) => {
+        if (statusFilter === "Draft" && !project.draft) return false;
+        if (statusFilter === "Published" && project.draft) return false;
+        if (featuredOnly && !project.featured) return false;
+        return true;
+    });
+
     return (
-        <div className="w-full max-w-[1440px] mx-auto pt-6 px-4 md:px-10 pb-12 text-[#e5e1e4] font-sans antialiased">
+        <div className="w-full max-w-[1440px] mx-auto pt-2 md:pt-6 px-2 md:px-10 pb-12 text-[#e5e1e4] font-sans antialiased">
             {/* Toolbar Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 md:mb-8">
                 <div>
-                    <h2 className="text-[48px] font-semibold tracking-tight leading-none mb-2">Projects</h2>
-                    <p className="text-[#c2c6d6] text-[14px]">Manage and showcase your architectural code masterpieces.</p>
+                    <h2 className="text-3xl md:text-[48px] font-semibold tracking-tight leading-none mb-2">Projects</h2>
+                    <p className="text-[#c2c6d6] text-sm md:text-[14px]">Manage and showcase your architectural code masterpieces.</p>
                 </div>
                 <div className="flex items-center gap-3 self-start md:self-end">
                     <button 
                         onClick={() => router.push("/admin/projects/add")} 
-                        className="flex items-center gap-2 px-4 py-2.5 bg-[#adc6ff] text-[#002e6a] rounded-lg text-[14px] font-medium hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-[#adc6ff]/10"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-[#adc6ff] text-[#002e6a] rounded-lg text-[14px] font-medium hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-[#adc6ff]/10 cursor-pointer"
                     >
                         <Plus className="w-[18px] h-[18px]" />
                         Add Project
                     </button>
+                </div>
+            </div>
+
+            {/* Filters Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6 p-3 md:p-4 bg-[#0e0e10] border border-[#424754] rounded-xl">
+                <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center p-1 bg-[#131315] rounded-lg border border-[#424754]">
+                        {(["All", "Draft", "Published"] as const).map((status) => (
+                            <button
+                                key={status}
+                                type="button"
+                                onClick={() => setStatusFilter(status)}
+                                className={`px-4 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                                    statusFilter === status 
+                                        ? "bg-[#45464e] text-[#e5e1e4]" 
+                                        : "text-[#c2c6d6] hover:text-[#e5e1e4]"
+                                }`}
+                            >
+                                {status}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="h-6 w-px bg-[#424754] mx-1"></div>
+
+                    {/* Featured Switch */}
+                    <label className="flex items-center gap-2 cursor-pointer group">
+                        <span className="text-xs text-[#c2c6d6] group-hover:text-[#e5e1e4] transition-colors">Featured Only</span>
+                        <input
+                            type="checkbox"
+                            checked={featuredOnly}
+                            onChange={(e) => setFeaturedOnly(e.target.checked)}
+                            className="w-9 h-5 bg-[#201f22] rounded-full appearance-none relative checked:bg-[#adc6ff] transition-colors cursor-pointer before:content-[''] before:absolute before:w-4 before:h-4 before:rounded-full before:bg-white before:top-0.5 before:left-0.5 before:transition-transform checked:before:translate-x-4"
+                        />
+                    </label>
+                </div>
+                <div className="text-xs text-[#c2c6d6]">
+                    Showing <span className="text-[#e5e1e4] font-semibold">{filteredProjects.length}</span> projects
                 </div>
             </div>
 
@@ -72,8 +120,8 @@ export default function AdminProjectsPage() {
                     <Loader2 className="w-8 h-8 animate-spin text-[#adc6ff]" />
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {projects.map((project: Project) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                    {filteredProjects.map((project: Project) => (
                         <div 
                             key={project._id} 
                             onClick={() => router.push(`/admin/projects/${project._id}/edit`)}
@@ -100,12 +148,12 @@ export default function AdminProjectsPage() {
                                     </span>
                                 </div>
                             </div>
-                            <div className="p-6 flex-1 flex flex-col bg-[#0e0e10]">
-                                <div className="flex flex-col mb-4">
+                            <div className="p-4 md:p-6 flex-1 flex flex-col bg-[#0e0e10]">
+                                <div className="flex flex-col mb-3 md:mb-4">
                                     <span className="text-[#c2c6d6] font-mono text-[13px] mb-1">{project.timeline}</span>
                                     <h3 className="text-[20px] font-bold group-hover:text-[#adc6ff] transition-colors leading-tight">{project.name}</h3>
                                 </div>
-                                <p className="text-[#c2c6d6] text-[14px] line-clamp-2 mb-4">
+                                <p className="text-[#c2c6d6] text-[14px] line-clamp-2 mb-3 md:mb-4">
                                     {project.shortDescription || (() => {
                                         const desc = Array.isArray(project.description) ? (project.description[0] || "") : (project.description || "");
                                         return desc.replace(/<[^>]*>/g, "");
@@ -113,7 +161,7 @@ export default function AdminProjectsPage() {
                                 </p>
                                 
                                 {/* Links embedded in description */}
-                                <div className="flex flex-wrap gap-4 mb-4 text-xs text-[#c2c6d6] font-medium" onClick={(e) => e.stopPropagation()}>
+                                <div className="flex flex-wrap gap-4 mb-3 md:mb-4 text-xs text-[#c2c6d6] font-medium" onClick={(e) => e.stopPropagation()}>
                                     {project.demoLink && (
                                         <a 
                                             href={project.demoLink} 
@@ -136,7 +184,7 @@ export default function AdminProjectsPage() {
                                     )}
                                 </div>
 
-                                <div className="flex flex-wrap gap-2 mb-6">
+                                <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                                     {project.techstack.slice(0, 3).map((tech) => (
                                         <span key={tech} className="px-2 py-0.5 bg-[#201f22] text-[#c2c6d6] rounded font-mono text-[11px] border border-[#424754]">
                                             {tech}

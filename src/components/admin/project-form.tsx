@@ -117,8 +117,8 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
     };
 
     return (
-        <form onSubmit={handleSubmit} className="text-[#e5e1e4] font-sans antialiased space-y-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <form onSubmit={handleSubmit} className="text-[#e5e1e4] font-sans antialiased space-y-4 md:space-y-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-8 gap-4">
                 <div>
                     <h2 className="text-[32px] font-semibold text-[#e5e1e4] tracking-tight">{isEdit ? "Edit Project" : "Add Project"}</h2>
                     <p className="text-[#c2c6d6] text-[14px]">Update your architectural masterpiece details.</p>
@@ -142,12 +142,12 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                 </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-6">
+            <div className="grid grid-cols-12 gap-4 md:gap-6">
                 {/* Left Column: Primary Details */}
-                <div className="col-span-12 lg:col-span-8 space-y-6">
+                <div className="col-span-12 lg:col-span-8 space-y-4 md:space-y-6">
                     {/* Basic Info Card */}
-                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl space-y-4 md:space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             <div className="space-y-2">
                                 <label className="block text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider">Project Name</label>
                                 <input 
@@ -171,7 +171,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                                 />
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             <div className="space-y-2">
                                 <label className="block text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider">Timeline</label>
                                 <input 
@@ -198,7 +198,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                     </div>
 
                     {/* Rich Text Description Card */}
-                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-4">
+                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl space-y-3 md:space-y-4">
                         <label className="block text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider">Detailed Description</label>
                         <RichTextEditor 
                             value={description}
@@ -208,7 +208,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                     </div>
 
                     {/* Outcomes Card */}
-                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-4">
+                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl space-y-3 md:space-y-4">
                         <label className="block text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider">Outcome & Impact</label>
                         <textarea 
                             className="bg-[#030303] border border-[#27272a] rounded-lg px-4 py-2.5 w-full text-[#e5e1e4] focus:outline-none focus:border-[#adc6ff] focus:ring-4 focus:ring-[#adc6ff]/10 transition-all placeholder:text-[#424754]" 
@@ -221,9 +221,9 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                 </div>
 
                 {/* Right Column: Sidebar Settings */}
-                <div className="col-span-12 lg:col-span-4 space-y-6">
+                <div className="col-span-12 lg:col-span-4 space-y-4 md:space-y-6">
                     {/* Cover Image Upload */}
-                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-4">
+                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl space-y-3 md:space-y-4">
                         <label className="block text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider">Project Image</label>
                         <div 
                             onClick={() => fileInputRef.current?.click()} 
@@ -255,7 +255,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                     </div>
 
                     {/* Project Metadata */}
-                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-6">
+                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl space-y-4 md:space-y-6">
                         <div className="flex items-center justify-between">
                             <span className="text-sm font-medium">Draft Mode</span>
                             <input 
@@ -268,7 +268,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                     </div>
 
                     {/* Links & Tags */}
-                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-6">
+                    <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-4 md:p-6 rounded-xl space-y-4 md:space-y-6">
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="block text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider">Tech Stack (comma separated)</label>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getAllWorks } from "@/utils/api/work";
-import { Edit, Plus, Loader2, Globe, ChevronDown, ChevronUp } from "lucide-react";
+import { Edit, Plus, Loader2, Globe } from "lucide-react";
 
 type Company = {
     name: string;
@@ -45,6 +45,9 @@ export default function AdminWorkPage() {
     const [expandedIds, setExpandedIds] = useState<string[]>([]);
     const router = useRouter();
 
+    const [statusFilter, setStatusFilter] = useState<"All" | "Ongoing" | "Completed" | "Working">("All");
+    const [locationFilter, setLocationFilter] = useState<"All" | "Remote" | "Hybrid" | "On-site">("All");
+
     const fetchWorks = async () => {
         setLoading(true);
         try {
@@ -73,10 +76,16 @@ export default function AdminWorkPage() {
         );
     };
 
+    const filteredWorks = works.filter((work) => {
+        if (statusFilter !== "All" && work.status !== statusFilter) return false;
+        if (locationFilter !== "All" && work.location.type !== locationFilter) return false;
+        return true;
+    });
+
     return (
         <div className="w-full max-w-[1440px] mx-auto pt-2 md:pt-6 px-1 md:px-10 pb-12 md:pb-20 text-[#e5e1e4] font-sans antialiased">
             {/* Header & Action Toolbar */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 md:mb-12 px-2 md:px-0">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4 md:mb-8 px-2 md:px-0">
                 <div>
                     <h2 className="text-3xl md:text-[48px] font-semibold tracking-tight leading-none mb-2">Work Experience</h2>
                     <p className="text-[#c2c6d6] text-sm md:text-[16px] mt-2 max-w-2xl">
@@ -94,18 +103,69 @@ export default function AdminWorkPage() {
                 </div>
             </div>
 
+            {/* Filters bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6 p-3 md:p-4 bg-[#0e0e10] border border-[#424754] rounded-xl mx-2 md:mx-0">
+                <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center p-1 bg-[#131315] rounded-lg border border-[#424754]">
+                        {(["All", "Ongoing", "Completed", "Working"] as const).map((status) => (
+                            <button
+                                key={status}
+                                type="button"
+                                onClick={() => setStatusFilter(status)}
+                                className={`px-2.5 md:px-4 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                                    statusFilter === status 
+                                        ? "bg-[#45464e] text-[#e5e1e4]" 
+                                        : "text-[#c2c6d6] hover:text-[#e5e1e4]"
+                                }`}
+                            >
+                                {status}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="relative">
+                        <select 
+                            className="bg-[#1c1b1d] border border-[#424754] rounded-lg px-3 py-1.5 text-sm text-[#e5e1e4] focus:ring-1 focus:ring-[#adc6ff] outline-none cursor-pointer appearance-none pr-8"
+                            onChange={(e) => setLocationFilter(e.target.value as "All" | "Remote" | "Hybrid" | "On-site")}
+                            value={locationFilter}
+                        >
+                            <option value="All">All Locations</option>
+                            <option value="Remote">Remote</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="On-site">On-site</option>
+                        </select>
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-xs text-[#c2c6d6]">&#9662;</span>
+                    </div>
+                </div>
+                <div className="text-xs text-[#c2c6d6]">
+                    Showing <span className="text-[#e5e1e4] font-semibold">{filteredWorks.length}</span> entries
+                </div>
+            </div>
+
             {loading ? (
                 <div className="flex justify-center p-12">
                     <Loader2 className="w-8 h-8 animate-spin text-[#adc6ff]" />
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {works.map((work) => {
+                    {filteredWorks.map((work) => {
                         const isExpanded = expandedIds.includes(work._id);
                         return (
-                            <div key={work._id} className="bg-[#0e0e10] border border-[#424754] rounded-xl overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300">
+                            <div key={work._id} className="relative bg-[#0e0e10] border border-[#424754] rounded-xl overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300">
+                                {/* Edit option in top right */}
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        router.push(`/admin/work/${work._id}/edit`);
+                                    }}
+                                    className="absolute top-3 right-3 md:top-4 md:right-4 p-2 text-[#c2c6d6] hover:text-[#adc6ff] hover:bg-[#adc6ff]/5 rounded-full transition-all cursor-pointer z-10"
+                                    title="Edit"
+                                >
+                                    <Edit className="w-4 h-4" />
+                                </button>
+
                                 <div 
-                                    className="p-4 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6 cursor-pointer group" 
+                                    className="p-3 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6 cursor-pointer group" 
                                     onClick={() => toggleExpand(work._id)}
                                 >
                                     <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-[#201f22] border border-[#424754] flex items-center justify-center overflow-hidden shrink-0 relative">
@@ -120,7 +180,7 @@ export default function AdminWorkPage() {
                                             <Globe className="w-8 h-8 text-[#8c909f]" />
                                         )}
                                     </div>
-                                    <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4 w-full">
+                                    <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4 w-full pr-8">
                                         <div className="col-span-1 md:col-span-2">
                                             <div className="flex flex-wrap items-center gap-2 md:gap-3">
                                                 <h3 className="text-lg md:text-[20px] font-bold text-[#e5e1e4] group-hover:text-[#adc6ff] transition-colors">{work.role}</h3>
@@ -136,21 +196,6 @@ export default function AdminWorkPage() {
                                         </div>
                                         <div className="col-span-1 flex flex-col md:items-end justify-center">
                                             <span className="text-[#e5e1e4] text-xs md:text-sm font-medium">{work.duration.start} — {work.duration.end}</span>
-                                        </div>
-                                        <div className="col-span-1 flex items-center justify-end gap-2 w-full md:w-auto" onClick={(e) => e.stopPropagation()}>
-                                            <button 
-                                                onClick={() => router.push(`/admin/work/${work._id}/edit`)}
-                                                className="p-2 text-[#c2c6d6] hover:text-[#adc6ff] hover:bg-[#adc6ff]/5 rounded-full transition-all cursor-pointer"
-                                                title="Edit"
-                                            >
-                                                <Edit className="w-4 h-4" />
-                                            </button>
-                                            <button 
-                                                onClick={() => toggleExpand(work._id)}
-                                                className="p-2 text-[#c2c6d6] hover:text-[#e5e1e4] transition-all cursor-pointer"
-                                            >
-                                                {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

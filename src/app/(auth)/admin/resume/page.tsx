@@ -131,7 +131,7 @@ export default function AdminResumePage() {
 
 
     return (
-        <div className="w-full max-w-[1200px] mx-auto space-y-10 p-2">
+        <div className="w-full max-w-[1200px] mx-auto space-y-5 md:space-y-10 p-2">
             {/* Page Heading Section */}
             <section className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div>
@@ -147,7 +147,7 @@ export default function AdminResumePage() {
             </section>
 
             {/* Filters & Search Area */}
-            <section className="flex flex-col md:flex-row gap-4 items-center justify-between p-6 bg-[#09090b] border border-[#27272a] rounded-xl">
+            <section className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 md:p-6 bg-[#09090b] border border-[#27272a] rounded-xl">
                 <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
                     {/* Search */}
                     <div className="relative w-full sm:w-64">
@@ -210,7 +210,7 @@ export default function AdminResumePage() {
                                 <div
                                     key={resume._id}
                                     onMouseMove={handleMouseMove}
-                                    className={`relative overflow-hidden group p-8 rounded-xl border transition-all duration-300 flex flex-col lg:flex-row items-center justify-between gap-6 bg-[#09090b] ${
+                                    className={`relative overflow-hidden group p-4 md:p-8 rounded-xl border transition-all duration-300 flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6 bg-[#09090b] ${
                                         resume.isActive
                                             ? "border-blue-500/30 shadow-[0_0_20px_-5px_rgba(59,130,246,0.15)]"
                                             : "border-[#27272a] hover:border-[#3f3f46] hover:-translate-y-0.5"
