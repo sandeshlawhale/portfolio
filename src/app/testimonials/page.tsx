@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, Upload, Check } from "lucide-react";
+import { ChevronLeft, Upload, Check, User, Star, Building, MessageSquare } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,20 @@ import { toast } from "sonner";
 import { useAppContext } from "@/context/AppContext";
 import { getBaseUrl } from "@/utils/api/baseUrl";
 import { cn } from "@/lib/utils";
+
+type TestimonialItem = {
+    _id: string;
+    name: string;
+    email: string;
+    message: string;
+    company?: string;
+    role?: string;
+    linkedinUrl?: string;
+    image?: string;
+    isActive: boolean;
+    isFeatured: boolean;
+    createdAt: string;
+};
 
 export default function TestimonialsPage() {
     const { setDataLoaded } = useAppContext();
@@ -32,9 +46,32 @@ export default function TestimonialsPage() {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [agreed, setAgreed] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
+
+    const fetchTestimonials = async () => {
+        try {
+            const baseUrl = getBaseUrl() || "http://localhost:5051";
+            const res = await fetch(`${baseUrl}/api/testimonials`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.success) {
+                    // Sort featured first, then others
+                    const sorted = [...data.result].sort((a, b) => {
+                        if (a.isFeatured && !b.isFeatured) return -1;
+                        if (!a.isFeatured && b.isFeatured) return 1;
+                        return 0;
+                    });
+                    setTestimonials(sorted);
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching testimonials:", error);
+        }
+    };
 
     useEffect(() => {
         setDataLoaded(true);
+        fetchTestimonials();
     }, [setDataLoaded]);
 
     const handleInputChange = (
@@ -89,7 +126,18 @@ export default function TestimonialsPage() {
 
             if (res.ok) {
                 toast.success("Testimonial submitted successfully! Thank you.");
-                router.push("/");
+                setFormData({
+                    name: "",
+                    email: "",
+                    message: "",
+                    company: "",
+                    role: "",
+                    linkedinUrl: "",
+                });
+                setImage(null);
+                setImagePreview(null);
+                setAgreed(false);
+                fetchTestimonials();
             } else {
                 toast.error(data.message || "Failed to submit testimonial");
             }
@@ -102,9 +150,9 @@ export default function TestimonialsPage() {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row h-screen w-full bg-black text-primaryText overflow-hidden">
+        <div className="flex flex-col lg:flex-row min-h-screen lg:h-screen w-full bg-black text-primaryText lg:overflow-hidden">
             {/* Left Side: Form */}
-            <div className="w-full lg:w-1/2 h-full flex flex-col p-4 pb-32 gap-12 overflow-y-auto no-scrollbar">
+            <div className="w-full lg:w-1/2 h-fit lg:h-full flex flex-col p-4 pb-12 lg:pb-32 gap-12 overflow-y-auto no-scrollbar lg:sticky lg:top-0">
                 <div className="mb-8">
                     <Link
                         href="/"
@@ -183,17 +231,6 @@ export default function TestimonialsPage() {
                             </div>
                         </div>
 
-                        {/* <div className="space-y-2">
-                            <Label htmlFor="linkedinUrl">LinkedIn URL <span className="text-mutedText">(optional)</span></Label>
-                            <Input
-                                id="linkedinUrl"
-                                placeholder="https://linkedin.com/in/..."
-                                value={formData.linkedinUrl}
-                                onChange={handleInputChange}
-                                className="bg-secondary/30 border-border rounded-md"
-                            />
-                        </div> */}
-
                         <div className="space-y-2">
                             <Label htmlFor="message">Message</Label>
                             <Textarea
@@ -267,12 +304,53 @@ export default function TestimonialsPage() {
                 </div>
             </div>
 
-            {/* Right Side: Empty White Box */}
-            <div className="hidden lg:block w-1/2 p-4">
-                <div className="w-full h-full bg-white/10 rounded-md shadow-xl flex items-center justify-center">
-                    {/* Empty for now as requested */}
-                </div>
+            {/* Right Side: Testimonials Cards */}
+            <div className="w-full lg:w-1/2 h-fit lg:h-full p-4 lg:overflow-y-auto no-scrollbar flex flex-col gap-6 bg-black">
+                {testimonials.length === 0 ? (
+                    <div className="w-full h-full py-12 rounded-xl bg-white/10 border border-border/30 flex flex-col items-center justify-center text-mutedText text-sm gap-2"></div>
+                ) : (
+                    <div className="columns-1 md:columns-2 gap-4 [column-fill:_balance]">
+                        {testimonials.map((t) => (
+                            <div
+                                key={t._id}
+                                className="break-inside-avoid mb-4 p-5 rounded-xl bg-secondary/20 border border-border/40 hover:border-primaryText/20 transition-all flex flex-col gap-4 shadow-sm relative group"
+                            >
+                                {t.isFeatured && (
+                                    <div className="absolute top-3 right-3 text-amber-500">
+                                        <Star className="w-4 h-4 fill-amber-500" />
+                                    </div>
+                                )}
+                                <p className="text-sm text-mutedText leading-relaxed italic">
+                                    "{t.message}"
+                                </p>
+                                <div className="flex items-center gap-3 pt-2 border-t border-border/10">
+                                    <div className="relative w-8 h-8 rounded-full overflow-hidden border border-border flex-shrink-0 bg-secondary/40 flex items-center justify-center">
+                                        {t.image ? (
+                                            <Image
+                                                src={t.image}
+                                                alt={t.name}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        ) : (
+                                            <User className="w-4 h-4 text-mutedText" />
+                                        )}
+                                    </div>
+                                    <div className="flex flex-col truncate">
+                                        <span className="font-semibold text-xs text-primaryText truncate">{t.name}</span>
+                                        {(t.role || t.company) && (
+                                            <span className="text-[10px] text-mutedText truncate flex items-center gap-1">
+                                                {t.role || ""} {t.company ? `@ ${t.company}` : ""}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
 }
+
