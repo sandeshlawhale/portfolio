@@ -299,7 +299,86 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
                     </div>
                 </div>
             </div>
+            {isEdit && initialData && (
+                <div className="mt-12 pt-8 border-t border-[#424754]">
+                    <div className="bg-[#09090b] border border-[#93000a]/20 p-6 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                        <div>
+                            <h4 className="text-[#ffb4ab] font-bold text-lg mb-1">Delete Project</h4>
+                            <p className="text-[#c2c6d6] text-sm">Once deleted, this project cannot be recovered.</p>
+                        </div>
+                        <DeleteConfirmationPopover 
+                            name={initialData.name} 
+                            onDelete={async () => {
+                                try {
+                                    setLoading(true);
+                                    await deleteProject(initialData._id);
+                                    toast.success("Project deleted successfully");
+                                    router.push("/admin/projects");
+                                    router.refresh();
+                                } catch {
+                                    toast.error("Failed to delete project");
+                                } finally {
+                                    setLoading(false);
+                                }
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
         </form>
+    );
+}
+
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { deleteProject } from "@/utils/api/projects";
+
+function DeleteConfirmationPopover({ name, onDelete }: { name: string; onDelete: () => void }) {
+    const [confirmText, setConfirmText] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const shortName = name.split(" ")[0] || name;
+    const targetString = `sudo delete ${shortName}`;
+
+    return (
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild>
+                <button 
+                    type="button"
+                    className="px-6 py-2.5 bg-[#93000a] text-[#ffdad6] rounded-lg font-bold text-sm hover:brightness-110 active:scale-95 transition-all cursor-pointer"
+                >
+                    Delete Project
+                </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 bg-[#131315] border border-[#424754] text-[#e5e1e4] p-4 shadow-xl rounded-xl" align="end" side="top">
+                <div className="space-y-4">
+                    <div className="space-y-1">
+                        <h4 className="text-sm font-semibold text-[#ffb4ab]">Are you absolutely sure?</h4>
+                        <p className="text-xs text-[#c2c6d6] leading-relaxed">
+                            Type <span className="font-mono bg-[#201f22] px-1 py-0.5 rounded border border-[#424754] text-[#adc6ff] select-all cursor-pointer" onClick={() => navigator.clipboard.writeText(targetString).then(() => toast.success("Copied confirmation message"))}>{targetString}</span> to confirm deletion.
+                        </p>
+                    </div>
+                    <div className="space-y-2">
+                        <input
+                            type="text"
+                            placeholder={targetString}
+                            value={confirmText}
+                            onChange={(e) => setConfirmText(e.target.value)}
+                            className="bg-[#030303] border border-[#27272a] rounded-lg px-3 py-1.5 w-full text-xs text-[#e5e1e4] focus:outline-none focus:border-[#adc6ff]"
+                        />
+                        <button
+                            type="button"
+                            disabled={confirmText !== targetString}
+                            onClick={() => {
+                                onDelete();
+                                setIsOpen(false);
+                            }}
+                            className="w-full py-2 bg-[#93000a] text-[#ffdad6] rounded-lg font-bold text-xs hover:brightness-110 disabled:opacity-40 transition-all cursor-pointer"
+                        >
+                            Confirm Secure Delete
+                        </button>
+                    </div>
+                </div>
+            </PopoverContent>
+        </Popover>
     );
 }
 

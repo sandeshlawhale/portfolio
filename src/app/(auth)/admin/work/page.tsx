@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { getAllWorks, deleteWork } from "@/utils/api/work";
-import { Trash2, Edit, Plus, Loader2, Globe, ChevronDown, ChevronUp } from "lucide-react";
+import { getAllWorks } from "@/utils/api/work";
+import { Edit, Plus, Loader2, Globe, ChevronDown, ChevronUp } from "lucide-react";
 
 type Company = {
     name: string;
@@ -66,21 +66,6 @@ export default function AdminWorkPage() {
     useEffect(() => {
         fetchWorks();
     }, []);
-
-    const handleDelete = async (id: string, name: string) => {
-        if (!confirm(`Are you sure you want to delete work at "${name}"?`)) {
-            return;
-        }
-
-        try {
-            await deleteWork(id);
-            toast.success("Work deleted successfully");
-            fetchWorks();
-        } catch (error) {
-            toast.error("Failed to delete work");
-            console.log("Failed to delete work: ", error);
-        }
-    };
 
     const toggleExpand = (id: string) => {
         setExpandedIds((prev) => 
@@ -155,21 +140,14 @@ export default function AdminWorkPage() {
                                         <div className="col-span-1 flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                                             <button 
                                                 onClick={() => router.push(`/admin/work/${work._id}/edit`)}
-                                                className="p-2 text-[#c2c6d6] hover:text-[#adc6ff] hover:bg-[#adc6ff]/5 rounded-full transition-all"
+                                                className="p-2 text-[#c2c6d6] hover:text-[#adc6ff] hover:bg-[#adc6ff]/5 rounded-full transition-all cursor-pointer"
                                                 title="Edit"
                                             >
                                                 <Edit className="w-4 h-4" />
                                             </button>
                                             <button 
-                                                onClick={() => handleDelete(work._id, work.company.name)}
-                                                className="p-2 text-[#c2c6d6] hover:text-[#93000a] hover:bg-[#93000a]/5 rounded-full transition-all"
-                                                title="Delete"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
-                                            <button 
                                                 onClick={() => toggleExpand(work._id)}
-                                                className="p-2 text-[#c2c6d6] hover:text-[#e5e1e4] transition-all"
+                                                className="p-2 text-[#c2c6d6] hover:text-[#e5e1e4] transition-all cursor-pointer"
                                             >
                                                 {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                                             </button>

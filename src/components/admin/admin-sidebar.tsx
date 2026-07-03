@@ -51,7 +51,7 @@ export default function AdminSidebar() {
                             <button
                                 key={item.id}
                                 onClick={() => router.push(item.href)}
-                                className={`flex items-center gap-3 px-4 py-2 text-sm rounded-lg transition-all duration-200 text-left ${
+                                className={`flex items-center gap-3 px-4 py-2 text-sm rounded-lg transition-all duration-200 text-left cursor-pointer ${
                                     isActive
                                         ? "bg-[#45464e] text-[#e5e1e4] border-l-2 border-[#adc6ff] font-medium"
                                         : "text-[#c2c6d6] hover:text-[#e5e1e4] hover:bg-[#2a2a2c]/50"

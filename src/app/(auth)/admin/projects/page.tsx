@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import NextImage from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { getAllProjects, deleteProject } from "@/utils/api/projects";
-import { Trash2, Edit, Plus, Loader2, ExternalLink, Github } from "lucide-react";
+import { getAllProjects } from "@/utils/api/projects";
+import { Plus, Loader2 } from "lucide-react";
 
 export type Project = {
     _id: string;
@@ -48,21 +48,6 @@ export default function AdminProjectsPage() {
         fetchProjects();
     }, []);
 
-    const handleDelete = async (id: string, name: string) => {
-        if (!confirm(`Are you sure you want to delete "${name}"?`)) {
-            return;
-        }
-
-        try {
-            await deleteProject(id);
-            toast.success("Project deleted successfully");
-            fetchProjects();
-        } catch (error) {
-            toast.error("Failed to delete project");
-            console.log("Failed to delete project: ", error);
-        }
-    };
-
     return (
         <div className="w-full max-w-[1440px] mx-auto pt-6 px-4 md:px-10 pb-12 text-[#e5e1e4] font-sans antialiased">
             {/* Toolbar Section */}
@@ -89,7 +74,11 @@ export default function AdminProjectsPage() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {projects.map((project: Project) => (
-                        <div key={project._id} className="group relative bg-[#0e0e10] border border-[#424754] rounded-xl overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_0_40px_0_rgba(59,130,246,0.1)] transition-all duration-300 flex flex-col">
+                        <div 
+                            key={project._id} 
+                            onClick={() => router.push(`/admin/projects/${project._id}/edit`)}
+                            className="group relative bg-[#0e0e10] border border-[#424754] rounded-xl overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_0_40px_0_rgba(59,130,246,0.1)] transition-all duration-300 flex flex-col cursor-pointer"
+                        >
                             <div className="relative h-56 overflow-hidden bg-[#131315]">
                                 {project.image ? (
                                     <NextImage
@@ -110,17 +99,26 @@ export default function AdminProjectsPage() {
                                         {project.draft ? "Draft" : "Published"}
                                     </span>
                                 </div>
-                                {/* Hover Actions Overlay */}
-                                <div className="absolute inset-0 bg-[#030303]/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                            </div>
+                            <div className="p-6 flex-1 flex flex-col bg-[#0e0e10]">
+                                <div className="flex flex-col mb-4">
+                                    <span className="text-[#c2c6d6] font-mono text-[13px] mb-1">{project.timeline}</span>
+                                    <h3 className="text-[20px] font-bold group-hover:text-[#adc6ff] transition-colors leading-tight">{project.name}</h3>
+                                </div>
+                                <p className="text-[#c2c6d6] text-[14px] line-clamp-2 mb-4">
+                                    {project.shortDescription || (Array.isArray(project.description) ? project.description[0] : project.description)}
+                                </p>
+                                
+                                {/* Links embedded in description */}
+                                <div className="flex flex-wrap gap-4 mb-4 text-xs text-[#c2c6d6] font-medium" onClick={(e) => e.stopPropagation()}>
                                     {project.demoLink && (
                                         <a 
                                             href={project.demoLink} 
                                             target="_blank" 
                                             rel="noreferrer" 
-                                            className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform" 
-                                            title="View Demo"
+                                            className="hover:text-[#adc6ff] hover:underline flex items-center gap-1 cursor-pointer"
                                         >
-                                            <ExternalLink className="w-5 h-5" />
+                                            Demo Link &rarr;
                                         </a>
                                     )}
                                     {project.gitlink && (
@@ -128,36 +126,13 @@ export default function AdminProjectsPage() {
                                             href={project.gitlink} 
                                             target="_blank" 
                                             rel="noreferrer" 
-                                            className="w-10 h-10 rounded-full bg-[#353437] text-white flex items-center justify-center hover:scale-110 transition-transform" 
-                                            title="Github"
+                                            className="hover:text-[#adc6ff] hover:underline flex items-center gap-1 cursor-pointer"
                                         >
-                                            <Github className="w-5 h-5" />
+                                            GitHub &rarr;
                                         </a>
                                     )}
-                                    <button 
-                                        onClick={() => router.push(`/admin/projects/${project._id}/edit`)} 
-                                        className="w-10 h-10 rounded-full bg-[#353437] text-white flex items-center justify-center hover:scale-110 transition-transform" 
-                                        title="Edit"
-                                    >
-                                        <Edit className="w-5 h-5" />
-                                    </button>
-                                    <button 
-                                        onClick={() => handleDelete(project._id, project.name)} 
-                                        className="w-10 h-10 rounded-full bg-[#93000a] text-[#ffdad6] flex items-center justify-center hover:scale-110 transition-transform" 
-                                        title="Delete"
-                                    >
-                                        <Trash2 className="w-5 h-5" />
-                                    </button>
                                 </div>
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col bg-[#0e0e10]">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="text-[20px] font-bold group-hover:text-[#adc6ff] transition-colors">{project.name}</h3>
-                                    <span className="text-[#c2c6d6] font-mono text-[13px]">{project.timeline}</span>
-                                </div>
-                                <p className="text-[#c2c6d6] text-[14px] line-clamp-2 mb-4">
-                                    {project.shortDescription || (Array.isArray(project.description) ? project.description[0] : project.description)}
-                                </p>
+
                                 <div className="flex flex-wrap gap-2 mb-6">
                                     {project.techstack.slice(0, 3).map((tech) => (
                                         <span key={tech} className="px-2 py-0.5 bg-[#201f22] text-[#c2c6d6] rounded font-mono text-[11px] border border-[#424754]">

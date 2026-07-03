@@ -8,7 +8,8 @@ import {
     updateTestimonialStatus,
     deleteTestimonial,
 } from "@/utils/api/testimonials";
-import { Trash2, Loader2, Star, User, Check } from "lucide-react";
+import { Trash2, Loader2, User } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 type TestimonialItem = {
     _id: string;
@@ -100,6 +101,23 @@ export default function AdminTestimonialsPage() {
         }
     };
 
+    // Filter States
+    const [ratingFilter, setRatingFilter] = useState<number | null>(null);
+    const [statusFilter, setStatusFilter] = useState<"All" | "Pending" | "Approved">("All");
+    const [featuredOnly, setFeaturedOnly] = useState(false);
+
+    // Filter Logic
+    const filteredTestimonials = testimonials.filter((t) => {
+        // Status check
+        if (statusFilter === "Pending" && t.isActive) return false;
+        if (statusFilter === "Approved" && !t.isActive) return false;
+        
+        // Featured check
+        if (featuredOnly && !t.isFeatured) return false;
+        
+        return true;
+    });
+
     return (
         <div className="w-full max-w-[1440px] mx-auto pt-6 px-4 md:px-10 pb-20 text-[#e5e1e4] font-sans antialiased">
             {/* Page Header */}
@@ -110,14 +128,71 @@ export default function AdminTestimonialsPage() {
                 </div>
             </div>
 
+            {/* Toolbar & Filters (Stitch Style) */}
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-[#0e0e10] border border-[#424754] rounded-xl">
+                <div className="flex flex-wrap items-center gap-3">
+                    {/* Rating Dropdown Filter */}
+                    <div className="relative">
+                        <select 
+                            className="bg-[#1c1b1d] border border-[#424754] rounded-lg px-3 py-1.5 text-sm text-[#e5e1e4] focus:ring-1 focus:ring-[#adc6ff] outline-none cursor-pointer appearance-none pr-8"
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                setRatingFilter(val ? parseInt(val) : null);
+                            }}
+                            value={ratingFilter || ""}
+                        >
+                            <option value="">Rating</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                        </select>
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-xs text-[#c2c6d6]">&#9662;</span>
+                    </div>
+
+                    {/* Approval Status Tab Group */}
+                    <div className="flex items-center p-1 bg-[#131315] rounded-lg border border-[#424754]">
+                        {(["All", "Pending", "Approved"] as const).map((status) => (
+                            <button
+                                key={status}
+                                type="button"
+                                onClick={() => setStatusFilter(status)}
+                                className={`px-4 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                                    statusFilter === status 
+                                        ? "bg-[#45464e] text-[#e5e1e4]" 
+                                        : "text-[#c2c6d6] hover:text-[#e5e1e4]"
+                                }`}
+                            >
+                                {status}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="h-6 w-px bg-[#424754] mx-1"></div>
+
+                    {/* Featured Switch */}
+                    <label className="flex items-center gap-2 cursor-pointer group">
+                        <span className="text-xs text-[#c2c6d6] group-hover:text-[#e5e1e4] transition-colors">Featured Only</span>
+                        <input
+                            type="checkbox"
+                            checked={featuredOnly}
+                            onChange={(e) => setFeaturedOnly(e.target.checked)}
+                            className="w-9 h-5 bg-[#201f22] rounded-full appearance-none relative checked:bg-[#adc6ff] transition-colors cursor-pointer before:content-[''] before:absolute before:w-4 before:h-4 before:rounded-full before:bg-white before:top-0.5 before:left-0.5 before:transition-transform checked:before:translate-x-4"
+                        />
+                    </label>
+                </div>
+                <div className="text-xs text-[#c2c6d6]">
+                    Showing <span className="text-[#e5e1e4] font-semibold">{filteredTestimonials.length}</span> testimonials
+                </div>
+            </div>
+
             {loading ? (
                 <div className="flex justify-center p-12">
                     <Loader2 className="w-8 h-8 animate-spin text-[#adc6ff]" />
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {testimonials.map((test) => (
-                        <div key={test._id} className="group relative bg-[#0e0e10] border border-[#424754] rounded-xl p-6 flex flex-col hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300">
+                    {filteredTestimonials.map((test) => (
+                        <div key={test._id} className="relative bg-[#0e0e10] border border-[#424754] rounded-xl p-6 flex flex-col hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300">
                             {/* Top Row: Avatar & Metadata */}
                             <div className="flex justify-between items-start mb-4">
                                 <div className="flex gap-4">
@@ -147,57 +222,97 @@ export default function AdminTestimonialsPage() {
                                 &ldquo;{test.message}&rdquo;
                             </blockquote>
 
-                            {/* Badges & Footer */}
-                            <div className="mt-auto flex items-center justify-between border-t border-[#424754]/30 pt-4 text-xs">
-                                <div className="flex gap-2">
-                                    <span className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold uppercase text-[10px] tracking-wider ${
-                                        test.isActive 
-                                            ? "bg-[#adc6ff]/10 text-[#adc6ff]" 
-                                            : "bg-[#45464e]/30 text-[#c6c6cf]"
-                                    }`}>
-                                        {test.isActive ? "Approved" : "Pending"}
-                                    </span>
-                                    {test.isFeatured && (
-                                        <span className="flex items-center gap-1 px-2.5 py-0.5 bg-[#df7412]/15 text-[#ffb786] rounded-full font-bold uppercase text-[10px] tracking-wider">
-                                            Featured
-                                        </span>
-                                    )}
-                                </div>
-                                <span className="text-[#8c909f]">{new Date(test.createdAt).toLocaleDateString()}</span>
-                            </div>
+                            {/* Bottom Controls Area (Approval, Feature, Deletion Popover) */}
+                            <div className="mt-auto pt-4 border-t border-[#424754]/30 flex flex-col gap-4">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        {/* Status Toggle Switch */}
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input 
+                                                type="checkbox"
+                                                checked={test.isActive}
+                                                onChange={() => handleToggleActive(test._id, test.isActive)}
+                                                className="w-9 h-5 bg-[#201f22] rounded-full appearance-none relative checked:bg-[#adc6ff] transition-colors cursor-pointer before:content-[''] before:absolute before:w-4 before:h-4 before:rounded-full before:bg-white before:top-0.5 before:left-0.5 before:transition-transform checked:before:translate-x-4"
+                                            />
+                                            <span className="text-xs text-[#c2c6d6]">{test.isActive ? "Approved" : "Pending"}</span>
+                                        </label>
 
-                            {/* Hover Actions Overlay */}
-                            <div className="absolute inset-0 bg-[#131315]/95 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 rounded-xl">
-                                <button 
-                                    onClick={() => handleToggleActive(test._id, test.isActive)}
-                                    className={`p-3 rounded-full transition-transform hover:scale-105 ${
-                                        test.isActive ? "bg-[#353437] text-[#e5e1e4]" : "bg-[#adc6ff] text-[#002e6a]"
-                                    }`} 
-                                    title={test.isActive ? "Reject/Hide" : "Approve/Show"}
-                                >
-                                    <Check className="w-5 h-5" />
-                                </button>
-                                <button 
-                                    onClick={() => handleToggleFeatured(test._id, test.isFeatured)}
-                                    className={`p-3 rounded-full transition-transform hover:scale-105 ${
-                                        test.isFeatured ? "bg-[#353437] text-amber-500" : "bg-amber-500 text-black"
-                                    }`}
-                                    title={test.isFeatured ? "Unfeature" : "Feature"}
-                                >
-                                    <Star className="w-5 h-5" />
-                                </button>
-                                <button 
-                                    onClick={() => handleDelete(test._id)}
-                                    className="bg-[#93000a] text-[#ffdad6] p-3 rounded-full transition-transform hover:scale-105" 
-                                    title="Delete"
-                                >
-                                    <Trash2 className="w-5 h-5" />
-                                </button>
+                                        {/* Feature Toggle Switch */}
+                                        <label className="flex items-center gap-2 cursor-pointer ml-3">
+                                            <input 
+                                                type="checkbox"
+                                                checked={test.isFeatured}
+                                                onChange={() => handleToggleFeatured(test._id, test.isFeatured)}
+                                                className="w-9 h-5 bg-[#201f22] rounded-full appearance-none relative checked:bg-amber-500 transition-colors cursor-pointer before:content-[''] before:absolute before:w-4 before:h-4 before:rounded-full before:bg-white before:top-0.5 before:left-0.5 before:transition-transform checked:before:translate-x-4"
+                                            />
+                                            <span className="text-xs text-amber-500">Featured</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <DeleteConfirmationPopover 
+                                        name={test.name} 
+                                        onDelete={() => handleDelete(test._id)} 
+                                    />
+                                </div>
+                                <div className="text-right text-[11px] text-[#8c909f]">
+                                    {new Date(test.createdAt).toLocaleDateString()}
+                                </div>
                             </div>
                         </div>
                     ))}
                 </div>
             )}
         </div>
+    );
+}
+
+function DeleteConfirmationPopover({ name, onDelete }: { name: string; onDelete: () => void }) {
+    const [confirmText, setConfirmText] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const shortName = name.split(" ")[0] || name;
+    const targetString = `sudo delete ${shortName}`;
+
+    return (
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild>
+                <button 
+                    type="button"
+                    className="p-2 text-[#ffb4ab] hover:bg-[#93000a]/20 hover:text-white rounded-lg transition-all cursor-pointer"
+                    title="Delete"
+                >
+                    <Trash2 className="w-4 h-4" />
+                </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 bg-[#131315] border border-[#424754] text-[#e5e1e4] p-4 shadow-xl rounded-xl z-[9999]" align="end" side="top">
+                <div className="space-y-4">
+                    <div className="space-y-1 text-left">
+                        <h4 className="text-sm font-semibold text-[#ffb4ab]">Are you absolutely sure?</h4>
+                        <p className="text-xs text-[#c2c6d6] leading-relaxed">
+                            Type <span className="font-mono bg-[#201f22] px-1 py-0.5 rounded border border-[#424754] text-[#adc6ff] select-all cursor-pointer" onClick={() => navigator.clipboard.writeText(targetString).then(() => toast.success("Copied confirmation message"))}>{targetString}</span> to confirm deletion.
+                        </p>
+                    </div>
+                    <div className="space-y-2">
+                        <input
+                            type="text"
+                            placeholder={targetString}
+                            value={confirmText}
+                            onChange={(e) => setConfirmText(e.target.value)}
+                            className="bg-[#030303] border border-[#27272a] rounded-lg px-3 py-1.5 w-full text-xs text-[#e5e1e4] focus:outline-none focus:border-[#adc6ff]"
+                        />
+                        <button
+                            type="button"
+                            disabled={confirmText !== targetString}
+                            onClick={() => {
+                                onDelete();
+                                setIsOpen(false);
+                            }}
+                            className="w-full py-2 bg-[#93000a] text-[#ffdad6] rounded-lg font-bold text-xs hover:brightness-110 disabled:opacity-40 transition-all cursor-pointer"
+                        >
+                            Confirm Secure Delete
+                        </button>
+                    </div>
+                </div>
+            </PopoverContent>
+        </Popover>
     );
 }
