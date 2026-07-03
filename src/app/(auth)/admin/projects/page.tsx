@@ -135,7 +135,7 @@ export default function AdminProjectsPage() {
                                         </a>
                                     )}
                                     <button 
-                                        onClick={() => router.push(`/admin/projects/${project._id}`)} 
+                                        onClick={() => router.push(`/admin/projects/${project._id}/edit`)} 
                                         className="w-10 h-10 rounded-full bg-[#353437] text-white flex items-center justify-center hover:scale-110 transition-transform" 
                                         title="Edit"
                                     >

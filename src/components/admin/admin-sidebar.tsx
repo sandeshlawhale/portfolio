@@ -44,7 +44,9 @@ export default function AdminSidebar() {
             <SidebarContent className="px-4 py-2">
                 <nav className="flex flex-col gap-2">
                     {adminNavItems.map((item) => {
-                        const isActive = pathname.startsWith(item.href);
+                        const isActive = item.href === "/admin" 
+                            ? pathname === "/admin" 
+                            : pathname.startsWith(item.href);
                         return (
                             <button
                                 key={item.id}

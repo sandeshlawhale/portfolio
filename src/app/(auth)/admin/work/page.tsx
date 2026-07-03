@@ -154,7 +154,7 @@ export default function AdminWorkPage() {
                                         </div>
                                         <div className="col-span-1 flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                                             <button 
-                                                onClick={() => router.push(`/admin/work/${work._id}`)}
+                                                onClick={() => router.push(`/admin/work/${work._id}/edit`)}
                                                 className="p-2 text-[#c2c6d6] hover:text-[#adc6ff] hover:bg-[#adc6ff]/5 rounded-full transition-all"
                                                 title="Edit"
                                             >
