@@ -48,7 +48,7 @@ export default function TestimonialsPage() {
 
     const fetchTestimonials = async () => {
         try {
-            const baseUrl = getBaseUrl() || "http://localhost:5051";
+            const baseUrl = getBaseUrl();
             const res = await fetch(`${baseUrl}/api/testimonials`);
             if (res.ok) {
                 const data = await res.json();
@@ -103,7 +103,7 @@ export default function TestimonialsPage() {
 
         setLoading(true);
         try {
-            const baseUrl = getBaseUrl() || "http://localhost:5051";
+            const baseUrl = getBaseUrl();
             const submitData = new FormData();
             submitData.append("name", formData.name);
             submitData.append("email", formData.email);
