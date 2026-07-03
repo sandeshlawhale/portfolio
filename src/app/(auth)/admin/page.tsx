@@ -87,7 +87,7 @@ export default function AdminPage() {
 
             // Compute technology breadth from project tags
             const techCount: Record<string, number> = {};
-            projects.forEach((proj: any) => {
+            projects.forEach((proj: { techstack?: string[] }) => {
                 if (Array.isArray(proj.techstack)) {
                     proj.techstack.forEach((tech: string) => {
                         const t = tech.trim();
@@ -394,7 +394,7 @@ export default function AdminPage() {
                                         <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_#adc6ff]"></div>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-[#e5e1e4]">Updated "Cloud Architecture Framework" Project</p>
+                                        <p className="text-sm font-medium text-[#e5e1e4]">Updated &quot;Cloud Architecture Framework&quot; Project</p>
                                         <p className="text-xs text-muted-foreground mt-1">2 hours ago • Project Dashboard</p>
                                     </div>
                                 </div>
@@ -415,7 +415,7 @@ export default function AdminPage() {
                                         <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_#ffb786]"></div>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-[#e5e1e4]">Added "Senior Solutions Architect" role at Vercel</p>
+                                        <p className="text-sm font-medium text-[#e5e1e4]">Added &quot;Senior Solutions Architect&quot; role at Vercel</p>
                                         <p className="text-xs text-muted-foreground mt-1">Yesterday • Career Path</p>
                                     </div>
                                 </div>
@@ -464,7 +464,7 @@ export default function AdminPage() {
                             <div className="mt-8 p-4 bg-[#18181b]/50 rounded-xl border border-[#27272a] flex items-center gap-4">
                                 <Lightbulb className="w-8 h-8 text-primary shrink-0" />
                                 <p className="text-sm text-[#e5e1e4]">
-                                    You're in the <span className="text-primary font-bold">top 5%</span> of cloud architects in your region this quarter.
+                                    You&apos;re in the <span className="text-primary font-bold">top 5%</span> of cloud architects in your region this quarter.
                                 </p>
                             </div>
                         </div>
