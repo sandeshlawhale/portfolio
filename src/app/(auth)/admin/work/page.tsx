@@ -74,19 +74,19 @@ export default function AdminWorkPage() {
     };
 
     return (
-        <div className="w-full max-w-[1440px] mx-auto pt-6 px-4 md:px-10 pb-20 text-[#e5e1e4] font-sans antialiased">
+        <div className="w-full max-w-[1440px] mx-auto pt-2 md:pt-6 px-1 md:px-10 pb-12 md:pb-20 text-[#e5e1e4] font-sans antialiased">
             {/* Header & Action Toolbar */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 md:mb-12 px-2 md:px-0">
                 <div>
-                    <h2 className="text-[48px] font-semibold tracking-tight leading-none mb-2">Work Experience</h2>
-                    <p className="text-[#c2c6d6] text-[16px] mt-2 max-w-2xl">
+                    <h2 className="text-3xl md:text-[48px] font-semibold tracking-tight leading-none mb-2">Work Experience</h2>
+                    <p className="text-[#c2c6d6] text-sm md:text-[16px] mt-2 max-w-2xl">
                         A curated timeline of professional contributions, technical leadership, and architectural impact.
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={() => router.push("/admin/work/add")}
-                        className="flex items-center gap-2 bg-[#adc6ff] text-[#002e6a] px-5 py-2.5 rounded-lg text-sm font-semibold hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-[#adc6ff]/10"
+                        className="flex items-center gap-2 bg-[#adc6ff] text-[#002e6a] px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-sm font-semibold hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-[#adc6ff]/10 cursor-pointer"
                     >
                         <Plus className="w-4 h-4" />
                         Add Entry
@@ -99,16 +99,16 @@ export default function AdminWorkPage() {
                     <Loader2 className="w-8 h-8 animate-spin text-[#adc6ff]" />
                 </div>
             ) : (
-                <div className="space-y-6">
+                <div className="space-y-4">
                     {works.map((work) => {
                         const isExpanded = expandedIds.includes(work._id);
                         return (
                             <div key={work._id} className="bg-[#0e0e10] border border-[#424754] rounded-xl overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300">
                                 <div 
-                                    className="p-8 flex items-start gap-6 cursor-pointer group" 
+                                    className="p-4 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6 cursor-pointer group" 
                                     onClick={() => toggleExpand(work._id)}
                                 >
-                                    <div className="w-16 h-16 rounded-xl bg-[#201f22] border border-[#424754] flex items-center justify-center overflow-hidden shrink-0 relative">
+                                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-[#201f22] border border-[#424754] flex items-center justify-center overflow-hidden shrink-0 relative">
                                         {work.company.logo ? (
                                             <Image 
                                                 src={work.company.logo} 
@@ -120,11 +120,11 @@ export default function AdminWorkPage() {
                                             <Globe className="w-8 h-8 text-[#8c909f]" />
                                         )}
                                     </div>
-                                    <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4 w-full">
                                         <div className="col-span-1 md:col-span-2">
-                                            <div className="flex items-center gap-3">
-                                                <h3 className="text-[20px] font-bold text-[#e5e1e4] group-hover:text-[#adc6ff] transition-colors">{work.role}</h3>
-                                                <span className={`px-2.5 py-0.5 rounded-full text-[12px] font-medium border ${
+                                            <div className="flex flex-wrap items-center gap-2 md:gap-3">
+                                                <h3 className="text-lg md:text-[20px] font-bold text-[#e5e1e4] group-hover:text-[#adc6ff] transition-colors">{work.role}</h3>
+                                                <span className={`px-2 py-0.5 rounded-full text-[11px] md:text-[12px] font-medium border ${
                                                     work.status === "Ongoing" || work.status === "Working"
                                                         ? "bg-[#adc6ff]/10 text-[#adc6ff] border-[#adc6ff]/20"
                                                         : "bg-[#201f22] text-[#c2c6d6] border-[#424754]"
@@ -132,12 +132,12 @@ export default function AdminWorkPage() {
                                                     {work.status}
                                                 </span>
                                             </div>
-                                            <p className="text-[#c2c6d6] text-sm mt-1">{work.company.name} • {work.location.city} ({work.location.type})</p>
+                                            <p className="text-[#c2c6d6] text-xs md:text-sm mt-1">{work.company.name} • {work.location.city} ({work.location.type})</p>
                                         </div>
                                         <div className="col-span-1 flex flex-col md:items-end justify-center">
-                                            <span className="text-[#e5e1e4] text-sm font-medium">{work.duration.start} — {work.duration.end}</span>
+                                            <span className="text-[#e5e1e4] text-xs md:text-sm font-medium">{work.duration.start} — {work.duration.end}</span>
                                         </div>
-                                        <div className="col-span-1 flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                                        <div className="col-span-1 flex items-center justify-end gap-2 w-full md:w-auto" onClick={(e) => e.stopPropagation()}>
                                             <button 
                                                 onClick={() => router.push(`/admin/work/${work._id}/edit`)}
                                                 className="p-2 text-[#c2c6d6] hover:text-[#adc6ff] hover:bg-[#adc6ff]/5 rounded-full transition-all cursor-pointer"
@@ -156,10 +156,10 @@ export default function AdminWorkPage() {
                                 </div>
                                 
                                 {isExpanded && (
-                                    <div className="px-8 pb-8 pt-2 grid grid-cols-1 lg:grid-cols-3 gap-12 border-t border-[#424754]/30 bg-[#0c0c0d]">
-                                        <div className="lg:col-span-2 space-y-6">
+                                    <div className="px-4 md:px-8 pb-6 md:pb-8 pt-4 grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12 border-t border-[#424754]/30 bg-[#0c0c0d]">
+                                        <div className="lg:col-span-2 space-y-4 md:space-y-6">
                                             <div>
-                                                <h4 className="text-[12px] font-semibold uppercase tracking-widest text-[#c2c6d6] mb-4">Core Responsibilities</h4>
+                                                <h4 className="text-[11px] md:text-[12px] font-semibold uppercase tracking-widest text-[#c2c6d6] mb-3 md:mb-4">Core Responsibilities</h4>
                                                  <div className="space-y-3">
                                                      {work.responsibilities.map((resp, i) => {
                                                          const isHtml = resp.includes("<p>") || resp.includes("<h") || resp.includes("<ul>") || resp.includes("<li>");
@@ -167,13 +167,13 @@ export default function AdminWorkPage() {
                                                              return (
                                                                  <div 
                                                                      key={i}
-                                                                     className="tiptap-rendered-content text-[#e5e1e4] text-sm"
+                                                                     className="tiptap-rendered-content text-[#e5e1e4] text-xs md:text-sm"
                                                                      dangerouslySetInnerHTML={{ __html: resp }}
                                                                  />
                                                              );
                                                          }
                                                          return (
-                                                             <div key={i} className="flex gap-3 text-[#e5e1e4] text-sm">
+                                                             <div key={i} className="flex gap-2 md:gap-3 text-[#e5e1e4] text-xs md:text-sm">
                                                                  <span className="text-[#adc6ff] mt-0.5">•</span>
                                                                  {resp}
                                                              </div>
@@ -182,12 +182,12 @@ export default function AdminWorkPage() {
                                                  </div>
                                             </div>
                                         </div>
-                                        <div className="space-y-8">
+                                        <div className="space-y-6 md:space-y-8">
                                             <div>
-                                                <h4 className="text-[12px] font-semibold uppercase tracking-widest text-[#c2c6d6] mb-4">Tech Stack</h4>
-                                                <div className="flex flex-wrap gap-2">
+                                                <h4 className="text-[11px] md:text-[12px] font-semibold uppercase tracking-widest text-[#c2c6d6] mb-3 md:mb-4">Tech Stack</h4>
+                                                <div className="flex flex-wrap gap-1.5 md:gap-2">
                                                     {work.technologies.map((tech) => (
-                                                        <span key={tech} className="px-3 py-1 bg-[#201f22] border border-[#424754] rounded text-[#e5e1e4] font-mono text-[13px]">
+                                                        <span key={tech} className="px-2.5 py-1 bg-[#201f22] border border-[#424754] rounded text-[#e5e1e4] font-mono text-[11px] md:text-[13px]">
                                                             {tech}
                                                         </span>
                                                     ))}
