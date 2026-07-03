@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Work from "@/models/Work";
 import cloudinary from "@/lib/cloudinary";
-import { logAdminAction } from "@/utils/backend/system";
 import { verifyAdmin, createErrorResponse } from "@/utils/backend/auth";
 
 export async function GET() {
@@ -86,7 +85,6 @@ export async function POST(req: NextRequest) {
             responsibilities,
         });
 
-        await logAdminAction("added_work", companyName);
 
         return NextResponse.json(
             { success: true, message: "Work added successfully", result: newWork },

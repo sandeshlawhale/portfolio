@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Testimonial from "@/models/Testimonial";
 import { verifyAdmin, createErrorResponse } from "@/utils/backend/auth";
-import { logAdminAction } from "@/utils/backend/system";
 
 type RouteParams = { params: Promise<{ id: string }> };
 
@@ -33,7 +32,6 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
             );
         }
 
-        await logAdminAction("updated_testimonial", updatedTestimonial.name);
 
         return NextResponse.json({
             success: true,
@@ -69,7 +67,6 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
             );
         }
 
-        await logAdminAction("deleted_testimonial", testimonial.name);
 
         return NextResponse.json({
             success: true,

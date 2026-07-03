@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Resume from "@/models/Resume";
 import cloudinary from "@/lib/cloudinary";
-import { logAdminAction } from "@/utils/backend/system";
 import { verifyAdmin, createErrorResponse } from "@/utils/backend/auth";
 
 export async function GET() {
@@ -70,7 +69,6 @@ export async function POST(req: NextRequest) {
             isActive,
         });
 
-        await logAdminAction("added_resume", name);
 
         return NextResponse.json(
             { success: true, message: "Resume added successfully", result: newResume },

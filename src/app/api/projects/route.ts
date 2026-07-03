@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Project from "@/models/Project";
 import cloudinary from "@/lib/cloudinary";
-import { logAdminAction } from "@/utils/backend/system";
 import { verifyAdmin, createErrorResponse } from "@/utils/backend/auth";
 
 export async function GET(req: NextRequest) {
@@ -95,9 +94,7 @@ export async function POST(req: NextRequest) {
             shortDescription,
             draft,
         };
-
         const project = await Project.create(data);
-        await logAdminAction("created_project", name);
 
         return NextResponse.json(
             { success: true, message: "Project created successfully", result: project },
