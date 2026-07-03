@@ -20,9 +20,7 @@ export default function AddResumePage() {
                 </div>
             </div>
 
-            <div className="bg-card p-8 rounded-2xl border border-border shadow-sm">
-                <ResumeForm />
-            </div>
+            <ResumeForm />
         </div>
     );
 }
