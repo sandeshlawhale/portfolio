@@ -22,6 +22,7 @@ type Project = {
     gitlink: string;
     otherLink: string[];
     draft: boolean;
+    featured?: boolean;
 };
 
 interface ProjectFormProps {

@@ -20,6 +20,8 @@ export interface Project {
     title: string;
     description: string;
   };
+  featured?: boolean;
+  draft?: boolean;
 }
 
 export interface SidebarProps {
