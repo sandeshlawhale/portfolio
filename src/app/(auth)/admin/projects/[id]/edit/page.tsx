@@ -52,15 +52,8 @@ export default function EditProjectPage() {
     }
 
     return (
-        <div className="w-full max-w-4xl mx-auto space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold">Edit Project</h1>
-                <p className="text-muted-foreground text-sm">Update details for <span className="font-semibold text-primary">{project.name}</span></p>
-            </div>
-
-            <div className="p-6 bg-card rounded-2xl border border-border shadow-sm">
-                <ProjectForm initialData={project} isEdit={true} />
-            </div>
+        <div className="w-full max-w-[1440px] mx-auto pt-6 px-4 md:px-10 pb-12">
+            <ProjectForm initialData={project} isEdit={true} />
         </div>
     );
 }

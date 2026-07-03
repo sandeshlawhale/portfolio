@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DevArchitect | Projects Management</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        body {
+            background-color: #030303;
+            color: #e5e1e4;
+            font-family: 'Geist', sans-serif;
+        }
+
+        .vercel-card-hover:hover {
+            border-color: #3f3f46;
+            box-shadow: 0 0 40px 0 rgba(59, 130, 246, 0.1);
+        }
+
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "secondary": "#c6c6cf",
+                        "background": "#131315",
+                        "tertiary-container": "#df7412",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-primary-fixed": "#001a42",
+                        "primary-fixed-dim": "#adc6ff",
+                        "outline": "#8c909f",
+                        "surface-bright": "#39393b",
+                        "on-secondary-container": "#b4b4bd",
+                        "primary-fixed": "#d8e2ff",
+                        "secondary-container": "#45464e",
+                        "surface-dim": "#131315",
+                        "surface-container-low": "#1c1b1d",
+                        "surface-tint": "#adc6ff",
+                        "on-background": "#e5e1e4",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313032",
+                        "surface-container-highest": "#353437",
+                        "on-tertiary": "#502400",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-tertiary-container": "#461f00",
+                        "inverse-surface": "#e5e1e4",
+                        "inverse-primary": "#005ac2",
+                        "surface-variant": "#353437",
+                        "on-secondary-fixed": "#1a1b22",
+                        "tertiary": "#ffb786",
+                        "error": "#ffb4ab",
+                        "primary": "#adc6ff",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-tertiary-fixed": "#311400",
+                        "on-secondary-fixed-variant": "#45464e",
+                        "surface-container-high": "#2a2a2c",
+                        "surface": "#131315",
+                        "on-secondary": "#2f3037",
+                        "surface-container": "#201f22",
+                        "on-primary-container": "#00285d",
+                        "on-surface-variant": "#c2c6d6",
+                        "on-primary": "#002e6a",
+                        "on-surface": "#e5e1e4",
+                        "secondary-fixed": "#e2e1eb",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "primary-container": "#4d8eff",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#c6c6cf",
+                        "outline-variant": "#424754"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "stack-gap": "16px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "code": ["JetBrains Mono"],
+                        "body-lg": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "display": ["Geist"],
+                        "body-md": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "label-sm": ["Geist"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary/30">
+<!-- Sidebar Navigation -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-10 z-50">
+<div class="px-6 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">DevArchitect</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">System Admin</p>
+</div>
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">work</span>
+<span class="font-body-md text-body-md">Work Experience</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface bg-secondary-container rounded-lg border-l-2 border-primary" href="#">
+<span class="material-symbols-outlined fill-icon" style="font-variation-settings: 'FILL' 1;">folder_special</span>
+<span class="font-body-md text-body-md">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Resume</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">reviews</span>
+<span class="font-body-md text-body-md">Testimonials</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary text-on-primary-fixed font-medium py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                New Project
+            </button>
+</div>
+<div class="px-4 border-t border-outline-variant pt-6">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-background/80 backdrop-blur-md border-b border-outline-variant h-16 flex justify-between items-center px-10">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="bg-surface-container-low border border-outline-variant rounded-full pl-10 pr-4 py-1.5 text-body-md font-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all w-64" placeholder="Search projects..." type="text"/>
+</div>
+<nav class="flex gap-6">
+<a class="text-on-surface-variant hover:text-on-surface font-body-md text-body-md" href="#">Docs</a>
+<a class="text-on-surface-variant hover:text-on-surface font-body-md text-body-md" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-high rounded-full p-2 text-on-surface-variant transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:bg-surface-container-high rounded-full p-2 text-on-surface-variant transition-all">
+<span class="material-symbols-outlined">contrast</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-on-primary-container text-[20px]">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Projects Content Area -->
+<div class="pt-24 px-10 pb-12 max-w-[1440px] mx-auto">
+<!-- Toolbar Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+<div>
+<h2 class="font-display text-display leading-none mb-2">Projects</h2>
+<p class="text-on-surface-variant font-body-md">Manage and showcase your architectural code masterpieces.</p>
+</div>
+<div class="flex items-center gap-3 self-end">
+<div class="flex bg-surface-container border border-outline-variant rounded-lg p-1">
+<button class="p-2 rounded bg-surface-container-high text-primary">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 rounded text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">list</span>
+</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-2.5 bg-surface-container border border-outline-variant rounded-lg font-body-md hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+                        Filters
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2.5 bg-primary text-on-primary-fixed rounded-lg font-body-md hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Add Project
+                    </button>
+</div>
+</div>
+<!-- Bento Grid / Cards Container -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Card 1: Featured Project -->
+<div class="group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden vercel-card-hover transition-all duration-300 flex flex-col">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek dark-mode software interface showing a complex distributed system dashboard with glowing neon blue data lines and minimalist white typography. The scene is lit with cinematic high-contrast lighting, emphasizing deep shadows and sharp edges in a high-tech corporate SaaS style. A sophisticated indigo color palette dominates the futuristic visual language." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs6NFvWwsNwNQiuTxZeSmoKEtqwrMu9hJU6P4s_DXy_XE64W3K_-GcNdgJspnUuN-d28W2rpoN6Kxj_yJuZ4Jo19rNH8UlGLDcUvFwR-JwA0ZxHnh0ynT7kYuGn7jbSHUYIStF1asvX60a5WfVWkBnSqnAFnCVTzj3JfK7-FCLucEddxvZrybQOcico1pE56KC0wED4tTK4NBXnhiB3xsHXKclby66m0FVgB7Gf8SBQ2xyOxg2jWJ_U80mpdqSRbrmz3zXg13ID3dz"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/20 text-primary border border-primary/30 backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                Featured
+                            </span>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-0 bg-background/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform" title="View Demo">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest text-white flex items-center justify-center hover:scale-110 transition-transform" title="Github">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest text-white flex items-center justify-center hover:scale-110 transition-transform" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md font-bold group-hover:text-primary transition-colors">QuantumNexus</h3>
+<span class="text-on-surface-variant font-code text-code">2024</span>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2 mb-4">Enterprise-grade distributed ledger explorer with real-time visualization of block transitions and peer latency.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">TypeScript</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">Rust</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">Next.js</span>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-on-surface-variant">
+<span class="text-label-sm font-label-sm">Lead Architect</span>
+<span class="text-label-sm font-label-sm uppercase tracking-widest opacity-60">Published</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden vercel-card-hover transition-all duration-300 flex flex-col">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A macro photograph of an intricate circuit board pattern illuminated by soft amber and gold light. The aesthetic is clean and industrial, with sharp focus on the metallic pathways and components. The atmosphere is professional and sophisticated, emphasizing technical precision and architectural design within a dark, premium environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAwNdNhub7cP052oboGq9dvYq-fLQ52E5j0M9wIv7aUNraSk4nMZ_FMnYpEQLGsIukEQOGXLFt3ZN6CoWu18LmOUDsmMeY8Smck4O8Lrv1eMfXxM_y1QdNEOk7PQHYt9bit-RbDBri273x740B_TIfbkpiG642ltySCR52m4_OP6yrOQ3sJ4EtYfWBIOq4Plc4BKquLBZloGrVMvgXbDVYVSBvkOfV8IXROoNWMJ-mVkWvUO3qAyLsTHahj3lL8piQ1_FmioKJcrNh"/>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-container-high/80 text-on-surface border border-outline-variant backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-label-sm">
+                                Published
+                            </span>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-0 bg-background/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform" title="View Demo">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest text-white flex items-center justify-center hover:scale-110 transition-transform" title="Github">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest text-white flex items-center justify-center hover:scale-110 transition-transform" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md font-bold group-hover:text-primary transition-colors">Aura Engine</h3>
+<span class="text-on-surface-variant font-code text-code">2023</span>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2 mb-4">Physically based rendering engine for web-based 3D applications using WebGPU and custom shaders.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">WGSL</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">Three.js</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">WASM</span>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-on-surface-variant">
+<span class="text-label-sm font-label-sm">Core Contributor</span>
+<span class="text-label-sm font-label-sm uppercase tracking-widest opacity-60">Open Source</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Draft -->
+<div class="group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden vercel-card-hover transition-all duration-300 flex flex-col">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60 grayscale group-hover:grayscale-0 transition-all" data-alt="An abstract visualization of neural network pathways glowing in a deep violet and electric blue color scheme. The composition uses a shallow depth of field, creating a sense of immense scale and complexity. The lighting is moody and evocative, fitting for a cutting-edge artificial intelligence project. The design is minimalist, clean, and futuristic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWhdFk4zHwKoUIiMR-d0AFgCDTuMhuGqMZY-1EkKGdjAeFVClaII8pJTd9RpitM2JT3HQe7Xe3OPMPIRqE5nFqC6_kuAf28-R2UNKI_dbkHeOstVXLozcjv7DyWT7l16WcdCrpfSQDDK0bDmhuh0F5yMYAFLAPpobeEimU-0q-wojtfKs1v4k1m4Tt_U85SwHjALzwN0c0ADQXTL04nZDwazoPMDnIVksoAWqBfDNK901uYNOFoYwt3V3iTtrXt-q_iwGnZwMbSRrl"/>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary-container/80 text-secondary border border-outline-variant backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-label-sm">
+                                Draft
+                            </span>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-0 bg-background/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+<button class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center hover:scale-110 transition-transform" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md font-bold group-hover:text-primary transition-colors">CognitoFlow</h3>
+<span class="text-on-surface-variant font-code text-code">2024</span>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2 mb-4">Internal tool for automating LLM prompt chaining and response evaluation workflows across multiple models.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">Python</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">PyTorch</span>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-on-surface-variant">
+<span class="text-label-sm font-label-sm">Solo Developer</span>
+<span class="text-label-sm font-label-sm uppercase tracking-widest opacity-60">WIP</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden vercel-card-hover transition-all duration-300 flex flex-col">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist architectural render of a glass-walled data center at dusk, reflecting a vibrant sunset of deep oranges and purples. The focus is on clean geometric lines, structural transparency, and the intersection of physical architecture with digital technology. The lighting is warm yet professional, creating a premium corporate aesthetic with high visual impact." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwgtO3F2dts0VKCHAiBLGviCcUvImyn1E3gvUF1oeVRE6McgrLTShG-VigURJoRtqVMdJHDFIQXdBBwEG4v2cLEadLwDUqVce5jW0v1TlNSmV9HXIfPQDUk2rCCJ4z-Yldeze7y6RYBYAdU8Gzr-I7KoYrzYz-ryK3dqQIgEx9CNfqKFxsYj7TMIb0fdrF40oQATPQdLF1xyVoBjfzLrqqyNvDTTDzrwavAM1xko0-vRqCkw5Ruan91BGXrU55MjotMkSgx23v25ex"/>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-container-high/80 text-on-surface border border-outline-variant backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-label-sm">
+                                Published
+                            </span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md font-bold group-hover:text-primary transition-colors">Skyline API</h3>
+<span class="text-on-surface-variant font-code text-code">2022</span>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2 mb-4">High-performance GraphQL layer for metropolitan data services, serving over 10M requests daily.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">Go</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">GraphQL</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant rounded font-code text-[11px] border border-outline-variant">Redis</span>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-on-surface-variant">
+<span class="text-label-sm font-label-sm">Backend Lead</span>
+<span class="text-label-sm font-label-sm uppercase tracking-widest opacity-60">Published</span>
+</div>
+</div>
+</div>
+<!-- Empty State/Add Project Mock -->
+<div class="group relative border-2 border-dashed border-outline-variant rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 flex flex-col items-center justify-center min-h-[400px] cursor-pointer bg-surface-container-lowest/50 hover:bg-surface-container-lowest">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant group-hover:text-primary transition-colors">add</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold">New Project</span>
+<p class="text-on-surface-variant font-body-md mt-2">Start your next big architectural design.</p>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="mt-16 flex flex-col items-center gap-6">
+<button class="px-8 py-3 bg-surface-container border border-outline-variant rounded-lg font-body-md text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 group">
+                    View More Projects
+                    <span class="material-symbols-outlined group-hover:translate-y-1 transition-transform">keyboard_arrow_down</span>
+</button>
+<div class="flex items-center gap-4 text-label-sm text-on-surface-variant">
+<span class="w-24 h-[1px] bg-outline-variant"></span>
+<span>Showing 4 of 28 Projects</span>
+<span class="w-24 h-[1px] bg-outline-variant"></span>
+</div>
+</div>
+</div>
+<!-- Notification Toast (Floating Micro-interaction example) -->
+<div class="fixed bottom-10 right-10 z-[100] bg-surface-container-highest border border-primary/20 p-4 rounded-xl shadow-2xl flex items-center gap-3 translate-y-24 opacity-0 transition-all duration-500 pointer-events-none" id="toast">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Project Published</p>
+<p class="text-label-sm text-on-surface-variant">QuantumNexus is now live in your public portfolio.</p>
+</div>
+<button class="ml-4 text-on-surface-variant hover:text-on-surface" onclick="toggleToast(false)">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</main>
+<script>
+        // Micro-interaction for the toast notification
+        function toggleToast(show) {
+            const toast = document.getElementById('toast');
+            if (show) {
+                toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            } else {
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+            }
+        }
+
+        // Trigger toast after 2 seconds for demonstration
+        setTimeout(() => toggleToast(true), 2000);
+        setTimeout(() => toggleToast(false), 8000);
+
+        // Simple Active State Toggle for Filter Buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('bg-primary/10');
+                btn.classList.toggle('text-primary');
+            });
+        });
+    </script>
+</body></html>

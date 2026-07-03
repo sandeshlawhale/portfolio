@@ -15,14 +15,8 @@ export default async function EditWorkPage({ params }: PageProps) {
     }
 
     return (
-        <div className="w-full max-w-4xl mx-auto space-y-6">
-            <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
-                <h1 className="text-2xl font-bold">Edit Work Experience</h1>
-                <p className="text-muted-foreground text-sm">Update your experience details</p>
-            </div>
-            <div className="bg-card p-8 rounded-2xl border border-border shadow-sm">
-                <WorkForm initialData={work} isEdit={true} />
-            </div>
+        <div className="w-full max-w-[1440px] mx-auto pt-6 px-4 md:px-10 pb-12">
+            <WorkForm initialData={work} isEdit={true} />
         </div>
     );
 }

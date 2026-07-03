@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Project | DevArchitect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        :root {
+            --primary-glow: rgba(173, 198, 255, 0.15);
+        }
+
+        body {
+            background-color: #030303;
+            color: #e5e1e4;
+            font-family: 'Geist', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .glass-card {
+            background: #09090b;
+            border: 1px solid #27272a;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: #3f3f46;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.05);
+        }
+
+        .input-field {
+            background: #030303;
+            border: 1px solid #27272a;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            color: #e5e1e4;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0e0e10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .tag-pill {
+            background: #1c1b1d;
+            border: 1px solid #424754;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .toolbar-btn {
+            padding: 6px;
+            border-radius: 4px;
+            color: #c2c6d6;
+            transition: all 0.2s;
+        }
+
+        .toolbar-btn:hover {
+            background: #2a2a2c;
+            color: #adc6ff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#1c1b1d",
+                        "on-secondary-fixed-variant": "#45464e",
+                        "secondary-fixed-dim": "#c6c6cf",
+                        "background": "#131315",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "primary-fixed-dim": "#adc6ff",
+                        "surface-container": "#201f22",
+                        "on-tertiary": "#502400",
+                        "on-primary": "#002e6a",
+                        "error-container": "#93000a",
+                        "surface": "#131315",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdcc6",
+                        "primary": "#adc6ff",
+                        "secondary-fixed": "#e2e1eb",
+                        "secondary-container": "#45464e",
+                        "on-secondary": "#2f3037",
+                        "inverse-on-surface": "#313032",
+                        "surface-container-highest": "#353437",
+                        "on-tertiary-fixed": "#311400",
+                        "secondary": "#c6c6cf",
+                        "tertiary-container": "#df7412",
+                        "surface-tint": "#adc6ff",
+                        "outline": "#8c909f",
+                        "on-tertiary-container": "#461f00",
+                        "surface-container-high": "#2a2a2c",
+                        "on-primary-fixed": "#001a42",
+                        "surface-bright": "#39393b",
+                        "on-surface-variant": "#c2c6d6",
+                        "on-background": "#e5e1e4",
+                        "inverse-primary": "#005ac2",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "primary-fixed": "#d8e2ff",
+                        "on-secondary-container": "#b4b4bd",
+                        "on-primary-container": "#00285d",
+                        "on-error": "#690005",
+                        "surface-variant": "#353437",
+                        "on-surface": "#e5e1e4",
+                        "on-primary-fixed-variant": "#004395",
+                        "tertiary": "#ffb786",
+                        "on-secondary-fixed": "#1a1b22",
+                        "primary-container": "#4d8eff",
+                        "inverse-surface": "#e5e1e4",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#131315",
+                        "surface-container-lowest": "#0e0e10",
+                        "outline-variant": "#424754"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-gap": "16px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "display": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "code": ["jetbrainsMono"],
+                        "headline-lg-mobile": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+                        "code": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background">
+<!-- Sidebar Wrapper -->
+<aside class="hidden md:flex flex-col h-full py-margin-desktop bg-surface-container-lowest fixed left-0 top-0 w-64 border-r border-outline-variant z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">DevArchitect</h1>
+<p class="text-on-surface-variant font-body-md text-body-md">System Admin</p>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">work</span>
+<span class="font-body-md text-body-md">Work Experience</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface bg-secondary-container rounded-lg border-l-2 border-primary" href="#">
+<span class="material-symbols-outlined">folder_special</span>
+<span class="font-body-md text-body-md">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Resume</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">reviews</span>
+<span class="font-body-md text-body-md">Testimonials</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4">
+<button class="w-full py-2 bg-primary text-on-primary rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+                New Project
+            </button>
+<div class="mt-4 pt-4 border-t border-outline-variant">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 min-h-screen">
+<!-- Top Nav -->
+<header class="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-40 bg-background/80 backdrop-blur-md border-b border-outline-variant h-16 flex items-center justify-between px-margin-desktop">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full pl-10 pr-4 py-1.5 font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Search components..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<a class="text-on-surface-variant hover:text-on-surface px-3 py-1 font-body-md" href="#">Docs</a>
+<a class="text-on-surface-variant hover:text-on-surface px-3 py-1 font-body-md" href="#">Support</a>
+<div class="flex gap-1 ml-4 border-l border-outline-variant pl-4">
+<button class="hover:bg-surface-container-high rounded-full p-2 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:bg-surface-container-high rounded-full p-2 transition-all">
+<span class="material-symbols-outlined">contrast</span>
+</button>
+<button class="hover:bg-surface-container-high rounded-full p-2 transition-all">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Form Area -->
+<div class="pt-24 pb-12 px-margin-desktop max-w-6xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Edit Project</h2>
+<p class="text-on-surface-variant font-body-md">Update your architectural masterpiece details.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-6 py-2 rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-all font-bold">Cancel</button>
+<button class="px-6 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-all font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                        Preview
+                    </button>
+<button class="px-8 py-2 rounded-lg bg-primary text-on-primary font-bold hover:shadow-lg transition-all active:scale-95">Save Project</button>
+</div>
+</div>
+<div class="bento-grid">
+<!-- Left Column: Primary Details -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<!-- Basic Info Card -->
+<div class="glass-card p-6 rounded-xl space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Project Name</label>
+<input class="input-field w-full px-4 py-2.5" type="text" value="Quantum Neural Engine"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Role</label>
+<input class="input-field w-full px-4 py-2.5" type="text" value="Lead Architect"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Timeline</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">calendar_today</span>
+<input class="input-field w-full pl-10 pr-4 py-2.5" type="text" value="2024 - Present"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Project Category</label>
+<select class="input-field w-full px-4 py-2.5 bg-surface-container-low appearance-none">
+<option>AI</option>
+<option selected="">Full Stack</option>
+<option>Frontend</option>
+<option>Backend</option>
+<option>Mobile</option>
+<option>Open Source</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Short Description</label>
+<input class="input-field w-full px-4 py-2.5" type="text" value="An enterprise-grade LLM orchestrator built for high-throughput data processing."/>
+</div>
+</div>
+<!-- Rich Text Description Card -->
+<div class="glass-card p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-center">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Detailed Description</label>
+<div class="flex gap-1">
+<button class="toolbar-btn"><span class="material-symbols-outlined text-[18px]">format_bold</span></button>
+<button class="toolbar-btn"><span class="material-symbols-outlined text-[18px]">format_italic</span></button>
+<button class="toolbar-btn"><span class="material-symbols-outlined text-[18px]">format_list_bulleted</span></button>
+<button class="toolbar-btn"><span class="material-symbols-outlined text-[18px]">code</span></button>
+<button class="toolbar-btn"><span class="material-symbols-outlined text-[18px]">link</span></button>
+</div>
+</div>
+<div class="min-h-[300px] input-field p-4 text-on-surface font-body-md overflow-y-auto leading-relaxed" contenteditable="true">
+<p>The <strong>Quantum Neural Engine</strong> solves the complexity of managing multi-agent AI environments. By leveraging a custom Rust-based core, we achieved 40% lower latency compared to standard Python implementations.</p>
+<br/>
+<h3>Key Features:</h3>
+<ul class="list-disc ml-5 mt-2 space-y-1">
+<li>Real-time stream processing with Kafka</li>
+<li>Dynamic resource allocation for GPU clusters</li>
+<li>Encrypted vector database storage (AES-256)</li>
+</ul>
+</div>
+</div>
+<!-- Outcomes Card -->
+<div class="glass-card p-6 rounded-xl space-y-4">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Outcome &amp; Impact</label>
+<textarea class="input-field w-full px-4 py-2.5" placeholder="What were the results? (e.g., Improved performance by 30%)" rows="3"></textarea>
+</div>
+</div>
+<!-- Right Column: Sidebar Settings -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Cover Image Upload -->
+<div class="glass-card p-6 rounded-xl space-y-4">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Project Image</label>
+<div class="group relative rounded-lg overflow-hidden aspect-video bg-surface-container border-2 border-dashed border-outline-variant hover:border-primary transition-all cursor-pointer flex flex-col items-center justify-center text-center p-4">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A cinematic, high-end 3D render of an abstract neural network structure floating in a dark, tech-focused environment. Neon blue light lines trace paths through metallic nodes. The composition is sleek and professional, using deep blacks and vibrant primary blue accents to match a modern developer portfolio aesthetic. 8k resolution, photorealistic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLQics75x5NAzNUOhQcAjvB2XdeQK2GtfgPZTjywGUwSqycqL9zkfSwELSE7YTqYJ-1vKs4odpdALDy7lGv8JjA7ZL2rsWQwATuvEeu3NbIKlOyuVHGWMSuwaVjyZ0-rdjCMVZpSXFKLztruK26KhGnO-507wzP-44eBngYblmXbubYzPelT05nE2E8j_6N1tZLxj7Z9-38oYac-dHhNYUGcfw8tzZ1AYiTmkN7AymKXD6j5yxJMPLBfMR4dwXqv09bRTOibE33OuB"/>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-4xl text-primary mb-2">cloud_upload</span>
+<p class="text-on-surface font-body-md">Click to upload or drag &amp; drop</p>
+<p class="text-on-surface-variant text-[12px] mt-1">SVG, PNG, JPG or WEBP (MAX. 800x400px)</p>
+</div>
+</div>
+</div>
+<!-- Project Metadata -->
+<div class="glass-card p-6 rounded-xl space-y-6">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">draw</span>
+<span class="font-body-md">Draft Mode</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">star</span>
+<span class="font-body-md">Featured Project</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Display Order</label>
+<input class="input-field w-full px-4 py-2" type="number" value="1"/>
+</div>
+</div>
+<!-- Links & Tags -->
+<div class="glass-card p-6 rounded-xl space-y-6">
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Tech Stack</label>
+<div class="input-field p-2 flex flex-wrap gap-2 min-h-[44px]">
+<span class="tag-pill">React <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
+<span class="tag-pill">TypeScript <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
+<span class="tag-pill">Rust <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
+<input class="bg-transparent border-none focus:ring-0 p-0 text-sm flex-1 min-w-[60px]" placeholder="Add tech..." type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">GitHub Link</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">terminal</span>
+<input class="input-field w-full pl-10 pr-4 py-2" type="text" value="github.com/arch/quantum-engine"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Demo Link</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">launch</span>
+<input class="input-field w-full pl-10 pr-4 py-2" type="text" value="quantum-demo.devarchitect.io"/>
+</div>
+</div>
+</div>
+</div>
+<!-- SEO Section -->
+<div class="glass-card p-6 rounded-xl space-y-6">
+<h4 class="text-on-surface font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">search_check</span>
+                            SEO Optimization
+                        </h4>
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">SEO Title</label>
+<input class="input-field w-full px-4 py-2" placeholder="e.g. Project Name | Portfolio" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">SEO Description</label>
+<textarea class="input-field w-full px-4 py-2" placeholder="Brief search result summary..." rows="3"></textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Form persistence simulation or simple UI reactive states
+        document.querySelectorAll('.input-field').forEach(field => {
+            field.addEventListener('focus', () => {
+                field.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            field.addEventListener('blur', () => {
+                field.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+
+        // Simple button active effect enhancement
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-[0.98]'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-[0.98]'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-[0.98]'));
+        });
+    </script>
+</body></html>

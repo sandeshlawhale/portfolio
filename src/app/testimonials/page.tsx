@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, Upload, Check, User, Star, Building, MessageSquare } from "lucide-react";
+import { ChevronLeft, Upload, Check, User, Star } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -30,7 +29,6 @@ type TestimonialItem = {
 
 export default function TestimonialsPage() {
     const { setDataLoaded } = useAppContext();
-    const router = useRouter();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [formData, setFormData] = useState({
@@ -321,7 +319,7 @@ export default function TestimonialsPage() {
                                     </div>
                                 )}
                                 <p className="text-sm text-mutedText leading-relaxed italic">
-                                    "{t.message}"
+                                    &ldquo;{t.message}&rdquo;
                                 </p>
                                 <div className="flex items-center gap-3 pt-2 border-t border-border/10">
                                     <div className="relative w-8 h-8 rounded-full overflow-hidden border border-border flex-shrink-0 bg-secondary/40 flex items-center justify-center">

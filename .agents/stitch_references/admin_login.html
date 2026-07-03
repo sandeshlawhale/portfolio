@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DevArchitect | Secure Access</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Typography: Geist and JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#93000a",
+                    "secondary": "#c6c6cf",
+                    "background": "#131315",
+                    "tertiary-container": "#df7412",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "on-primary-fixed": "#001a42",
+                    "primary-fixed-dim": "#adc6ff",
+                    "outline": "#8c909f",
+                    "surface-bright": "#39393b",
+                    "on-secondary-container": "#b4b4bd",
+                    "primary-fixed": "#d8e2ff",
+                    "secondary-container": "#45464e",
+                    "surface-dim": "#131315",
+                    "surface-container-low": "#1c1b1d",
+                    "surface-tint": "#adc6ff",
+                    "on-background": "#e5e1e4",
+                    "on-error-container": "#ffdad6",
+                    "inverse-on-surface": "#313032",
+                    "surface-container-highest": "#353437",
+                    "on-tertiary": "#502400",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-tertiary-container": "#461f00",
+                    "inverse-surface": "#e5e1e4",
+                    "inverse-primary": "#005ac2",
+                    "surface-variant": "#353437",
+                    "on-secondary-fixed": "#1a1b22",
+                    "tertiary": "#ffb786",
+                    "error": "#ffb4ab",
+                    "primary": "#adc6ff",
+                    "tertiary-fixed": "#ffdcc6",
+                    "on-tertiary-fixed": "#311400",
+                    "on-secondary-fixed-variant": "#45464e",
+                    "surface-container-high": "#2a2a2c",
+                    "surface": "#131315",
+                    "on-secondary": "#2f3037",
+                    "surface-container": "#201f22",
+                    "on-primary-container": "#00285d",
+                    "on-surface-variant": "#c2c6d6",
+                    "on-primary": "#002e6a",
+                    "on-surface": "#e5e1e4",
+                    "secondary-fixed": "#e2e1eb",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "primary-container": "#4d8eff",
+                    "surface-container-lowest": "#0e0e10",
+                    "on-error": "#690005",
+                    "secondary-fixed-dim": "#c6c6cf",
+                    "outline-variant": "#424754"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "stack-gap": "16px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "code": ["JetBrains Mono"],
+                    "body-lg": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "display": ["Geist"],
+                    "headline-lg-mobile": ["Geist"],
+                    "body-md": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "label-sm": ["Geist"]
+            },
+            "fontSize": {
+                    "code": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        background-color: #030303;
+        color: #e5e1e4;
+        overflow-x: hidden;
+      }
+
+      .vercel-glow {
+        position: relative;
+      }
+      .vercel-glow::after {
+        content: "";
+        position: absolute;
+        inset: -20px;
+        background: radial-gradient(circle at center, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+        filter: blur(40px);
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .vercel-glow:hover::after {
+        opacity: 1;
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+      }
+
+      .login-gradient {
+        background: radial-gradient(circle at top left, #1a1a1e 0%, #030303 100%);
+      }
+
+      .loading-spinner {
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 2px solid #fff;
+        width: 16px;
+        height: 16px;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .notification-slide {
+        animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes slideIn {
+        from { transform: translateY(100%) scale(0.9); opacity: 0; }
+        to { transform: translateY(0) scale(1); opacity: 1; }
+      }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex">
+<!-- Left Side: Visual Experience -->
+<aside class="hidden lg:flex w-1/2 relative overflow-hidden login-gradient border-r border-outline-variant">
+<!-- Abstract Background Detail -->
+<div class="absolute inset-0 opacity-20">
+
+</div>
+<div class="relative z-10 flex flex-col justify-between w-full p-16">
+<!-- Logo Header -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold tracking-tight text-on-surface">DevArchitect</span>
+</div>
+<!-- Content Area -->
+<div class="max-w-md">
+<h1 class="font-display text-display mb-6 leading-tight">Master the <span class="text-primary">System</span> Architecture.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+                    Access the integrated development environment designed for elite system administrators and software architects.
+                </p>
+<!-- Illustration/Graphic Placeholder -->
+<div class="relative rounded-xl overflow-hidden border border-outline-variant bg-surface-container-lowest vercel-glow aspect-video flex items-center justify-center">
+<img class="object-cover w-full h-full opacity-60" data-alt="A sophisticated dark-themed developer workstation visualization. Floating translucent code snippets, glowing network nodes, and 3D geometric system blocks are arranged in an architectural layout. The lighting is low-key with sharp primary indigo accents, creating a high-tech, professional atmosphere typical of a premium SaaS dashboard environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgUqWhpN-fetUn6ZP5ohivj7i8SD0Gw_aEt2TZJdocGy5ujwpwVxgj1CGVjFXcWqhkYPYbNPTQvrXgp_iYD1mVswWZ-y2wiKVyqc4enZTwCNBT-FLWAdkwbaT3kGZ9eu2gp-sZZ44Cr0dz8vF_nNP2VmDyD5tGjjbmPfVnrnGT0pGRyOInNksQIJx_MyLuznQrVMyX28_8PPCvhNiyR8bfsx_-Cbjlj6EpwWPJR1cylv5RQ_nVP3S6m6G5yW4xf4_4q3gXsOKFlS-A"/>
+</div>
+</div>
+<!-- Footer Meta -->
+<div class="flex items-center gap-6 text-on-surface-variant/60 font-label-sm text-label-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+<span>SYSTEMS NOMINAL</span>
+</div>
+<span>v4.2.0-STABLE</span>
+</div>
+</div>
+</aside>
+<!-- Right Side: Interaction -->
+<main class="w-full lg:w-1/2 flex items-center justify-center bg-background px-margin-mobile lg:px-0 relative">
+<div class="w-full max-w-sm flex flex-col">
+<!-- Form Header -->
+<div class="text-center mb-10">
+<div class="lg:hidden flex items-center justify-center gap-2 mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">architecture</span>
+<span class="font-headline-md text-headline-md font-bold">DevArchitect</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg mb-2">Welcome Back</h2>
+<p class="text-on-surface-variant">Enter your credentials to manage your projects.</p>
+</div>
+<!-- Login Card -->
+<form class="space-y-6" id="loginForm">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block" for="email">Email Address</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">alternate_email</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-10 pr-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-outline-variant" id="email" placeholder="admin@devarchitect.io" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block" for="password">Password</label>
+<a class="text-primary hover:text-primary-fixed-dim font-label-sm text-label-sm transition-colors" href="#">Forgot password?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-10 pr-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-outline-variant" id="password" placeholder="••••••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center gap-2">
+<input class="w-4 h-4 rounded border-outline-variant bg-surface-container-lowest text-primary focus:ring-offset-background focus:ring-primary transition-all" id="remember" type="checkbox"/>
+<label class="text-on-surface-variant cursor-pointer select-none" for="remember">Remember this device for 30 days</label>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary text-on-primary font-headline-md py-4 rounded-lg flex items-center justify-center gap-3 hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20" id="submitBtn" type="submit">
+<span id="btnText">Sign In to Dashboard</span>
+<div class="loading-spinner hidden" id="btnSpinner"></div>
+</button>
+</form>
+<!-- Footer Navigation -->
+<div class="mt-12 pt-8 border-t border-outline-variant/30 flex flex-col items-center gap-4">
+<p class="text-on-surface-variant font-label-sm text-label-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+                    Protected Admin Access
+                </p>
+<div class="flex gap-4">
+<a class="text-outline hover:text-on-surface transition-colors font-label-sm text-label-sm" href="#">Privacy Policy</a>
+<span class="text-outline-variant">•</span>
+<a class="text-outline hover:text-on-surface transition-colors font-label-sm text-label-sm" href="#">Security Audit</a>
+</div>
+</div>
+</div>
+<!-- Toast Notifications Mockup Container -->
+<div class="absolute bottom-8 right-8 flex flex-col gap-3 pointer-events-none" id="toastContainer">
+<!-- Sample Error Toast (Hidden by default) -->
+<div class="hidden notification-slide bg-surface-container-high border-l-4 border-error p-4 rounded-lg shadow-xl flex items-center gap-3 min-w-[320px] pointer-events-auto" id="errorToast">
+<div class="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-error text-[20px]">error</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Access Denied</h4>
+<p class="text-on-surface-variant text-sm">Invalid credentials provided.</p>
+</div>
+<button class="ml-auto text-outline hover:text-on-surface transition-colors" onclick="hideToast('errorToast')">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Sample Success Toast (Hidden by default) -->
+<div class="hidden notification-slide bg-surface-container-high border-l-4 border-emerald-500 p-4 rounded-lg shadow-xl flex items-center gap-3 min-w-[320px] pointer-events-auto" id="successToast">
+<div class="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-emerald-500 text-[20px]">check_circle</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Welcome back, Admin</h4>
+<p class="text-on-surface-variant text-sm">Redirecting to project dashboard...</p>
+</div>
+<button class="ml-auto text-outline hover:text-on-surface transition-colors" onclick="hideToast('successToast')">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</main>
+<script>
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const errorToast = document.getElementById('errorToast');
+        const successToast = document.getElementById('successToast');
+
+        function hideToast(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Interaction State
+            submitBtn.disabled = true;
+            btnText.textContent = 'Authenticating...';
+            btnSpinner.classList.remove('hidden');
+            
+            // Clear existing toasts
+            errorToast.classList.add('hidden');
+            successToast.classList.add('hidden');
+
+            // Simulate Network Request
+            setTimeout(() => {
+                const email = document.getElementById('email').value;
+                
+                if (email.includes('error')) {
+                    // Fail state simulation
+                    errorToast.classList.remove('hidden');
+                    submitBtn.disabled = false;
+                    btnText.textContent = 'Sign In to Dashboard';
+                    btnSpinner.classList.add('hidden');
+                } else {
+                    // Success state simulation
+                    successToast.classList.remove('hidden');
+                    btnText.textContent = 'Redirecting...';
+                    
+                    // Simulation finish
+                    setTimeout(() => {
+                        btnSpinner.classList.add('hidden');
+                        btnText.textContent = 'Ready';
+                    }, 1000);
+                }
+            }, 1800);
+        });
+
+        // Add keyboard shortcut simulation (visual only)
+        document.addEventListener('keydown', (e) => {
+            if (e.metaKey && e.key === 'k') {
+                console.log('Command Palette triggered');
+            }
+        });
+    </script>
+</body></html>
