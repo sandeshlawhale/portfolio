@@ -186,16 +186,28 @@ const HeroExperience = () => {
                                                             </div>
                                                         </div>
 
-                                                        {/* Responsibilities */}
-                                                        <div>
-                                                            <ul className="list-disc list-outside pl-4 flex flex-col gap-2 tracking-wider text-mutedText text-base leading-relaxed">
-                                                                {exp.responsibilities.map((resp: string, idx: number) => (
-                                                                    <li key={idx} className="pl-1">
-                                                                        {resp}
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        </div>
+                                                         {/* Responsibilities */}
+                                                         <div className="text-mutedText text-base leading-relaxed tracking-wider">
+                                                             {exp.responsibilities.map((resp: string, idx: number) => {
+                                                                 const isHtml = resp.includes("<p>") || resp.includes("<h") || resp.includes("<ul>") || resp.includes("<li>");
+                                                                 if (isHtml) {
+                                                                     return (
+                                                                         <div 
+                                                                             key={idx}
+                                                                             className="tiptap-rendered-content space-y-2"
+                                                                             dangerouslySetInnerHTML={{ __html: resp }}
+                                                                         />
+                                                                     );
+                                                                 }
+                                                                 return (
+                                                                     <ul key={idx} className="list-disc list-outside pl-4 flex flex-col gap-2">
+                                                                         <li className="pl-1">
+                                                                             {resp}
+                                                                         </li>
+                                                                     </ul>
+                                                                 );
+                                                             })}
+                                                         </div>
                                                     </div>
                                                 </motion.div>
                                             )}

@@ -160,14 +160,26 @@ export default function AdminWorkPage() {
                                         <div className="lg:col-span-2 space-y-6">
                                             <div>
                                                 <h4 className="text-[12px] font-semibold uppercase tracking-widest text-[#c2c6d6] mb-4">Core Responsibilities</h4>
-                                                <ul className="space-y-3">
-                                                    {work.responsibilities.map((resp, i) => (
-                                                        <li key={i} className="flex gap-3 text-[#e5e1e4] text-sm">
-                                                            <span className="text-[#adc6ff] mt-0.5">•</span>
-                                                            {resp}
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                                                 <div className="space-y-3">
+                                                     {work.responsibilities.map((resp, i) => {
+                                                         const isHtml = resp.includes("<p>") || resp.includes("<h") || resp.includes("<ul>") || resp.includes("<li>");
+                                                         if (isHtml) {
+                                                             return (
+                                                                 <div 
+                                                                     key={i}
+                                                                     className="tiptap-rendered-content text-[#e5e1e4] text-sm"
+                                                                     dangerouslySetInnerHTML={{ __html: resp }}
+                                                                 />
+                                                             );
+                                                         }
+                                                         return (
+                                                             <div key={i} className="flex gap-3 text-[#e5e1e4] text-sm">
+                                                                 <span className="text-[#adc6ff] mt-0.5">•</span>
+                                                                 {resp}
+                                                             </div>
+                                                         );
+                                                     })}
+                                                 </div>
                                             </div>
                                         </div>
                                         <div className="space-y-8">

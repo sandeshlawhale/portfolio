@@ -174,14 +174,26 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
               )}
             </div>
 
-            {currentProject.description?.map((detail: string, index: number) => (
-              <p
-                key={`detail_${index}`}
-                className="text-base font-normal tracking-wide text-gray-200 px-4"
-              >
-                {detail}
-              </p>
-            ))}
+            {currentProject.description?.map((detail: string, index: number) => {
+              const isHtml = detail.includes("<p>") || detail.includes("<h") || detail.includes("<ul>") || detail.includes("<li>");
+              if (isHtml) {
+                return (
+                  <div
+                    key={`detail_${index}`}
+                    className="text-base font-normal tracking-wide text-gray-200 px-4 space-y-4 tiptap-rendered-content"
+                    dangerouslySetInnerHTML={{ __html: detail }}
+                  />
+                );
+              }
+              return (
+                <p
+                  key={`detail_${index}`}
+                  className="text-base font-normal tracking-wide text-gray-200 px-4"
+                >
+                  {detail}
+                </p>
+              );
+            })}
 
             {currentProject.quote && (
               <div className="px-4">

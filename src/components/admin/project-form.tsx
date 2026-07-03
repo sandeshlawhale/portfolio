@@ -6,6 +6,7 @@ import { Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createProject, updateProject } from "@/utils/api/projects";
+import RichTextEditor from "./rich-text-editor";
 
 type Project = {
     _id: string;
@@ -41,9 +42,17 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
     const [demoLink, setDemoLink] = useState(initialData?.demoLink || "");
     const [outcome, setOutcome] = useState(initialData?.outcome || "");
     const [techstack, setTechstack] = useState(initialData?.techstack?.join(", ") || "");
-    const [description, setDescription] = useState(
-        Array.isArray(initialData?.description) ? initialData.description.join("\n") : initialData?.description || ""
-    );
+    const [description, setDescription] = useState<string>(() => {
+        if (!initialData?.description) return "";
+        if (Array.isArray(initialData.description)) {
+            const first = initialData.description[0] || "";
+            if (first.includes("<p>") || first.includes("<h") || first.includes("<ul>") || first.includes("<li>")) {
+                return first;
+            }
+            return initialData.description.map(line => `<p>${line}</p>`).join("");
+        }
+        return initialData.description;
+    });
     const [draft, setDraft] = useState(initialData?.draft || false);
 
     // Image handling
@@ -81,10 +90,9 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
             formData.append("draft", draft.toString());
 
             const techStackArray = techstack.split(",").map((t: string) => t.trim()).filter((t: string) => t);
-            techStackArray.forEach((tech: string) => formData.append("techstack", tech));
+            formData.append("techstack", JSON.stringify(techStackArray));
 
-            const descriptionArray = description.split('\n').map((d: string) => d.trim()).filter((d: string) => d);
-            descriptionArray.forEach((desc: string) => formData.append("description", desc));
+            formData.append("description", JSON.stringify([description]));
 
             if (imageFile) {
                 formData.append("image", imageFile);
@@ -191,14 +199,11 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
 
                     {/* Rich Text Description Card */}
                     <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-6 rounded-xl space-y-4">
-                        <label className="block text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider">Detailed Description (one paragraph/bullet point per line)</label>
-                        <textarea 
-                            className="bg-[#030303] border border-[#27272a] rounded-lg px-4 py-2.5 w-full text-[#e5e1e4] focus:outline-none focus:border-[#adc6ff] focus:ring-4 focus:ring-[#adc6ff]/10 transition-all placeholder:text-[#424754] font-mono text-[13px]" 
-                            rows={8}
-                            placeholder="Enter description paragraphs..."
-                            required
+                        <label className="block text-[12px] font-semibold text-[#c2c6d6] uppercase tracking-wider">Detailed Description</label>
+                        <RichTextEditor 
                             value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            onChange={setDescription}
+                            placeholder="Describe the project, technologies used, outcome, and achievements..."
                         />
                     </div>
 

@@ -6,6 +6,7 @@ import { Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createWork, updateWork } from "@/utils/api/work";
+import RichTextEditor from "./rich-text-editor";
 
 type Company = {
     name: string;
@@ -60,9 +61,17 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
 
     // Arrays
     const [technologies, setTechnologies] = useState(initialData?.technologies?.join(", ") || "");
-    const [responsibilities, setResponsibilities] = useState(
-        Array.isArray(initialData?.responsibilities) ? initialData.responsibilities.join("\n") : ""
-    );
+    const [responsibilities, setResponsibilities] = useState<string>(() => {
+        if (!initialData?.responsibilities) return "";
+        if (Array.isArray(initialData.responsibilities)) {
+            const first = initialData.responsibilities[0] || "";
+            if (first.includes("<p>") || first.includes("<h") || first.includes("<ul>") || first.includes("<li>")) {
+                return first;
+            }
+            return initialData.responsibilities.map(line => `<p>${line}</p>`).join("");
+        }
+        return initialData.responsibilities;
+    });
 
     // Company Logo handling
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -99,10 +108,9 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
             formData.append("endDate", endDate);
 
             const techArray = technologies.split(",").map((t: string) => t.trim()).filter((t: string) => t);
-            techArray.forEach((tech: string) => formData.append("technologies", tech));
+            formData.append("technologies", JSON.stringify(techArray));
 
-            const respArray = responsibilities.split('\n').map((r: string) => r.trim()).filter((r: string) => r);
-            respArray.forEach((resp: string) => formData.append("responsibilities", resp));
+            formData.append("responsibilities", JSON.stringify([responsibilities]));
 
             if (imageFile) {
                 formData.append("logo", imageFile);
@@ -284,14 +292,11 @@ export default function WorkForm({ initialData, isEdit = false }: WorkFormProps)
 
                 {/* Responsibilities */}
                 <div className="col-span-12 lg:col-span-8 bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] transition-all p-8 rounded-xl space-y-6">
-                    <h3 className="text-[20px] font-bold text-[#e5e1e4]">Description & Key Contributions (one per line)</h3>
-                    <textarea 
-                        className="w-full bg-[#131315] border border-[#27272a] rounded-xl p-4 text-sm text-[#e5e1e4] focus:border-[#adc6ff] focus:ring-1 focus:ring-[#adc6ff] outline-none resize-none font-mono text-[13px]" 
-                        placeholder="Enter key achievements..." 
-                        rows={8}
-                        required
+                    <h3 className="text-[20px] font-bold text-[#e5e1e4]">Description & Key Contributions</h3>
+                    <RichTextEditor 
                         value={responsibilities}
-                        onChange={(e) => setResponsibilities(e.target.value)}
+                        onChange={setResponsibilities}
+                        placeholder="Describe key responsibilities, projects completed, and major achievements..."
                     />
                 </div>
 

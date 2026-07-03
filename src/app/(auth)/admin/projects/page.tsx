@@ -106,7 +106,10 @@ export default function AdminProjectsPage() {
                                     <h3 className="text-[20px] font-bold group-hover:text-[#adc6ff] transition-colors leading-tight">{project.name}</h3>
                                 </div>
                                 <p className="text-[#c2c6d6] text-[14px] line-clamp-2 mb-4">
-                                    {project.shortDescription || (Array.isArray(project.description) ? project.description[0] : project.description)}
+                                    {project.shortDescription || (() => {
+                                        const desc = Array.isArray(project.description) ? (project.description[0] || "") : (project.description || "");
+                                        return desc.replace(/<[^>]*>/g, "");
+                                    })()}
                                 </p>
                                 
                                 {/* Links embedded in description */}
