@@ -3,19 +3,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAnalyticsStats } from "@/utils/api/analytics";
+import { getAllProjects } from "@/utils/api/projects";
+import { getAllWorks } from "@/utils/api/work";
+import { getAllTestimonialsAdmin } from "@/utils/api/testimonials";
 import {
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    BarChart, Bar, AreaChart, Area
+    AreaChart, Area
 } from "recharts";
 import {
-    Users, MousePointer2, Clock, Smartphone, Monitor, Tablet,
-    ArrowUpRight, Loader2, Link as LinkIcon,
+    Folder, Briefcase, MessageSquare, Eye, TrendingUp, TrendingDown,
+    Sparkles, Zap, PlusCircle, Download, ChevronRight, Info,
+    Lightbulb, Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useAppContext } from "@/context/AppContext";
-
-const COLORS = ["#818cf8", "#c084fc", "#fb7185", "#38bdf8", "#4ade80"];
 
 type AvgTimeItem = {
     _id: string;
@@ -46,17 +47,7 @@ type AnalyticsResponse = {
 type TrendRow = {
     date: string;
     total: number;
-    [category: string]: string | number; // dynamic category keys
-};
-
-type StatCardColor = "primary" | "indigo" | "rose" | "sky";
-
-type StatCardProps = {
-    title: string;
-    value: string | number;
-    icon: React.ElementType;
-    description?: string;
-    color?: StatCardColor;
+    [category: string]: string | number;
 };
 
 export default function AdminPage() {
@@ -67,15 +58,59 @@ export default function AdminPage() {
     const [days, setDays] = useState(7);
     const [stats, setStats] = useState<AnalyticsResponse | null>(null);
 
-    const fetchStats = useCallback(async () => {
+    // Entity Counts from APIs
+    const [projectCount, setProjectCount] = useState(0);
+    const [workCount, setWorkCount] = useState(0);
+    const [testimonialCount, setTestimonialCount] = useState(0);
+    const [techBreadth, setTechBreadth] = useState<{ name: string; percentage: number }[]>([]);
+
+    const fetchDashboardData = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await getAnalyticsStats(days);
-            if (data.success) {
-                setStats(data.result);
+            // Fetch analytics stats
+            const statsData = await getAnalyticsStats(days);
+            if (statsData.success) {
+                setStats(statsData.result);
             }
+
+            // Fetch live counts
+            const [projectsData, worksData, testimonialsData] = await Promise.all([
+                getAllProjects().catch(() => ({ result: [] })),
+                getAllWorks().catch(() => ({ result: [] })),
+                getAllTestimonialsAdmin().catch(() => ({ result: [] }))
+            ]);
+
+            const projects = projectsData.result || [];
+            setProjectCount(projects.length);
+            setWorkCount(worksData.result?.length || 0);
+            setTestimonialCount(testimonialsData.result?.length || 0);
+
+            // Compute technology breadth from project tags
+            const techCount: Record<string, number> = {};
+            projects.forEach((proj: any) => {
+                if (Array.isArray(proj.techstack)) {
+                    proj.techstack.forEach((tech: string) => {
+                        const t = tech.trim();
+                        if (t) {
+                            techCount[t] = (techCount[t] || 0) + 1;
+                        }
+                    });
+                }
+            });
+
+            const sortedTech = Object.entries(techCount)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 4);
+
+            const maxCount = Math.max(...Object.values(techCount), 1);
+            const breadth = sortedTech.map(([name, count]) => ({
+                name,
+                percentage: Math.round((count / maxCount) * 100)
+            }));
+            setTechBreadth(breadth);
+
         } catch (error) {
-            console.error(error);
+            console.error("Error loading dashboard stats:", error);
         } finally {
             setLoading(false);
             setDataLoaded(true);
@@ -88,20 +123,13 @@ export default function AdminPage() {
             router.push("/login");
         } else {
             setIsAuthenticated(true);
-            fetchStats();
+            fetchDashboardData();
         }
-    }, [router, days, fetchStats]);
+    }, [router, days, fetchDashboardData]);
 
     if (!isAuthenticated) return null;
 
     const totalViews = stats?.categoryViews?.reduce((acc, curr) => acc + curr.count, 0) || 0;
-    const totalInteractions = stats?.interactions?.reduce((acc, curr) => acc + curr.count, 0) || 0;
-
-    // Format interaction data for the chart
-    const interactionData = stats?.interactions?.map((item) => ({
-        name: item._id.replace(/_/g, ' '),
-        count: item.count
-    })) || [];
 
     // Format time series for trend
     const trendData = stats?.timeSeries?.reduce<TrendRow[]>((acc, curr) => {
@@ -119,33 +147,35 @@ export default function AdminPage() {
         return acc;
     }, []) || [];
 
-    const deviceData = stats?.devices?.map((item) => ({
-        name: item._id,
-        value: item.count
-    })) || [];
-
     return (
         <div className="flex flex-col gap-8 pb-10">
+            {/* Top Bar / Page Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Analytics Overview</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-[#e5e1e4] font-sans">Analytics Overview</h1>
                     <p className="text-muted-foreground mt-1">
-                        Track how your portfolio is performing.
+                        Real-time performance metrics for your architectural ecosystem.
                     </p>
                 </div>
 
-                <div className="flex items-center gap-2 bg-card p-1 rounded-xl border border-border shadow-sm">
-                    {[7, 30, 90].map((d) => (
-                        <Button
-                            key={d}
-                            variant={days === d ? "default" : "ghost"}
-                            size="sm"
-                            className="h-8 rounded-lg text-xs"
-                            onClick={() => setDays(d)}
-                        >
-                            Last {d} Days
-                        </Button>
-                    ))}
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1 bg-[#09090b] border border-[#27272a] p-1 rounded-xl shadow-sm">
+                        {[7, 30, 90].map((d) => (
+                            <Button
+                                key={d}
+                                variant={days === d ? "default" : "ghost"}
+                                size="sm"
+                                className="h-8 rounded-lg text-xs"
+                                onClick={() => setDays(d)}
+                            >
+                                Last {d} Days
+                            </Button>
+                        ))}
+                    </div>
+                    <Button variant="outline" className="border-[#27272a] bg-[#09090b] hover:bg-[#18181b] flex items-center gap-2 h-10 text-[#e5e1e4]">
+                        <Download className="w-4 h-4" />
+                        Export Report
+                    </Button>
                 </div>
             </div>
 
@@ -156,51 +186,115 @@ export default function AdminPage() {
                 </div>
             ) : (
                 <>
-                    {/* Top Stats Cards */}
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <StatCard
-                            title="Total Page Views"
-                            value={totalViews}
-                            icon={Users}
-                            description="Total visitors across all pages"
-                        />
-                        <StatCard
-                            title="Total Interactions"
-                            value={totalInteractions}
-                            icon={MousePointer2}
-                            description="Clicks on social, contact, resume"
-                            color="indigo"
-                        />
-                        <StatCard
-                            title="Avg Time on Page"
-                            value={`${Math.round(stats?.avgTime?.[0]?.avgDuration || 0)}s`}
-                            icon={Clock}
-                            description="Mean duration per session"
-                            color="rose"
-                        />
-                        <StatCard
-                            title="Primary Device"
-                            value={deviceData[0]?.name || "N/A"}
-                            icon={Monitor}
-                            description="Most used device type"
-                            color="sky"
-                        />
+                    {/* Stats Bento Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {/* Projects Card */}
+                        <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300 p-6 rounded-2xl flex flex-col justify-between min-h-[160px]">
+                            <div className="flex justify-between items-start">
+                                <span className="text-[#a1a1aa] text-xs font-semibold uppercase tracking-widest">Total Projects</span>
+                                <div className="p-2 rounded-xl bg-primary/10 text-primary">
+                                    <Folder className="w-5 h-5" />
+                                </div>
+                            </div>
+                            <div className="mt-4 flex items-end justify-between">
+                                <div>
+                                    <h3 className="text-3xl font-bold text-[#e5e1e4] font-sans">{projectCount}</h3>
+                                    <p className="text-emerald-500 text-xs mt-1 flex items-center gap-1">
+                                        <TrendingUp className="w-3.5 h-3.5" /> +12%
+                                    </p>
+                                </div>
+                                <svg className="w-24 h-12 overflow-visible">
+                                    <polyline fill="none" points="0,40 10,35 20,42 30,20 40,30 50,15 60,25 70,10 80,15 90,5" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Work Experience Card */}
+                        <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300 p-6 rounded-2xl flex flex-col justify-between min-h-[160px]">
+                            <div className="flex justify-between items-start">
+                                <span className="text-[#a1a1aa] text-xs font-semibold uppercase tracking-widest">Work Experiences</span>
+                                <div className="p-2 rounded-xl bg-amber-500/10 text-amber-500">
+                                    <Briefcase className="w-5 h-5" />
+                                </div>
+                            </div>
+                            <div className="mt-4 flex items-end justify-between">
+                                <div>
+                                    <h3 className="text-3xl font-bold text-[#e5e1e4] font-sans">{String(workCount).padStart(2, '0')}</h3>
+                                    <p className="text-muted-foreground text-xs mt-1">Steady</p>
+                                </div>
+                                <svg className="w-24 h-12 overflow-visible">
+                                    <polyline fill="none" points="0,25 20,25 40,25 60,25 80,25 90,25" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Testimonials Card */}
+                        <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300 p-6 rounded-2xl flex flex-col justify-between min-h-[160px]">
+                            <div className="flex justify-between items-start">
+                                <span className="text-[#a1a1aa] text-xs font-semibold uppercase tracking-widest">Testimonials</span>
+                                <div className="p-2 rounded-xl bg-purple-500/10 text-purple-500">
+                                    <MessageSquare className="w-5 h-5" />
+                                </div>
+                            </div>
+                            <div className="mt-4 flex items-end justify-between">
+                                <div>
+                                    <h3 className="text-3xl font-bold text-[#e5e1e4] font-sans">{testimonialCount}</h3>
+                                    <p className="text-emerald-500 text-xs mt-1 flex items-center gap-1">
+                                        <Sparkles className="w-3.5 h-3.5" /> New review
+                                    </p>
+                                </div>
+                                <svg className="w-24 h-12 overflow-visible">
+                                    <polyline fill="none" points="0,40 15,30 30,35 45,15 60,20 75,5 90,10" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Profile Views Card */}
+                        <div className="bg-[#09090b] border border-[#27272a] hover:border-[#3f3f46] hover:shadow-[0_0_40px_rgba(59,130,246,0.05)] transition-all duration-300 p-6 rounded-2xl flex flex-col justify-between min-h-[160px]">
+                            <div className="flex justify-between items-start">
+                                <span className="text-[#a1a1aa] text-xs font-semibold uppercase tracking-widest">Profile Views</span>
+                                <div className="p-2 rounded-xl bg-rose-500/10 text-rose-500">
+                                    <Eye className="w-5 h-5" />
+                                </div>
+                            </div>
+                            <div className="mt-4 flex items-end justify-between">
+                                <div>
+                                    <h3 className="text-3xl font-bold text-[#e5e1e4] font-sans">
+                                        {totalViews >= 1000 ? `${(totalViews / 1000).toFixed(1)}k` : totalViews}
+                                    </h3>
+                                    <p className="text-rose-500 text-xs mt-1 flex items-center gap-1">
+                                        <TrendingDown className="w-3.5 h-3.5" /> -2%
+                                    </p>
+                                </div>
+                                <svg className="w-24 h-12 overflow-visible">
+                                    <polyline fill="none" points="0,5 20,15 40,10 60,30 80,25 90,45" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></polyline>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="grid gap-6 md:grid-cols-7">
+                    {/* Charts & Actions Row */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         {/* Traffic Trend Chart */}
-                        <div className="md:col-span-4 p-6 rounded-2xl border border-border bg-card shadow-sm">
-                            <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
-                                <ArrowUpRight className="w-5 h-5 text-emerald-500" />
-                                Traffic Trend
-                            </h3>
-                            <div className="h-[300px] w-full">
+                        <div className="lg:col-span-2 bg-[#09090b] border border-[#27272a] p-8 rounded-2xl">
+                            <div className="flex items-center justify-between mb-8">
+                                <div>
+                                    <h4 className="text-xl font-bold text-[#e5e1e4]">Traffic Trend</h4>
+                                    <p className="text-muted-foreground text-sm mt-1">Page visits over the selected range</p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
+                                    <span className="text-xs text-muted-foreground">Total Views</span>
+                                </div>
+                            </div>
+
+                            <div className="h-64 w-full">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <AreaChart data={trendData}>
                                         <defs>
                                             <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#818cf8" stopOpacity={0.3} />
-                                                <stop offset="95%" stopColor="#818cf8" stopOpacity={0} />
+                                                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                                                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                                             </linearGradient>
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
@@ -208,23 +302,24 @@ export default function AdminPage() {
                                             dataKey="date"
                                             axisLine={false}
                                             tickLine={false}
-                                            tick={{ fontSize: 10, fill: '#64748b' }}
+                                            tick={{ fontSize: 10, fill: '#71717a' }}
                                             dy={10}
                                         />
                                         <YAxis
                                             axisLine={false}
                                             tickLine={false}
-                                            tick={{ fontSize: 10, fill: '#64748b' }}
+                                            tick={{ fontSize: 10, fill: '#71717a' }}
                                         />
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px' }}
-                                            itemStyle={{ fontSize: '12px' }}
+                                            contentStyle={{ backgroundColor: '#09090b', border: '1px solid #27272a', borderRadius: '12px' }}
+                                            itemStyle={{ fontSize: '12px', color: '#e5e1e4' }}
+                                            labelStyle={{ color: '#71717a', fontWeight: 'bold' }}
                                         />
                                         <Area
                                             type="monotone"
                                             dataKey="total"
-                                            stroke="#818cf8"
-                                            strokeWidth={3}
+                                            stroke="#3b82f6"
+                                            strokeWidth={2.5}
                                             fillOpacity={1}
                                             fill="url(#colorTotal)"
                                         />
@@ -233,132 +328,149 @@ export default function AdminPage() {
                             </div>
                         </div>
 
-                        {/* Page Views Breakdown */}
-                        <div className="md:col-span-3 p-6 rounded-2xl border border-border bg-card shadow-sm">
-                            <h3 className="text-lg font-semibold mb-6">Page Distribution</h3>
-                            <div className="space-y-4">
-                                {stats?.categoryViews?.map((item, i: number) => (
-                                    <div key={item._id} className="flex items-center justify-between">
+                        {/* Quick Actions Card */}
+                        <div className="bg-[#09090b] border border-[#27272a] p-8 rounded-2xl flex flex-col justify-between">
+                            <div>
+                                <h4 className="text-xl font-bold text-[#e5e1e4] mb-6">Quick Actions</h4>
+                                <div className="space-y-3">
+                                    <button
+                                        onClick={() => router.push('/admin/projects/add')}
+                                        className="w-full p-4 rounded-xl bg-[#18181b]/30 border border-[#27272a] flex items-center justify-between hover:border-primary/50 hover:bg-[#18181b]/50 transition-all duration-200 group text-left"
+                                    >
                                         <div className="flex items-center gap-3">
-                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                                            <span className="text-sm capitalize font-medium">{item._id.replace(/_/g, ' ')}</span>
+                                            <PlusCircle className="w-5 h-5 text-primary" />
+                                            <span className="text-sm font-medium text-[#e5e1e4]">New Project</span>
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-sm font-bold">{item.count}</span>
-                                            <div className="w-24 h-2 bg-accent/20 rounded-full overflow-hidden">
-                                                <div
-                                                    className="h-full rounded-full transition-all duration-1000"
-                                                    style={{
-                                                        width: `${(item.count / totalViews) * 100}%`,
-                                                        backgroundColor: COLORS[i % COLORS.length]
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                                        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                                    </button>
 
-                            <div className="mt-8 pt-8 border-t border-border/50">
-                                <h4 className="text-sm text-muted-foreground mb-4 font-bold flex items-center gap-2">
-                                    <Users className="w-4 h-4" /> Device Distribution
-                                </h4>
-                                <div className="grid grid-cols-3 gap-4">
-                                    {['mobile', 'tablet', 'desktop'].map((type) => {
-                                        const device = deviceData.find((d) => d.name === type) || { name: type, value: 0 };
-                                        const Icon = type === 'mobile' ? Smartphone : type === 'tablet' ? Tablet : Monitor;
-                                        return (
-                                            <div key={type} className="p-3 rounded-xl bg-accent/5 border border-border/50 flex flex-col items-center gap-1">
-                                                <Icon className="w-4 h-4 text-primary" />
-                                                <span className="text-sm font-bold">{device.value}</span>
-                                                <span className="text-[10px] text-muted-foreground capitalize">{type}</span>
-                                            </div>
-                                        );
-                                    })}
+                                    <button
+                                        onClick={() => router.push('/admin/resume/add')}
+                                        className="w-full p-4 rounded-xl bg-[#18181b]/30 border border-[#27272a] flex items-center justify-between hover:border-primary/50 hover:bg-[#18181b]/50 transition-all duration-200 group text-left"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <Briefcase className="w-5 h-5 text-amber-500" />
+                                            <span className="text-sm font-medium text-[#e5e1e4]">Log Experience</span>
+                                        </div>
+                                        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                                    </button>
+
+                                    <button
+                                        className="w-full p-4 rounded-xl bg-[#18181b]/30 border border-[#27272a] flex items-center justify-between hover:border-primary/50 hover:bg-[#18181b]/50 transition-all duration-200 group text-left opacity-70 hover:opacity-100"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <Zap className="w-5 h-5 text-purple-500" />
+                                            <span className="text-sm font-medium text-[#e5e1e4]">Sync LinkedIn</span>
+                                        </div>
+                                        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                                    </button>
+
+                                    <button
+                                        className="w-full p-4 rounded-xl bg-[#18181b]/30 border border-[#27272a] flex items-center justify-between hover:border-primary/50 hover:bg-[#18181b]/50 transition-all duration-200 group text-left opacity-70 hover:opacity-100"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <Download className="w-5 h-5 text-rose-500" />
+                                            <span className="text-sm font-medium text-[#e5e1e4]">Generate PDF</span>
+                                        </div>
+                                        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid gap-6 md:grid-cols-2">
-                        {/* Interactions Chart */}
-                        <div className="p-6 rounded-2xl border border-border bg-card shadow-sm">
-                            <h3 className="text-lg font-semibold mb-6">Specific Interactions</h3>
-                            <div className="h-[250px] w-full">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={interactionData} layout="vertical">
-                                        <XAxis type="number" hide />
-                                        <YAxis
-                                            dataKey="name"
-                                            type="category"
-                                            axisLine={false}
-                                            tickLine={false}
-                                            tick={{ fontSize: 10, fill: '#94a3b8' }}
-                                            width={100}
-                                        />
-                                        <Tooltip
-                                            cursor={{ fill: 'transparent' }}
-                                            contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px' }}
-                                        />
-                                        <Bar dataKey="count" fill="#818cf8" radius={[0, 4, 4, 0]} barSize={20} />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                    {/* Bottom Row - Activity & Tech Breadth */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Recent Activity */}
+                        <div className="bg-[#09090b] border border-[#27272a] p-8 rounded-2xl">
+                            <div className="flex items-center justify-between mb-6">
+                                <h4 className="text-xl font-bold text-[#e5e1e4]">System Feed</h4>
+                                <span className="text-sm text-primary hover:underline cursor-pointer">View All</span>
+                            </div>
+                            <div className="space-y-6">
+                                <div className="flex gap-4 relative">
+                                    <div className="absolute left-[11px] top-6 bottom-0 w-[1px] bg-[#27272a]"></div>
+                                    <div className="w-6 h-6 rounded-full bg-primary/20 border border-primary flex items-center justify-center z-10 shrink-0">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_#adc6ff]"></div>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-[#e5e1e4]">Updated "Cloud Architecture Framework" Project</p>
+                                        <p className="text-xs text-muted-foreground mt-1">2 hours ago • Project Dashboard</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-4 relative">
+                                    <div className="absolute left-[11px] top-6 bottom-0 w-[1px] bg-[#27272a]"></div>
+                                    <div className="w-6 h-6 rounded-full bg-zinc-800 border border-[#27272a] flex items-center justify-center z-10 shrink-0">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-400"></div>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-[#e5e1e4]">New Testimonial received from Sarah J.</p>
+                                        <p className="text-xs text-muted-foreground mt-1">5 hours ago • Social Proof</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-4">
+                                    <div className="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500 flex items-center justify-center z-10 shrink-0">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_#ffb786]"></div>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-[#e5e1e4]">Added "Senior Solutions Architect" role at Vercel</p>
+                                        <p className="text-xs text-muted-foreground mt-1">Yesterday • Career Path</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Recent Events List */}
-                        <div className="p-6 rounded-2xl border border-border bg-card shadow-sm">
-                            <h3 className="text-lg font-semibold mb-6">Popular Pages</h3>
-                            <div className="space-y-4">
-                                {stats?.avgTime?.sort((a, b) => b.avgDuration - a.avgDuration).slice(0, 5).map((page) => (
-                                    <div key={page._id} className="flex items-center justify-between p-3 rounded-xl bg-accent/5 border border-border/30">
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-2 rounded-lg bg-primary/10">
-                                                <LinkIcon className="w-4 h-4 text-primary" />
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-semibold capitalize">{page._id.replace(/_/g, ' ')}</p>
-                                                <p className="text-[10px] text-muted-foreground">Highest retention page</p>
-                                            </div>
+                        {/* Technology Breadth */}
+                        <div className="bg-[#09090b] border border-[#27272a] p-8 rounded-2xl flex flex-col justify-between">
+                            <div>
+                                <div className="flex items-center justify-between mb-6">
+                                    <h4 className="text-xl font-bold text-[#e5e1e4]">Technology Breadth</h4>
+                                    <Info className="w-5 h-5 text-muted-foreground" />
+                                </div>
+
+                                <div className="space-y-4">
+                                    {techBreadth.length > 0 ? (
+                                        techBreadth.map((tech, idx) => {
+                                            const colors = ["bg-primary", "bg-amber-500", "bg-purple-500", "bg-rose-500"];
+                                            const textColors = ["text-primary", "text-amber-500", "text-purple-500", "text-rose-500"];
+                                            const color = colors[idx % colors.length];
+                                            const textColor = textColors[idx % textColors.length];
+
+                                            return (
+                                                <div key={tech.name}>
+                                                    <div className="flex justify-between text-sm mb-2">
+                                                        <span className="text-[#e5e1e4]">{tech.name}</span>
+                                                        <span className={`${textColor} font-mono font-semibold`}>{tech.percentage}%</span>
+                                                    </div>
+                                                    <div className="w-full h-2 bg-[#18181b] rounded-full overflow-hidden">
+                                                        <div
+                                                            className={`h-full ${color} rounded-full transition-all duration-1000`}
+                                                            style={{ width: `${tech.percentage}%` }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })
+                                    ) : (
+                                        <div className="text-sm text-muted-foreground py-4">
+                                            No tech stack data available yet.
                                         </div>
-                                        <div className="text-right">
-                                            <p className="text-sm font-bold">{Math.round(page.avgDuration)}s</p>
-                                            <p className="text-[10px] text-muted-foreground">Avg Duration</p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="mt-8 p-4 bg-[#18181b]/50 rounded-xl border border-[#27272a] flex items-center gap-4">
+                                <Lightbulb className="w-8 h-8 text-primary shrink-0" />
+                                <p className="text-sm text-[#e5e1e4]">
+                                    You're in the <span className="text-primary font-bold">top 5%</span> of cloud architects in your region this quarter.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </>
             )}
-        </div>
-    );
-}
-
-function StatCard({ title, value, icon: Icon, description, color = "primary" }: StatCardProps) {
-    const colorVariants: Record<StatCardColor, string> = {
-        primary: "text-primary bg-primary/10",
-        indigo: "text-indigo-500 bg-indigo-500/10",
-        rose: "text-rose-500 bg-rose-500/10",
-        sky: "text-sky-500 bg-sky-500/10",
-    };
-
-    return (
-        <div className="p-6 rounded-2xl border border-border bg-card shadow-sm flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-                <div className={`p-2 rounded-xl ${colorVariants[color] || colorVariants.primary}`}>
-                    <Icon className="w-5 h-5" />
-                </div>
-                <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-500 border-none text-[10px]">
-                    +12%
-                </Badge>
-            </div>
-            <div>
-                <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
-                <div className="text-2xl font-bold mt-1">{value}</div>
-                <p className="text-[10px] text-muted-foreground mt-1">{description}</p>
-            </div>
         </div>
     );
 }

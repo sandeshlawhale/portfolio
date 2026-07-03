@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DevArchitect | Analytics Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Using Geist-like font via sans-serif fallback as it's the target system font -->
+<style>
+        body {
+            font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #030303;
+            color: #e5e1e4;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: #09090b;
+            border: 1px solid #27272a;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: #3f3f46;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.05);
+        }
+        .vercel-glow {
+            position: relative;
+        }
+        .vercel-glow::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.08), transparent 70%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .vercel-glow:hover::after {
+            opacity: 1;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .sparkline {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: dash 1.5s ease-in-out forwards;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "secondary": "#c6c6cf",
+                        "background": "#131315",
+                        "tertiary-container": "#df7412",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-primary-fixed": "#001a42",
+                        "primary-fixed-dim": "#adc6ff",
+                        "outline": "#8c909f",
+                        "surface-bright": "#39393b",
+                        "on-secondary-container": "#b4b4bd",
+                        "primary-fixed": "#d8e2ff",
+                        "secondary-container": "#45464e",
+                        "surface-dim": "#131315",
+                        "surface-container-low": "#1c1b1d",
+                        "surface-tint": "#adc6ff",
+                        "on-background": "#e5e1e4",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313032",
+                        "surface-container-highest": "#353437",
+                        "on-tertiary": "#502400",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-tertiary-container": "#461f00",
+                        "inverse-surface": "#e5e1e4",
+                        "inverse-primary": "#005ac2",
+                        "surface-variant": "#353437",
+                        "on-secondary-fixed": "#1a1b22",
+                        "tertiary": "#ffb786",
+                        "error": "#ffb4ab",
+                        "primary": "#adc6ff",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-tertiary-fixed": "#311400",
+                        "on-secondary-fixed-variant": "#45464e",
+                        "surface-container-high": "#2a2a2c",
+                        "surface": "#131315",
+                        "on-secondary": "#2f3037",
+                        "surface-container": "#201f22",
+                        "on-primary-container": "#00285d",
+                        "on-surface-variant": "#c2c6d6",
+                        "on-primary": "#002e6a",
+                        "on-surface": "#e5e1e4",
+                        "secondary-fixed": "#e2e1eb",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "primary-container": "#4d8eff",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#c6c6cf",
+                        "outline-variant": "#424754"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "stack-gap": "16px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "code": ["jetbrainsMono"],
+                        "body-lg": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "display": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "body-md": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "label-sm": ["Geist"]
+                    },
+                    "fontSize": {
+                        "code": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- Sidebar Navigation Shell -->
+<aside class="bg-surface-container-lowest dark:bg-surface-container-lowest h-screen w-64 fixed left-0 top-0 border-r border-outline-variant flex flex-col py-10 z-50 hidden md:flex">
+<div class="px-6 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">DevArchitect</h1>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">System Admin</p>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<!-- Active Item: Dashboard -->
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface bg-secondary-container rounded-lg border-l-2 border-primary scale-95 transition-all" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="work">work</span>
+<span class="font-body-md text-body-md">Work Experience</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
+<span class="font-body-md text-body-md">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-body-md text-body-md">Resume</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="reviews">reviews</span>
+<span class="font-body-md text-body-md">Testimonials</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary-fixed py-2.5 rounded-lg font-medium flex items-center justify-center gap-2 mb-8 shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span>New Project</span>
+</button>
+<div class="pt-4 border-t border-outline-variant">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] h-16 bg-background/80 backdrop-blur-md border-b border-outline-variant z-40 flex justify-between items-center px-6 md:px-margin-desktop">
+<div class="flex items-center gap-6">
+<div class="relative group hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="bg-surface-container-lowest border border-outline-variant rounded-full pl-10 pr-4 py-1.5 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all w-64" placeholder="Quick Search (⌘K)" type="text"/>
+</div>
+<nav class="flex gap-6 items-center">
+<a class="text-on-surface-variant hover:text-on-surface font-body-md text-body-md transition-colors" href="#">Docs</a>
+<a class="text-on-surface-variant hover:text-on-surface font-body-md text-body-md transition-colors" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-high rounded-full p-2 text-on-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-surface-container-high rounded-full p-2 text-on-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="contrast">contrast</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant cursor-pointer group">
+<img class="w-full h-full object-cover" data-alt="A sophisticated professional portrait of a senior software architect with short hair and glasses, set against a dark, moody studio background with subtle blue rim lighting. The style is sharp, corporate, and minimalist, echoing a high-end tech executive aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhRUEG2u4g7FHephCzYnIrebJeM4-Q_l9jxjQMzIEs_UF6y8pgmPdVGFU1mMkzsBUUZPHa-Og08The_rQ_cK6rjRlPlfAxCIQdIaXDi-m5WZMih_cQrMfe-dbnmbnR2bEqi3_sw2J6INTkHZF5b8ULb44RExDwRvPniYX9Sjm01JhunFlm5ShEUjoDzWFOIgDPI85xnSyPEngDxjLsGwrFVlPMK8JO06gpzq7kNTphCpMOGMoE_CwUQzaUMzIJ1FGjVm2mV8UGuJJZ"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-12 px-6 md:px-margin-desktop md:ml-64 max-w-7xl mx-auto">
+<!-- Header Section -->
+<section class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="font-display text-display text-on-surface mb-2">Analytics Overview</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Real-time performance metrics for your architectural ecosystem.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-low border border-outline-variant px-4 py-2 rounded-lg font-medium text-body-md hover:bg-surface-container-high transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+                    Last 30 Days
+                </button>
+<button class="bg-primary text-on-primary-fixed px-4 py-2 rounded-lg font-medium text-body-md hover:brightness-110 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                    Export Report
+                </button>
+</div>
+</section>
+<!-- Stats Bento Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<!-- Card 1: Total Projects -->
+<div class="glass-card p-6 rounded-xl vercel-glow flex flex-col justify-between min-h-[160px]">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Total Projects</span>
+<span class="text-primary material-symbols-outlined" data-icon="folder">folder</span>
+</div>
+<div class="mt-4 flex items-end justify-between">
+<div>
+<h3 class="text-3xl font-bold font-display">24</h3>
+<p class="text-emerald-500 font-label-sm text-label-sm mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span> +12%
+                        </p>
+</div>
+<svg class="w-24 h-12 overflow-visible">
+<polyline class="sparkline" fill="none" points="0,40 10,35 20,42 30,20 40,30 50,15 60,25 70,10 80,15 90,5" stroke="#3b82f6" stroke-width="2"></polyline>
+</svg>
+</div>
+</div>
+<!-- Card 2: Work Experience -->
+<div class="glass-card p-6 rounded-xl vercel-glow flex flex-col justify-between min-h-[160px]">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Work Experiences</span>
+<span class="text-tertiary material-symbols-outlined" data-icon="business_center">business_center</span>
+</div>
+<div class="mt-4 flex items-end justify-between">
+<div>
+<h3 class="text-3xl font-bold font-display">08</h3>
+<p class="text-on-surface-variant font-label-sm text-label-sm mt-1">Steady</p>
+</div>
+<svg class="w-24 h-12 overflow-visible">
+<polyline class="sparkline" fill="none" points="0,25 20,25 40,25 60,25 80,25 90,25" stroke="#ffb786" stroke-width="2"></polyline>
+</svg>
+</div>
+</div>
+<!-- Card 3: Testimonials -->
+<div class="glass-card p-6 rounded-xl vercel-glow flex flex-col justify-between min-h-[160px]">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Testimonials</span>
+<span class="text-secondary material-symbols-outlined" data-icon="format_quote">format_quote</span>
+</div>
+<div class="mt-4 flex items-end justify-between">
+<div>
+<h3 class="text-3xl font-bold font-display">15</h3>
+<p class="text-emerald-500 font-label-sm text-label-sm mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span> New review
+                        </p>
+</div>
+<svg class="w-24 h-12 overflow-visible">
+<polyline class="sparkline" fill="none" points="0,40 15,30 30,35 45,15 60,20 75,5 90,10" stroke="#c6c6cf" stroke-width="2"></polyline>
+</svg>
+</div>
+</div>
+<!-- Card 4: Active Resume -->
+<div class="glass-card p-6 rounded-xl vercel-glow flex flex-col justify-between min-h-[160px]">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Profile Views</span>
+<span class="text-error material-symbols-outlined" data-icon="visibility">visibility</span>
+</div>
+<div class="mt-4 flex items-end justify-between">
+<div>
+<h3 class="text-3xl font-bold font-display">1.2k</h3>
+<p class="text-error font-label-sm text-label-sm mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_down">trending_down</span> -2%
+                        </p>
+</div>
+<svg class="w-24 h-12 overflow-visible">
+<polyline class="sparkline" fill="none" points="0,5 20,15 40,10 60,30 80,25 90,45" stroke="#ffb4ab" stroke-width="2"></polyline>
+</svg>
+</div>
+</div>
+</section>
+<!-- Charts & Activity Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+<!-- Project Timeline Chart -->
+<div class="lg:col-span-2 glass-card p-8 rounded-xl overflow-hidden relative">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h4 class="font-headline-md text-headline-md font-semibold">Project Productivity</h4>
+<p class="text-on-surface-variant text-body-md mt-1">Commits and completions over 6 months</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Completed</span>
+</div>
+</div>
+</div>
+<div class="h-64 relative flex items-end justify-between gap-1 mt-4">
+<!-- Faux Bar Chart for Demo -->
+<div class="w-full h-full absolute inset-0 flex items-end justify-between px-2">
+<div class="w-6 bg-primary/20 rounded-t-sm transition-all hover:bg-primary/40 group relative" style="height: 40%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">4</div>
+</div>
+<div class="w-6 bg-primary/20 rounded-t-sm transition-all hover:bg-primary/40 group relative" style="height: 65%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">7</div>
+</div>
+<div class="w-6 bg-primary/20 rounded-t-sm transition-all hover:bg-primary/40 group relative" style="height: 45%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">5</div>
+</div>
+<div class="w-6 bg-primary rounded-t-sm transition-all hover:brightness-110 group relative" style="height: 90%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">12</div>
+</div>
+<div class="w-6 bg-primary/20 rounded-t-sm transition-all hover:bg-primary/40 group relative" style="height: 55%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">6</div>
+</div>
+<div class="w-6 bg-primary/20 rounded-t-sm transition-all hover:bg-primary/40 group relative" style="height: 75%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">8</div>
+</div>
+<div class="w-6 bg-primary/20 rounded-t-sm transition-all hover:bg-primary/40 group relative" style="height: 30%">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">3</div>
+</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 px-2 border-t border-outline-variant pt-4 text-label-sm font-label-sm text-on-surface-variant">
+<span>JAN</span><span>FEB</span><span>MAR</span><span>APR</span><span>MAY</span><span>JUN</span><span>JUL</span>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="glass-card p-8 rounded-xl flex flex-col">
+<h4 class="font-headline-md text-headline-md font-semibold mb-6">Quick Actions</h4>
+<div class="space-y-3">
+<button class="w-full p-4 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-between hover:border-primary/50 transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="add_task">add_task</span>
+<span class="font-body-md text-body-md">New Project</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="w-full p-4 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-between hover:border-primary/50 transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" data-icon="post_add">post_add</span>
+<span class="font-body-md text-body-md">Log Experience</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="w-full p-4 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-between hover:border-primary/50 transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="sync">sync</span>
+<span class="font-body-md text-body-md">Sync LinkedIn</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="w-full p-4 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-between hover:border-primary/50 transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error" data-icon="picture_as_pdf">picture_as_pdf</span>
+<span class="font-body-md text-body-md">Generate PDF</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Grid: Activity & Usage -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Recent Activity -->
+<div class="glass-card p-8 rounded-xl">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline-md text-headline-md font-semibold">System Feed</h4>
+<a class="text-primary text-body-md hover:underline" href="#">View All</a>
+</div>
+<div class="space-y-6">
+<div class="flex gap-4 relative">
+<div class="absolute left-[11px] top-6 bottom-0 w-[1px] bg-outline-variant"></div>
+<div class="w-6 h-6 rounded-full bg-primary/20 border border-primary flex items-center justify-center z-10 shrink-0">
+<div class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_#adc6ff]"></div>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Updated "Cloud Architecture Framework" Project</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">2 hours ago • Project Dashboard</p>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<div class="absolute left-[11px] top-6 bottom-0 w-[1px] bg-outline-variant"></div>
+<div class="w-6 h-6 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center z-10 shrink-0">
+<div class="w-1.5 h-1.5 rounded-full bg-outline shadow-[0_0_8px_#8c909f]"></div>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">New Testimonial received from Sarah J.</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">5 hours ago • Social Proof</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-6 h-6 rounded-full bg-tertiary/20 border border-tertiary flex items-center justify-center z-10 shrink-0">
+<div class="w-1.5 h-1.5 rounded-full bg-tertiary shadow-[0_0_8px_#ffb786]"></div>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Added "Senior Solutions Architect" role at Vercel</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Yesterday • Career Path</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Tech Stack Usage / Radar-ish Visual -->
+<div class="glass-card p-8 rounded-xl">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline-md text-headline-md font-semibold">Technology Breadth</h4>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="info">info</span>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-body-md mb-2">
+<span>Cloud Infrastructure (AWS/GCP)</span>
+<span class="text-primary font-code">85%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%] rounded-full shadow-[0_0_12px_rgba(59,130,246,0.3)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-body-md mb-2">
+<span>Backend Systems (Go/Rust)</span>
+<span class="text-tertiary font-code">72%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[72%] rounded-full shadow-[0_0_12px_rgba(249,115,22,0.3)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-body-md mb-2">
+<span>Frontend Architecture (Next.js)</span>
+<span class="text-secondary font-code">94%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[94%] rounded-full shadow-[0_0_12px_rgba(255,255,255,0.1)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-body-md mb-2">
+<span>DevOps &amp; CI/CD</span>
+<span class="text-error font-code">60%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-error w-[60%] rounded-full shadow-[0_0_12px_rgba(244,63,94,0.3)]"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-surface-container-highest rounded-lg border border-outline-variant flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="lightbulb">lightbulb</span>
+<p class="text-body-md">You're in the <span class="text-primary font-bold">top 5%</span> of cloud architects in your region this quarter.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Interactive Elements Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hover effect for bars
+            const bars = document.querySelectorAll('.w-6.bg-primary');
+            bars.forEach(bar => {
+                bar.addEventListener('mouseenter', () => {
+                    bar.classList.add('scale-y-105');
+                });
+                bar.addEventListener('mouseleave', () => {
+                    bar.classList.remove('scale-y-105');
+                });
+            });
+
+            // Keyboard shortcut simulation
+            window.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    document.querySelector('input').focus();
+                }
+            });
+        });
+    </script>
+</body></html>

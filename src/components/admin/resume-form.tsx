@@ -146,8 +146,8 @@ export default function ResumeForm({ initialData, isEdit = false }: ResumeFormPr
                                         <FileText className="w-6 h-6" />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-white truncate">{file.name}</p>
-                                        <p class="text-xs text-zinc-400">{(file.size / 1024 / 1024).toFixed(2)} MB • Ready to upload</p>
+                                        <p className="text-sm font-medium text-white truncate">{file.name}</p>
+                                        <p className="text-xs text-zinc-400">{(file.size / 1024 / 1024).toFixed(2)} MB • Ready to upload</p>
                                     </div>
                                     <Button
                                         type="button"
