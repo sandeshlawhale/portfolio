@@ -11,7 +11,7 @@ import Fadeup from "@/components/ui/fadeup";
 const Home = () => {
   return (
     <div className="w-full relative">
-      <div className="w-full sm:w-md lg:w-xl mx-auto py-10 flex flex-col gap-12 text-[15px]">
+      <div className="w-full max-w-3xl mx-auto py-16 flex flex-col gap-20 text-[16px]">
         <Hero />
         <HeroExperience />
         {/* <HeroAbout /> */}

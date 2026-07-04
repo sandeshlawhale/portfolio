@@ -42,7 +42,7 @@ const HeroProject = () => {
     <section className="relative px-4 w-full flex flex-col" id="home-project">
       <Fadeup>
         <h2 className="text-2xl pb-4 font-semibold tracking-wider leading-relaxed text-primaryText">
-          Projects
+          Featured Work
         </h2>
       </Fadeup>
 

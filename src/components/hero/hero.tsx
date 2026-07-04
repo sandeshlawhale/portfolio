@@ -49,32 +49,22 @@ const Hero = () => {
 
       <Fadeup delay={0.25}>
         <p className="text-mutedText text-lg tracking-wider leading-loose pt-4">
-          I build interactive web apps using{" "}
+          I design and build full-stack applications with a growing focus on AI, LLMs, and intelligent automation.
+          I enjoy combining modern web technologies with tools like{" "}
           <StackBadge
-            icon="/assets/stack/ts-logo-colored.webp"
-            name="TypeScript"
+            icon="/assets/stack/langchain.webp"
+            name="LangChain"
           />{" "}
           ,{" "}
           <StackBadge
-            icon="/assets/stack/react-logo-colored.webp"
-            name="React"
+            icon="/assets/stack/openai.webp"
+            name="Gemini"
           />{" "}
-          ,{" "}
+          and{" "}
           <StackBadge
-            icon="/assets/stack/nextjs-logo-colored.webp"
-            name="Next.js"
+            name="n8n"
           />{" "}
-          , and{" "}
-          <StackBadge
-            icon="/assets/stack/mongodb-logo-colored.webp"
-            name="MongoDb"
-            width={9}
-            height={9}
-          />{" "}
-          . With a focus on clean <span className="text-primaryText">UI</span>.
-          Exploring <span className="text-primaryText">n8n</span> automation
-          and <span className="text-primaryText">LangChain</span>, driven by
-          curiosity.
+          to build practical, user-first products.
         </p>
       </Fadeup>
 
@@ -101,7 +91,7 @@ const SocialLinks = () => {
   };
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-3 items-center">
       {MyData.socials?.map((link) => (
         <Link
           href={link.href}
@@ -115,8 +105,8 @@ const SocialLinks = () => {
               <Image
                 src={link.icon}
                 alt={link.title}
-                width={16}
-                height={16}
+                width={20}
+                height={20}
                 className="brightness-50 hover:brightness-80 ease-in-out duration-200"
               />
             </TooltipTrigger>
@@ -152,12 +142,12 @@ const ProfileAvatar = () => {
 
   return (
     <div
-      className="relative w-20 h-20 rounded-full flex items-center justify-center cursor-pointer"
+      className="relative w-28 h-28 rounded-full flex items-center justify-center cursor-pointer"
       onClick={increaseAmongUsCount}
     // onMouseEnter={handleMouseEnter}
     // onMouseLeave={handleMouseLeave}
     >
-      <div className="absolute w-16 h-16 rounded-full overflow-hidden">
+      <div className="absolute w-24 h-24 rounded-full overflow-hidden">
         <Image
           src={Me}
           alt="Sandesh Lawhale"
@@ -195,16 +185,16 @@ const ProfileAvatar = () => {
 
 const HeroIntroduction = () => {
   return (
-    <div className="w-full h-full">
-      <p className="text-mutedText text-sm">Hi, I&apos;m</p>
-      <div className="flex gap-2 items-center text-primaryText text-2xl tracking-wide font-semibold">
+    <div className="w-full h-full flex flex-col gap-1.5 justify-center">
+      <p className="text-mutedText text-base font-medium">Hi, I&apos;m</p>
+      <div className="flex gap-2 items-center text-primaryText text-3xl md:text-4xl tracking-wide font-bold">
         {/* <FlipEffect sidename={MyData.sidename}>{MyData.name}</FlipEffect> */}
         {MyData.name}
         <WaveEffect>
           <span className="cursor-pointer">👋</span>
         </WaveEffect>
       </div>
-      <p className="text-mutedText text-lg tracking-wide font-medium">
+      <p className="text-mutedText text-lg md:text-xl tracking-wide font-medium">
         {MyData.post}
       </p>
     </div>

@@ -50,13 +50,13 @@ const HeroAbout = () => {
               {MyData.name}
             </h3>
 
-            <div className="tracking-wider text-mutedText text-base flex flex-col leading-relaxed max-w-2xl">
+            <div className="tracking-wider text-mutedText text-base flex flex-col gap-3 leading-relaxed max-w-2xl">
               <p>
-                I&apos;m a full-stack developer who enjoys building clean, thoughtful products.
-                I care deeply about UX, performance, and small details.
+                I enjoy building software that solves real problems with thoughtful design and clean engineering.
+                Outside of programming you&apos;ll usually find me in the gym, sketching, watching anime, or experimenting with new AI tools.
               </p>
               <p>
-                Currently exploring web animations, DSA and system design.
+                I&apos;m always curious about how emerging technologies can make everyday software more useful.
               </p>
             </div>
 
