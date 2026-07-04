@@ -7,23 +7,7 @@ import { toast } from "sonner";
 import { getAllProjects } from "@/utils/api/projects";
 import { Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-
-export type Project = {
-    _id: string;
-    name: string;
-    shortDescription: string;
-    description: string[]; // array of paragraphs / points
-    role: string;
-    outcome: string;
-    timeline: string;
-    techstack: string[];
-    image: string;    // URL
-    demoLink: string; // URL
-    gitlink: string;  // URL
-    otherLink: string[]; // array of URLs
-    draft: boolean;
-    featured?: boolean;
-};
+import { Project } from "@/types";
 
 export default function AdminProjectsPage() {
     const [projects, setProjects] = useState<Project[]>([]);
@@ -132,90 +116,98 @@ export default function AdminProjectsPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-                    {filteredProjects.map((project: Project) => (
-                        <div 
-                            key={project._id} 
-                            onClick={() => router.push(`/admin/projects/${project._id}/edit`)}
-                            className="group relative bg-[#0e0e10] border border-[#424754] rounded-xl overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_0_40px_0_rgba(59,130,246,0.1)] transition-all duration-300 flex flex-col cursor-pointer"
-                        >
-                            <div className="relative h-56 overflow-hidden bg-[#131315]">
-                                {project.image ? (
-                                    <NextImage
-                                        src={project.image}
-                                        alt={project.name}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-[#8c909f]">No Image</div>
-                                )}
-                                <div className="absolute top-4 left-4">
-                                    <span className={`px-3 py-1 rounded-full text-[12px] font-medium backdrop-blur-md border ${
-                                        project.draft 
-                                            ? "bg-[#45464e]/80 text-[#c6c6cf] border-[#424754]" 
-                                            : "bg-[#adc6ff]/20 text-[#adc6ff] border-[#adc6ff]/30"
-                                    }`}>
-                                        {project.draft ? "Draft" : "Published"}
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="p-4 md:p-6 flex-1 flex flex-col bg-[#0e0e10]">
-                                <div className="flex flex-col mb-3 md:mb-4">
-                                    <span className="text-[#c2c6d6] font-mono text-[13px] mb-1">{project.timeline}</span>
-                                    <h3 className="text-[20px] font-bold group-hover:text-[#adc6ff] transition-colors leading-tight">{project.name}</h3>
-                                </div>
-                                <p className="text-[#c2c6d6] text-[14px] line-clamp-2 mb-3 md:mb-4">
-                                    {project.shortDescription || (() => {
-                                        const desc = Array.isArray(project.description) ? (project.description[0] || "") : (project.description || "");
-                                        return desc.replace(/<[^>]*>/g, "");
-                                    })()}
-                                </p>
-                                
-                                {/* Links embedded in description */}
-                                <div className="flex flex-wrap gap-4 mb-3 md:mb-4 text-xs text-[#c2c6d6] font-medium" onClick={(e) => e.stopPropagation()}>
-                                    {project.demoLink && (
-                                        <a 
-                                            href={project.demoLink} 
-                                            target="_blank" 
-                                            rel="noreferrer" 
-                                            className="hover:text-[#adc6ff] hover:underline flex items-center gap-1 cursor-pointer"
-                                        >
-                                            Demo Link &rarr;
-                                        </a>
-                                    )}
-                                    {project.gitlink && (
-                                        <a 
-                                            href={project.gitlink} 
-                                            target="_blank" 
-                                            rel="noreferrer" 
-                                            className="hover:text-[#adc6ff] hover:underline flex items-center gap-1 cursor-pointer"
-                                        >
-                                            GitHub &rarr;
-                                        </a>
-                                    )}
-                                </div>
+                    {filteredProjects.map((project: Project) => {
+                        const date = project.quickInfo?.date || (project as any).timeline || "";
+                        const role = project.quickInfo?.role || (project as any).role || "Developer";
+                        const github = project.links?.github || (project as any).gitlink || "";
+                        const live = project.links?.live || (project as any).demoLink || "";
+                        const techStackList = project.techStack || (project as any).techstack || [];
 
-                                <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
-                                    {project.techstack.slice(0, 3).map((tech) => (
-                                        <span key={tech} className="px-2 py-0.5 bg-[#201f22] text-[#c2c6d6] rounded font-mono text-[11px] border border-[#424754]">
-                                            {tech}
-                                        </span>
-                                    ))}
-                                    {project.techstack.length > 3 && (
-                                        <span className="px-2 py-0.5 bg-[#201f22] text-[#8c909f] rounded font-mono text-[11px] border border-[#424754]">
-                                            +{project.techstack.length - 3} more
-                                        </span>
+                        return (
+                            <div 
+                                key={project._id} 
+                                onClick={() => router.push(`/admin/projects/${project._id}/edit`)}
+                                className="group relative bg-[#0e0e10] border border-[#424754] rounded-xl overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_0_40px_0_rgba(59,130,246,0.1)] transition-all duration-300 flex flex-col cursor-pointer"
+                            >
+                                <div className="relative h-56 overflow-hidden bg-[#131315]">
+                                    {project.image ? (
+                                        <NextImage
+                                            src={typeof project.image === "string" ? project.image : ""}
+                                            alt={project.name}
+                                            fill
+                                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-[#8c909f]">No Image</div>
                                     )}
+                                    <div className="absolute top-4 left-4">
+                                        <span className={`px-3 py-1 rounded-full text-[12px] font-medium backdrop-blur-md border ${
+                                            project.draft 
+                                                ? "bg-[#45464e]/80 text-[#c6c6cf] border-[#424754]" 
+                                                : "bg-[#adc6ff]/20 text-[#adc6ff] border-[#adc6ff]/30"
+                                        }`}>
+                                            {project.draft ? "Draft" : "Published"}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="mt-auto pt-4 border-t border-[#424754] flex items-center justify-between text-[#c2c6d6]">
-                                    <span className="text-[12px] font-medium uppercase tracking-wider">{project.role || "Developer"}</span>
-                                    <span className="text-[12px] font-medium uppercase tracking-widest opacity-60">
-                                        {project.draft ? "WIP" : "Live"}
-                                    </span>
+                                <div className="p-4 md:p-6 flex-1 flex flex-col bg-[#0e0e10]">
+                                    <div className="flex flex-col mb-3 md:mb-4">
+                                        <span className="text-[#c2c6d6] font-mono text-[13px] mb-1">{date}</span>
+                                        <h3 className="text-[20px] font-bold group-hover:text-[#adc6ff] transition-colors leading-tight">{project.name}</h3>
+                                    </div>
+                                    <p className="text-[#c2c6d6] text-[14px] line-clamp-2 mb-3 md:mb-4">
+                                        {project.shortDescription || (() => {
+                                            const desc = Array.isArray(project.description) ? (project.description[0] || "") : (project.description || "");
+                                            return desc.replace(/<[^>]*>/g, "");
+                                        })()}
+                                    </p>
+                                    
+                                    {/* Links embedded in description */}
+                                    <div className="flex flex-wrap gap-4 mb-3 md:mb-4 text-xs text-[#c2c6d6] font-medium" onClick={(e) => e.stopPropagation()}>
+                                        {live && (
+                                            <a 
+                                                href={live} 
+                                                target="_blank" 
+                                                rel="noreferrer" 
+                                                className="hover:text-[#adc6ff] hover:underline flex items-center gap-1 cursor-pointer"
+                                            >
+                                                Demo Link &rarr;
+                                            </a>
+                                        )}
+                                        {github && (
+                                            <a 
+                                                href={github} 
+                                                target="_blank" 
+                                                rel="noreferrer" 
+                                                className="hover:text-[#adc6ff] hover:underline flex items-center gap-1 cursor-pointer"
+                                            >
+                                                GitHub &rarr;
+                                            </a>
+                                        )}
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
+                                        {techStackList.slice(0, 3).map((tech: string) => (
+                                            <span key={tech} className="px-2 py-0.5 bg-[#201f22] text-[#c2c6d6] rounded font-mono text-[11px] border border-[#424754]">
+                                                {tech}
+                                            </span>
+                                        ))}
+                                        {techStackList.length > 3 && (
+                                            <span className="px-2 py-0.5 bg-[#201f22] text-[#8c909f] rounded font-mono text-[11px] border border-[#424754]">
+                                                +{techStackList.length - 3} more
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="mt-auto pt-4 border-t border-[#424754] flex items-center justify-between text-[#c2c6d6]">
+                                        <span className="text-[12px] font-medium uppercase tracking-wider">{role}</span>
+                                        <span className="text-[12px] font-medium uppercase tracking-widest opacity-60">
+                                            {project.draft ? "WIP" : "Live"}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
 
                     {/* Empty State/Add Project Card */}
                     <div 

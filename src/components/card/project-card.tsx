@@ -25,6 +25,10 @@ const ProjectCard = ({ project }: { project: Project }) => {
     router.push(`/projects?id=${project._id}`);
   };
 
+  const github = project.links?.github || (project as any).gitlink || "";
+  const live = project.links?.live || (project as any).demoLink || "";
+  const techStackList = project.techStack || (project as any).techstack || [];
+
   return (
     <article
       className="group flex flex-col rounded-2xl bg-primary border border-primary shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 h-full"
@@ -34,7 +38,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
       <div className="w-full aspect-[3/2] relative overflow-hidden">
         {project.image ? (
           <Image
-            src={project.image}
+            src={typeof project.image === "string" ? project.image : ""}
             alt={project.name || "Project image"}
             width={1000}
             height={600}
@@ -52,7 +56,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
             {project.name || "Untitled Project"}
           </h3>
           <div className="flex gap-1">
-            {project.gitlink && (
+            {github && (
               <div
                 onClick={(e) => {
                   e.stopPropagation();
@@ -63,14 +67,14 @@ const ProjectCard = ({ project }: { project: Project }) => {
                     event: "git_link_clicked",
                     metadata: { device: getDeviceType() }
                   });
-                  window.open(project.gitlink, '_blank');
+                  window.open(github, '_blank');
                 }}
                 className="p-1 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors text-icon-muted hover:text-primaryText cursor-pointer z-10"
               >
                 <Github className="w-4 h-4" />
               </div>
             )}
-            {project.demoLink && (
+            {live && (
               <div
                 onClick={(e) => {
                   e.stopPropagation();
@@ -81,7 +85,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
                     event: "demo_link_clicked",
                     metadata: { device: getDeviceType() }
                   });
-                  window.open(project.demoLink, '_blank');
+                  window.open(live, '_blank');
                 }}
                 className="p-1 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors text-icon-muted hover:text-primaryText cursor-pointer z-10"
               >
@@ -98,9 +102,9 @@ const ProjectCard = ({ project }: { project: Project }) => {
         )}
 
         <div className="flex items-center justify-between mt-auto pt-2">
-          {project.techstack && project.techstack.length > 0 && (
+          {techStackList.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {project.techstack.slice(0, 5).map((tech) => {
+              {techStackList.slice(0, 5).map((tech: string) => {
                 const icon = getTechIcon(tech);
                 return (
                   <Tooltip key={tech}>
@@ -119,9 +123,9 @@ const ProjectCard = ({ project }: { project: Project }) => {
                   </Tooltip>
                 );
               })}
-              {project.techstack.length > 5 && (
+              {techStackList.length > 5 && (
                 <div className="w-6 h-6 rounded-md bg-primary/5 border border-border/40 flex items-center justify-center text-[10px] font-medium text-mutedText">
-                  +{project.techstack.length - 5}
+                  +{techStackList.length - 5}
                 </div>
               )}
             </div>

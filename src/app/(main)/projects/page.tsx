@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 import Footer from "@/components/footer/footer";
 import { getProjectById, getAllProjects } from "@/utils/api/projects";
 import { Metadata } from "next";
-import { Project } from "@/types";
+import { Project, OtherLink } from "@/types";
 import { ExternalLink, Github, CheckCircle2, ArrowRight, FolderGit2, Download } from "lucide-react";
 
 interface PageProps {
@@ -26,7 +26,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 
   return {
     title: `${project.name} | Project Details`,
-    description: project.description?.[0] || "Project details",
+    description: project.shortDescription || "Project details",
   };
 }
 
@@ -55,17 +55,39 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
       redirect(`/projects?id=${projects[0]._id}`);
     }
 
+    // Backward compatibility safe values
+    const role = currentProject.quickInfo?.role || (currentProject as any).role || "";
+    const date = currentProject.quickInfo?.date || (currentProject as any).timeline || "";
+    const team = currentProject.quickInfo?.team || "Solo";
+    const company = currentProject.quickInfo?.company || "";
+    const status = currentProject.quickInfo?.status || "Completed";
+
+    const githubLink = currentProject.links?.github || (currentProject as any).gitlink || "";
+    const liveLink = currentProject.links?.live || (currentProject as any).demoLink || "";
+    
+    // Normalizing dynamic other links
+    const otherLinks = currentProject.links?.other || (currentProject as any).otherLink?.map((l: any) => ({
+      label: l.title || l.label || "",
+      url: l.link || l.url || ""
+    })) || [];
+
+    const techStackList = currentProject.techStack || (currentProject as any).techstack || [];
+    const descriptionContent = currentProject.description;
+
     return (
       <div className="flex flex-col min-h-screen bg-[#030303] text-[#e5e1e4] font-sans antialiased">
         <div className="flex-1 w-full max-w-3xl mx-auto py-6 md:py-10 px-4 md:px-6 space-y-12 animate-in fade-in duration-300">
-
+          
           {/* Header Area */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[#adc6ff] font-mono text-xs font-semibold uppercase tracking-widest">{currentProject.timeline || "Completed"}</span>
+                <span className="text-[#adc6ff] font-mono text-xs font-semibold uppercase tracking-widest">{date}</span>
                 {currentProject.featured && (
                   <span className="text-[10px] font-bold bg-[#adc6ff]/20 text-[#adc6ff] border border-[#adc6ff]/35 px-2 py-0.5 rounded-full uppercase tracking-wider">Featured</span>
+                )}
+                {currentProject.category && (
+                  <span className="text-[10px] font-bold bg-[#27272a] text-[#c2c6d6] px-2 py-0.5 rounded-full uppercase tracking-wider">{currentProject.category}</span>
                 )}
               </div>
               <h1 className="text-3xl md:text-3xl font-bold text-primaryText">{currentProject.name}</h1>
@@ -74,9 +96,9 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
 
             {/* Actions Panel */}
             <div className="flex flex-wrap items-center gap-3 shrink-0">
-              {currentProject.demoLink && (
+              {liveLink && (
                 <Link
-                  href={currentProject.demoLink}
+                  href={liveLink}
                   target="_blank"
                   className="flex items-center gap-2 bg-[#adc6ff] text-[#002e6a] px-5 py-2.5 rounded-lg text-sm font-semibold hover:brightness-110 active:scale-95 transition-all shadow-md shadow-[#adc6ff]/10"
                 >
@@ -84,9 +106,9 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
                   Live Demo
                 </Link>
               )}
-              {currentProject.gitlink && (
+              {githubLink && (
                 <Link
-                  href={currentProject.gitlink}
+                  href={githubLink}
                   target="_blank"
                   className="flex items-center gap-2 bg-[#131315] hover:bg-[#201f22] border border-[#27272a] text-[#e5e1e4] px-5 py-2.5 rounded-lg text-sm font-semibold active:scale-95 transition-all"
                 >
@@ -119,33 +141,33 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
           <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-5 bg-[#0e0e10] border border-[#27272a] rounded-xl space-y-1 hover:border-[#8c909f]/30 transition-all duration-300">
               <p className="text-[#8c909f] text-[10px] uppercase tracking-wider font-bold">Role</p>
-              <p className="text-[#e5e1e4] font-semibold text-base truncate">{currentProject.role || "Developer"}</p>
+              <p className="text-[#e5e1e4] font-semibold text-base truncate">{role || "Developer"}</p>
             </div>
             <div className="p-5 bg-[#0e0e10] border border-[#27272a] rounded-xl space-y-1 hover:border-[#8c909f]/30 transition-all duration-300">
               <p className="text-[#8c909f] text-[10px] uppercase tracking-wider font-bold">Timeline</p>
-              <p className="text-[#e5e1e4] font-semibold text-base truncate">{currentProject.timeline || "Completed"}</p>
+              <p className="text-[#e5e1e4] font-semibold text-base truncate">{date || "Completed"}</p>
             </div>
             <div className="p-5 bg-[#0e0e10] border border-[#27272a] rounded-xl space-y-1 hover:border-[#8c909f]/30 transition-all duration-300">
               <p className="text-[#8c909f] text-[10px] uppercase tracking-wider font-bold">Status</p>
               <p className="text-[#e5e1e4] font-semibold text-base flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"></span>
-                Deployed
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                {status}
               </p>
             </div>
             <div className="p-5 bg-[#0e0e10] border border-[#27272a] rounded-xl space-y-1 hover:border-[#8c909f]/30 transition-all duration-300">
-              <p className="text-[#8c909f] text-[10px] uppercase tracking-wider font-bold">Tech Stack</p>
+              <p className="text-[#8c909f] text-[10px] uppercase tracking-wider font-bold">Team / Company</p>
               <p className="text-[#e5e1e4] font-semibold text-base truncate">
-                {currentProject.techstack?.length || 0} Modules
+                {company ? `${team} (${company})` : team}
               </p>
             </div>
           </section>
 
           {/* Tech Stack Badges */}
-          {currentProject.techstack && currentProject.techstack.length > 0 && (
+          {techStackList.length > 0 && (
             <div className="space-y-3">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-[#8c909f]">Technologies Used</h3>
               <div className="flex flex-wrap gap-2">
-                {currentProject.techstack.map((tech: string) => (
+                {techStackList.map((tech: string) => (
                   <span
                     key={tech}
                     className="px-3.5 py-1.5 bg-[#131315] hover:bg-[#1c1b1d] border border-[#27272a] rounded-lg text-xs font-mono text-[#e5e1e4] flex items-center gap-2 transition-colors"
@@ -158,29 +180,23 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
             </div>
           )}
 
-          {/* Secondary Downloads / Assets Links */}
-          {currentProject.otherLink && currentProject.otherLink.length > 0 && (
+          {/* Secondary Resources Links */}
+          {otherLinks.length > 0 && (
             <div className="space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-[#8c909f]">Resources & Downloads</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-[#8c909f]">Resources & Links</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {currentProject.otherLink.map(
-                  ({ _id, title, link, downloadable }: { _id: string; title: string; link: string; downloadable: boolean }) => (
-                    <Link key={_id} href={link} target="_blank" className="group">
+                {otherLinks.map(
+                  (link: OtherLink, idx: number) => (
+                    <Link key={link._id || idx} href={link.url} target="_blank" className="group">
                       <div className="flex items-center justify-between gap-4 bg-[#0e0e10] border border-[#27272a] hover:border-[#adc6ff]/40 hover:bg-[#131315] transition duration-200 ease-in px-5 py-4 rounded-xl">
                         <div>
                           <p className="text-sm font-bold tracking-wide text-[#e5e1e4] group-hover:text-[#adc6ff] transition-colors">
-                            {title === "app_download"
-                              ? "WallList_Pre_Alpha_03"
-                              : title.replace(/_/g, " ")}
+                            {link.label}
                           </p>
                           <span className="text-xs text-[#8c909f]">Project Resource Link</span>
                         </div>
                         <div className="p-2 bg-[#131315] group-hover:bg-[#adc6ff]/10 rounded-lg transition-colors border border-[#27272a]">
-                          {downloadable ? (
-                            <Download className="w-4 h-4 text-[#8c909f] group-hover:text-[#adc6ff]" />
-                          ) : (
-                            <ArrowRight className="w-4 h-4 text-[#8c909f] group-hover:text-[#adc6ff]" />
-                          )}
+                          <ArrowRight className="w-4 h-4 text-[#8c909f] group-hover:text-[#adc6ff]" />
                         </div>
                       </div>
                     </Link>
@@ -190,28 +206,39 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
             </div>
           )}
 
-          {/* Detailed Content / Grid Description */}
+          {/* Detailed Content */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 pt-4">
             <div className="lg:col-span-2 space-y-6">
               <h3 className="text-lg font-bold text-[#e5e1e4]">Overview</h3>
               <div className="space-y-5 text-[#c2c6d6] text-base leading-relaxed">
-                {currentProject.description?.map((detail: string, index: number) => {
-                  const isHtml = detail.includes("<p>") || detail.includes("<h") || detail.includes("<ul>") || detail.includes("<li>");
-                  if (isHtml) {
-                    return (
+                {descriptionContent ? (
+                  Array.isArray(descriptionContent) ? (
+                    descriptionContent.map((detail: string, index: number) => {
+                      const isHtml = detail.includes("<p>") || detail.includes("<h") || detail.includes("<ul>") || detail.includes("<li>");
+                      if (isHtml) {
+                        return (
+                          <div
+                            key={`detail_${index}`}
+                            className="tiptap-rendered-content space-y-4"
+                            dangerouslySetInnerHTML={{ __html: detail }}
+                          />
+                        );
+                      }
+                      return <p key={`detail_${index}`}>{detail}</p>;
+                    })
+                  ) : (
+                    descriptionContent.includes("<p>") || descriptionContent.includes("<h") || descriptionContent.includes("<ul>") || descriptionContent.includes("<li>") ? (
                       <div
-                        key={`detail_${index}`}
                         className="tiptap-rendered-content space-y-4"
-                        dangerouslySetInnerHTML={{ __html: detail }}
+                        dangerouslySetInnerHTML={{ __html: descriptionContent }}
                       />
-                    );
-                  }
-                  return (
-                    <p key={`detail_${index}`}>
-                      {detail}
-                    </p>
-                  );
-                })}
+                    ) : (
+                      <p>{descriptionContent}</p>
+                    )
+                  )
+                ) : (
+                  <p>No description provided.</p>
+                )}
               </div>
             </div>
 
@@ -224,7 +251,7 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
                   Key Achievements
                 </div>
                 <p className="text-sm text-[#c2c6d6] leading-relaxed">
-                  {currentProject.outcome || "No outcome metrics documented yet for this project."}
+                  {(currentProject as any).outcome || "No outcome metrics documented yet for this project."}
                 </p>
               </div>
 

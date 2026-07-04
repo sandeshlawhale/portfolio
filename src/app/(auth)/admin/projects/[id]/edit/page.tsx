@@ -6,7 +6,7 @@ import { getProjectById } from "@/utils/api/projects";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
-import { Project } from "../../page";
+import { Project } from "@/types";
 
 export default function EditProjectPage() {
     const params = useParams();

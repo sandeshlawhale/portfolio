@@ -1,27 +1,40 @@
 import { StaticImageData } from "next/image";
 
+export interface OtherLink {
+  label: string;
+  url: string;
+  _id?: string;
+}
+
+export interface QuickInfo {
+  role?: string;
+  date?: string;
+  team?: string;
+  company?: string;
+  status?: string;
+}
+
+export interface Links {
+  github?: string;
+  live?: string;
+  other?: OtherLink[];
+}
+
 export interface Project {
   _id: string;
   name: string;
   slug?: string;
-  gitlink?: string;
-  demoLink?: string;
   image?: string | StaticImageData;
   shortDescription: string;
-  timeline: string;
-  role: string;
-  outcome: string;
-  description: string[];
-  techstack: string[];
-  otherLink: [
-    { title: string; link: string; downloadable: boolean; _id: string }
-  ];
-  quote?: {
-    title: string;
-    description: string;
-  };
+  description: string; // Rich Text HTML string
+  techStack: string[];
   featured?: boolean;
   draft?: boolean;
+  category?: string;
+  quickInfo: QuickInfo;
+  links: Links;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface SidebarProps {

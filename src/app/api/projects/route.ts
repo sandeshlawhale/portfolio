@@ -46,18 +46,55 @@ export async function POST(req: NextRequest) {
 
         const formData = await req.formData();
         const name = formData.get("name") as string;
-        const techstackStr = formData.get("techstack") as string;
-        const gitlink = formData.get("gitlink") as string;
-        const demoLink = formData.get("demoLink") as string;
-        const role = formData.get("role") as string;
-        const outcome = formData.get("outcome") as string;
-        const timeline = formData.get("timeline") as string;
-        const otherLinkStr = formData.get("otherLink") as string;
-        const descriptionStr = formData.get("description") as string;
         const shortDescription = formData.get("shortDescription") as string;
+        const category = formData.get("category") as string;
         const draftStr = formData.get("draft") as string;
         const featuredStr = formData.get("featured") as string;
         const file = formData.get("image") as File | null;
+
+        // Description parsing (string or array)
+        let description = "";
+        const rawDescription = formData.get("description") as string;
+        if (rawDescription) {
+            try {
+                const parsed = JSON.parse(rawDescription);
+                if (Array.isArray(parsed)) {
+                    description = parsed.join("");
+                } else {
+                    description = parsed;
+                }
+            } catch {
+                description = rawDescription;
+            }
+        }
+
+        // TechStack parsing
+        const techStackStr = (formData.get("techStack") || formData.get("techstack")) as string;
+        const techStack = techStackStr ? JSON.parse(techStackStr) : [];
+
+        // QuickInfo parsing
+        const quickInfoStr = formData.get("quickInfo") as string;
+        let quickInfo = quickInfoStr ? JSON.parse(quickInfoStr) : {};
+        if (!quickInfoStr) {
+            quickInfo = {
+                role: (formData.get("role") || "") as string,
+                date: (formData.get("timeline") || formData.get("date") || "") as string,
+                team: (formData.get("team") || "Solo") as string,
+                company: (formData.get("company") || "") as string,
+                status: (formData.get("status") || "Completed") as string,
+            };
+        }
+
+        // Links parsing
+        const linksStr = formData.get("links") as string;
+        let links = linksStr ? JSON.parse(linksStr) : {};
+        if (!linksStr) {
+            links = {
+                github: (formData.get("gitlink") || formData.get("github") || "") as string,
+                live: (formData.get("demoLink") || formData.get("live") || "") as string,
+                other: formData.get("otherLink") ? JSON.parse(formData.get("otherLink") as string) : [],
+            };
+        }
 
         let imageUrl = "";
         if (file) {
@@ -76,27 +113,22 @@ export async function POST(req: NextRequest) {
             imageUrl = result.secure_url;
         }
 
-        const techstack = techstackStr ? JSON.parse(techstackStr) : [];
-        const otherLink = otherLinkStr ? JSON.parse(otherLinkStr) : [];
-        const description = descriptionStr ? JSON.parse(descriptionStr) : [];
         const draft = draftStr === "true";
         const featured = featuredStr === "true";
 
         const data = {
             name,
             image: imageUrl,
-            techstack,
-            gitlink,
-            demoLink,
-            role,
-            outcome,
-            timeline,
-            otherLink,
-            description,
             shortDescription,
-            draft,
+            description,
+            techStack,
             featured,
+            draft,
+            category,
+            quickInfo,
+            links,
         };
+
         const project = await Project.create(data);
 
         return NextResponse.json(

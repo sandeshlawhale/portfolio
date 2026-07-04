@@ -48,17 +48,68 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
         const formData = await req.formData();
         const file = formData.get("image") as File | null;
 
-        const updateData: Record<string, unknown> = {};
+        const updateData: Record<string, any> = {};
+        let techStack: any = null;
+        let quickInfo: any = {};
+        let links: any = {};
+
         formData.forEach((value, key) => {
-            if (key !== "image") {
-                try {
-                    // Attempt to parse JSON strings for arrays and objects
-                    updateData[key] = JSON.parse(value as string);
-                } catch {
-                    updateData[key] = value;
-                }
+            if (key === "image") return;
+
+            let parsedValue: any;
+            try {
+                parsedValue = JSON.parse(value as string);
+            } catch {
+                parsedValue = value;
+            }
+
+            if (key === "techStack" || key === "techstack") {
+                techStack = parsedValue;
+            } else if (key === "description") {
+                updateData.description = Array.isArray(parsedValue) ? parsedValue.join("") : parsedValue;
+            } else if (key === "quickInfo") {
+                quickInfo = { ...quickInfo, ...parsedValue };
+            } else if (key === "links") {
+                links = { ...links, ...parsedValue };
+            } else if (key === "role") {
+                quickInfo.role = parsedValue;
+            } else if (key === "timeline" || key === "date") {
+                quickInfo.date = parsedValue;
+            } else if (key === "team") {
+                quickInfo.team = parsedValue;
+            } else if (key === "company") {
+                quickInfo.company = parsedValue;
+            } else if (key === "status") {
+                quickInfo.status = parsedValue;
+            } else if (key === "gitlink" || key === "github") {
+                links.github = parsedValue;
+            } else if (key === "demoLink" || key === "live") {
+                links.live = parsedValue;
+            } else if (key === "otherLink") {
+                links.other = Array.isArray(parsedValue)
+                    ? parsedValue.map((item: any) => ({
+                          label: item.title || item.label || "",
+                          url: item.link || item.url || "",
+                      }))
+                    : parsedValue;
+            } else {
+                updateData[key] = parsedValue;
             }
         });
+
+        if (techStack !== null) {
+            updateData.techStack = techStack;
+        }
+        if (Object.keys(quickInfo).length > 0) {
+            // Merge with existing quickInfo if editing partially
+            const existing = await Project.findById(projectId);
+            updateData.quickInfo = { ...(existing?.quickInfo || {}), ...quickInfo };
+        }
+        if (Object.keys(links).length > 0) {
+            // Merge with existing links if editing partially
+            const existing = await Project.findById(projectId);
+            updateData.links = { ...(existing?.links || {}), ...links };
+        }
 
         if (file) {
             const arrayBuffer = await file.arrayBuffer();
@@ -86,7 +137,6 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
                 { status: 404 }
             );
         }
-
 
         return NextResponse.json({
             success: true,
@@ -121,7 +171,6 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
                 { status: 404 }
             );
         }
-
 
         return NextResponse.json({
             success: true,

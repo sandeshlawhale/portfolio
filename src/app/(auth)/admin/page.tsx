@@ -87,9 +87,10 @@ export default function AdminPage() {
 
             // Compute technology breadth from project tags
             const techCount: Record<string, number> = {};
-            projects.forEach((proj: { techstack?: string[] }) => {
-                if (Array.isArray(proj.techstack)) {
-                    proj.techstack.forEach((tech: string) => {
+            projects.forEach((proj: any) => {
+                const list = proj.techStack || proj.techstack;
+                if (Array.isArray(list)) {
+                    list.forEach((tech: string) => {
                         const t = tech.trim();
                         if (t) {
                             techCount[t] = (techCount[t] || 0) + 1;
