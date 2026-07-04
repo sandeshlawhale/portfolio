@@ -2,20 +2,12 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { NavLinks } from "@/constants/data";
 import Image from "next/image";
-import { useAppContext } from "@/context/AppContext";
 
 const BottomNavbar = () => {
   const pathname = usePathname();
-  const { openPalette } = useAppContext();
 
   return (
     <div className="w-full lg:hidden fixed bottom-0 border-t border-border flex items-center justify-center p-5 px-7 bg-primary z-40">

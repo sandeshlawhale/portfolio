@@ -6,7 +6,7 @@ import Footer from "@/components/footer/footer";
 import { getProjectById, getAllProjects } from "@/utils/api/projects";
 import { Metadata } from "next";
 import { Project, OtherLink } from "@/types";
-import { ExternalLink, Github, CheckCircle2, ArrowRight, FolderGit2, Link2 } from "lucide-react";
+import { ExternalLink, Github, FolderGit2, Link2 } from "lucide-react";
 
 interface PageProps {
   searchParams: Promise<{ id?: string }>;
@@ -55,23 +55,32 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
       redirect(`/projects?id=${projects[0]._id}`);
     }
 
+    const oldProj = currentProject as unknown as {
+      role?: string;
+      timeline?: string;
+      gitlink?: string;
+      demoLink?: string;
+      otherLink?: Array<{ title?: string; label?: string; link?: string; url?: string }>;
+      techstack?: string[];
+    };
+
     // Backward compatibility safe values
-    const role = currentProject.quickInfo?.role || (currentProject as any).role || "";
-    const date = currentProject.quickInfo?.date || (currentProject as any).timeline || "";
+    const role = currentProject.quickInfo?.role || oldProj.role || "";
+    const date = currentProject.quickInfo?.date || oldProj.timeline || "";
     const team = currentProject.quickInfo?.team || "Solo";
     const company = currentProject.quickInfo?.company || "";
     const status = currentProject.quickInfo?.status || "Completed";
 
-    const githubLink = currentProject.links?.github || (currentProject as any).gitlink || "";
-    const liveLink = currentProject.links?.live || (currentProject as any).demoLink || "";
+    const githubLink = currentProject.links?.github || oldProj.gitlink || "";
+    const liveLink = currentProject.links?.live || oldProj.demoLink || "";
 
     // Normalizing dynamic other links
-    const otherLinks = currentProject.links?.other || (currentProject as any).otherLink?.map((l: any) => ({
+    const otherLinks = currentProject.links?.other || oldProj.otherLink?.map((l) => ({
       label: l.title || l.label || "",
       url: l.link || l.url || ""
     })) || [];
 
-    const techStackList = currentProject.techStack || (currentProject as any).techstack || [];
+    const techStackList = currentProject.techStack || oldProj.techstack || [];
     const descriptionContent = currentProject.description;
 
     // Filter similar projects in the same category

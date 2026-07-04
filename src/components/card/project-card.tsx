@@ -25,9 +25,10 @@ const ProjectCard = ({ project }: { project: Project }) => {
     router.push(`/projects?id=${project._id}`);
   };
 
-  const github = project.links?.github || (project as any).gitlink || "";
-  const live = project.links?.live || (project as any).demoLink || "";
-  const techStackList = project.techStack || (project as any).techstack || [];
+  const oldProj = project as unknown as { gitlink?: string; demoLink?: string; techstack?: string[] };
+  const github = project.links?.github || oldProj.gitlink || "";
+  const live = project.links?.live || oldProj.demoLink || "";
+  const techStackList = project.techStack || oldProj.techstack || [];
 
   return (
     <article

@@ -137,7 +137,7 @@ ProjectSchema.pre("init", function (rawDoc) {
         // Map otherLink -> links.other
         if (rawDoc.otherLink && Array.isArray(rawDoc.otherLink) && (!rawDoc.links || !rawDoc.links.other)) {
             if (!rawDoc.links) rawDoc.links = {};
-            rawDoc.links.other = rawDoc.otherLink.map((item: any) => ({
+            rawDoc.links.other = rawDoc.otherLink.map((item: { title?: string; link?: string }) => ({
                 label: item.title || "",
                 url: item.link || "",
             }));

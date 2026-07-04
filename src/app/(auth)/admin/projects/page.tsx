@@ -117,11 +117,12 @@ export default function AdminProjectsPage() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                     {filteredProjects.map((project: Project) => {
-                        const date = project.quickInfo?.date || (project as any).timeline || "";
-                        const role = project.quickInfo?.role || (project as any).role || "Developer";
-                        const github = project.links?.github || (project as any).gitlink || "";
-                        const live = project.links?.live || (project as any).demoLink || "";
-                        const techStackList = project.techStack || (project as any).techstack || [];
+                        const oldProj = project as unknown as { timeline?: string; role?: string; gitlink?: string; demoLink?: string; techstack?: string[] };
+                        const date = project.quickInfo?.date || oldProj.timeline || "";
+                        const role = project.quickInfo?.role || oldProj.role || "Developer";
+                        const github = project.links?.github || oldProj.gitlink || "";
+                        const live = project.links?.live || oldProj.demoLink || "";
+                        const techStackList = project.techStack || oldProj.techstack || [];
 
                         return (
                             <div 

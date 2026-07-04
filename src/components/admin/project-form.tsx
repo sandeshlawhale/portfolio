@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { toast } from "sonner";
-import { Loader2, Upload, X, Plus, Trash2, Link as LinkIcon } from "lucide-react";
+import { Loader2, Upload, X, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createProject, updateProject } from "@/utils/api/projects";

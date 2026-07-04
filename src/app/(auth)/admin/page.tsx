@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/context/AppContext";
+import { Project } from "@/types";
 
 type AvgTimeItem = {
     _id: string;
@@ -87,8 +88,8 @@ export default function AdminPage() {
 
             // Compute technology breadth from project tags
             const techCount: Record<string, number> = {};
-            projects.forEach((proj: any) => {
-                const list = proj.techStack || proj.techstack;
+            projects.forEach((proj: Project) => {
+                const list = proj.techStack || (proj as unknown as { techstack?: string[] }).techstack;
                 if (Array.isArray(list)) {
                     list.forEach((tech: string) => {
                         const t = tech.trim();

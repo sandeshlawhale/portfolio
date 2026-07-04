@@ -48,15 +48,15 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
         const formData = await req.formData();
         const file = formData.get("image") as File | null;
 
-        const updateData: Record<string, any> = {};
-        let techStack: any = null;
-        let quickInfo: any = {};
-        let links: any = {};
+        const updateData: Record<string, unknown> = {};
+        let techStack: unknown = null;
+        const quickInfo: Record<string, unknown> = {};
+        const links: Record<string, unknown> = {};
 
         formData.forEach((value, key) => {
             if (key === "image") return;
 
-            let parsedValue: any;
+            let parsedValue: unknown;
             try {
                 parsedValue = JSON.parse(value as string);
             } catch {
@@ -68,9 +68,13 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
             } else if (key === "description") {
                 updateData.description = Array.isArray(parsedValue) ? parsedValue.join("") : parsedValue;
             } else if (key === "quickInfo") {
-                quickInfo = { ...quickInfo, ...parsedValue };
+                if (parsedValue && typeof parsedValue === "object") {
+                    Object.assign(quickInfo, parsedValue);
+                }
             } else if (key === "links") {
-                links = { ...links, ...parsedValue };
+                if (parsedValue && typeof parsedValue === "object") {
+                    Object.assign(links, parsedValue);
+                }
             } else if (key === "role") {
                 quickInfo.role = parsedValue;
             } else if (key === "timeline" || key === "date") {
@@ -87,7 +91,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
                 links.live = parsedValue;
             } else if (key === "otherLink") {
                 links.other = Array.isArray(parsedValue)
-                    ? parsedValue.map((item: any) => ({
+                    ? (parsedValue as Array<Record<string, string>>).map((item) => ({
                           label: item.title || item.label || "",
                           url: item.link || item.url || "",
                       }))
