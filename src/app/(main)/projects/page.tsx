@@ -64,7 +64,7 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
 
     const githubLink = currentProject.links?.github || (currentProject as any).gitlink || "";
     const liveLink = currentProject.links?.live || (currentProject as any).demoLink || "";
-    
+
     // Normalizing dynamic other links
     const otherLinks = currentProject.links?.other || (currentProject as any).otherLink?.map((l: any) => ({
       label: l.title || l.label || "",
@@ -81,11 +81,11 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
 
     return (
       <div className="flex flex-col min-h-screen bg-[#030303] text-[#e5e1e4] font-sans antialiased">
-        <div className="flex-1 w-full max-w-3xl mx-auto py-6 md:py-10 px-4 md:px-6 space-y-8 animate-in fade-in duration-300">
-          
+        <div className="flex-1 w-full max-w-3xl mx-auto py-6 md:py-10 px-2 md:px-6 space-y-4 md:space-y-8 animate-in fade-in duration-300">
+
           {/* Header Area */}
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-primaryText">{currentProject.name}</h1>
+            <h1 className="text-xl md:text-3xl font-bold text-primaryText">{currentProject.name}</h1>
             <p className="text-[#c2c6d6] text-sm md:text-base line-clamp-2 leading-relaxed max-w-3xl">
               {currentProject.shortDescription}
             </p>
@@ -110,7 +110,7 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
           </div>
 
           {/* Date, Category & Minimal Links Row */}
-          <div className="flex items-center justify-between border-b border-[#27272a]/60 pb-4 text-xs md:text-sm text-[#8c909f]">
+          <div className="flex items-center justify-between text-xs md:text-sm text-[#8c909f]">
             <div className="flex items-center gap-2">
               <span>{date}</span>
               {currentProject.category && (
@@ -158,18 +158,18 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
           </div>
 
           {/* Quick Info Table */}
-          <div className="border border-[#27272a] rounded-xl overflow-hidden bg-[#0e0e10]/20">
+          <div className="overflow-hidden bg-[#0e0e10]/20">
             <table className="w-full text-left border-collapse text-xs md:text-sm">
               <tbody>
-                <tr className="border-b border-[#27272a]">
+                <tr>
                   <td className="p-3 text-[#8c909f] font-medium w-1/3">Role</td>
                   <td className="p-3 text-[#e5e1e4]">{role || "Developer"}</td>
                 </tr>
-                <tr className="border-b border-[#27272a]">
+                <tr>
                   <td className="p-3 text-[#8c909f] font-medium">Timeline</td>
                   <td className="p-3 text-[#e5e1e4]">{date || "Completed"}</td>
                 </tr>
-                <tr className="border-b border-[#27272a]">
+                <tr>
                   <td className="p-3 text-[#8c909f] font-medium">Status</td>
                   <td className="p-3 text-[#e5e1e4] flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -202,7 +202,7 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
           )}
 
           {/* Detailed Content (Full Width) */}
-          <div className="w-full space-y-5 text-[#c2c6d6] text-sm md:text-base leading-relaxed pt-2">
+          <div className="w-full space-y-4 text-[#c2c6d6] text-sm md:text-base leading-relaxed">
             {descriptionContent ? (
               Array.isArray(descriptionContent) ? (
                 descriptionContent.map((detail: string, index: number) => {
@@ -235,7 +235,7 @@ const ProjectsPage = async ({ searchParams }: PageProps) => {
 
           {/* Similar Projects */}
           {similarProjects.length > 0 && (
-            <div className="border-t border-[#27272a]/60 pt-8 space-y-4">
+            <div className="border-t border-[#27272a]/60 space-y-4">
               <h3 className="text-sm font-semibold uppercase tracking-widest text-[#8c909f]">Similar Projects</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {similarProjects.map((proj: Project) => (

@@ -74,7 +74,7 @@ const SidebarCard = ({
       )}
 
       {/* Project Image */}
-      <div className="relative w-12 h-12 shrink-0 rounded-md overflow-hidden bg-gray-800 border border-white/10 mt-1">
+      <div className="relative w-14 h-14 shrink-0 rounded-md overflow-hidden bg-gray-800 border border-white/10 mt-1">
         {project?.image ? (
           <Image
             src={project.image}

@@ -13,13 +13,43 @@ interface ProjectsLayoutClientProps {
 }
 
 const ProjectsLayoutClient = ({ children, projects }: ProjectsLayoutClientProps) => {
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ container: ref });
-    const { isWorkSidebarOpen, openWorkSidebar } = useAppContext();
+    const { isWorkSidebarOpen, openWorkSidebar, closeWorkSidebar } = useAppContext();
     const loading = false;
 
+    // Swipe gesture detection
+    const touchStartX = useRef(0);
+    const touchEndX = useRef(0);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        touchStartX.current = e.targetTouches[0].clientX;
+        touchEndX.current = e.targetTouches[0].clientX;
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        touchEndX.current = e.targetTouches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+        const swipeDistance = touchEndX.current - touchStartX.current;
+        // Swipe right (from left edge) opens the sidebar
+        if (swipeDistance > 80 && touchStartX.current < 80) {
+            openWorkSidebar();
+        }
+        // Swipe left anywhere closes the sidebar
+        if (swipeDistance < -80 && isWorkSidebarOpen) {
+            closeWorkSidebar();
+        }
+    };
+
     return (
-        <div className="flex h-screen w-full bg-background overflow-hidden relative">
+        <div 
+            className="flex h-screen w-full bg-background overflow-hidden relative"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+        >
             <ProjectsSidebar
                 scrollYProgress={scrollYProgress}
                 projects={projects}
